@@ -16,6 +16,7 @@
 
 
 
+
     <!-- Daily Routine Section -->
     <div class="df fd-r jc-sb ai-c w-100 px-24 mb-16" style="box-sizing: border-box;">
         <h2 class="m-0 fs-18 fw-700" style="color: #212121;">Daily routine</h2>
@@ -52,13 +53,23 @@
 
                 <!-- Habit Texts -->
                 <div class="df fd-c flex-1 overflow-hidden gap-1" style="min-width: 0;">
-                    <h3 class="m-0 fs-15 fw-600 truncate text-primary" style="color: #212121;"
-                        [style.text-decoration]="item.completed ? 'line-through' : 'none'">
-                        {{ item.habit.name }}
-                    </h3>
-                    <p class="m-0 fs-12 fw-500" style="color: #a1a1aa;">{{ item.habit.description || 'Streak tracking'
-                        }}</p>
+                    <div class="df fd-r ai-c gap-2">
+                        <h3 class="m-0 fs-15 fw-600 truncate text-primary" style="color: #212121;"
+                            [style.text-decoration]="item.completed ? 'line-through' : 'none'">
+                            {{ item.habit.name }}
+                        </h3>
+                        @if (item.streak > 0) {
+                        <div class="df ai-c gap-1 px-6 py-1 br-8"
+                            style="background-color: #fff7ed; border: 1px solid #ffedd5;">
+                            <span style="font-size: 11px;">🔥</span>
+                            <span class="fs-10 fw-700" style="color: #ea580c;">{{ item.streak }}</span>
+                        </div>
+                        }
+                    </div>
+                    <p class="m-0 fs-12 fw-500 truncate" style="color: #a1a1aa;">{{ item.habit.description || 'No
+                        description' }}</p>
                 </div>
+
 
                 <!-- Details Right Side -->
                 <div class="df fd-c ai-c gap-1 pl-16 pt-4 pb-4"

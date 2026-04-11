@@ -106,6 +106,26 @@
 
   </div>
 
+  <!-- Reminders Section -->
+  <div class="df fd-r ai-c jc-s mt-16 p-16 br-12" style="background-color: #f8fafc; border: 1px solid #e2e8f0;">
+    <div class="df fd-c gap-1">
+      <span class="fs-14 fw-600">Daily Reminder</span>
+      <span class="fs-12 text-secondary">Get notified when it's time</span>
+    </div>
+    <mat-slide-toggle formControlName="reminderEnabled" (change)="onReminderToggle($event.checked)" color="primary"></mat-slide-toggle>
+  </div>
+
+  @if (habitForm.get('reminderEnabled')?.value) {
+  <div class="df fd-c gap-2 mt-8 animate-fade-in">
+    <span class="fs-13 fw-600 text-secondary uppercase ls-1">Reminder Time</span>
+    <mat-form-field appearance="outline" class="w-100 hide-subscript m-0 p-0">
+      <input matInput type="time" formControlName="reminderTime">
+      <mat-icon matSuffix>schedule</mat-icon>
+    </mat-form-field>
+  </div>
+  }
+
+
   <!-- Submit Action Button -->
   <button mat-flat-button color="primary" type="submit" class="w-100 br-8 fw-600 mt-24"
     style="padding: 24px 0; font-size: 16px; background-color: #20B2AA;">

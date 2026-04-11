@@ -6,6 +6,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { db, User } from '../db/app.db';
+import { NotificationService } from '../services/notification.service';
+import { inject } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -26,6 +28,8 @@ export class App implements OnInit {
   isSidenavOpened = signal(true);
   isMobile = signal(false);
   activeUser = signal<User | null>(null);
+  
+  private notificationService = inject(NotificationService);
 
   async ngOnInit() {
     this.checkScreenSize();
@@ -33,6 +37,14 @@ export class App implements OnInit {
     if (loadedUser) {
       this.activeUser.set(loadedUser);
     }
+
+    // Start checking for reminders every minute
+    setInterval(() => {
+        this.notificationService.checkReminders();
+    }, 60000); // Check every 60 seconds
+    
+    // Immediate check on load
+    this.notificationService.checkReminders();
   }
 
   @HostListener('window:resize')

@@ -8,9 +8,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { CategoryService } from '../../../services/category.service';
 import { Category } from '../../../models/category.model';
+import { NotificationService } from '../../../services/notification.service';
+import { MatIconModule } from '@angular/material/icon';
+
 
 @Component({
   selector: 't-create-habit',
@@ -21,7 +24,8 @@ import { Category } from '../../../models/category.model';
     MatSelectModule,
     MatButtonModule,
     MatDialogModule,
-    MatIconModule
+    MatIconModule,
+    MatSlideToggleModule
   ],
   templateUrl: './create-habit.html',
   styleUrl: './create-habit.scss',
@@ -30,8 +34,9 @@ export class CreateHabit implements OnInit {
   private fb = inject(FormBuilder);
   private habitService = inject(HabitService);
   private categoryService = inject(CategoryService);
+  private notificationService = inject(NotificationService);
   private dialogRef = inject(MatDialogRef<CreateHabit>);
-  
+
   data = inject<any>(MAT_DIALOG_DATA, { optional: true });
 
   frequencyOptions = [
@@ -70,7 +75,9 @@ export class CreateHabit implements OnInit {
     color: ['#3b82f6'],
     frequency: [HabitFrequency.Daily, Validators.required],
     days: [[] as number[]],
-    category: [1, Validators.required]
+    category: [1, Validators.required],
+    reminderEnabled: [false],
+    reminderTime: ['08:00']
   });
 
   selectColor(color: string) {
@@ -89,12 +96,23 @@ export class CreateHabit implements OnInit {
         color: h.color,
         frequency: h.frequency,
         days: h.days || [],
-        category: h.category?.id
+        category: h.category?.id,
+        reminderEnabled: h.reminderEnabled || false,
+        reminderTime: h.reminderTime || '08:00'
       });
     } else {
       const cats = this.categoryOptions();
       if (cats.length > 0) {
         this.habitForm.patchValue({ category: cats[0].id });
+      }
+    }
+  }
+
+  async onReminderToggle(enabled: boolean) {
+    if (enabled) {
+      const granted = await this.notificationService.requestPermission();
+      if (!granted) {
+        this.habitForm.patchValue({ reminderEnabled: false });
       }
     }
   }
@@ -120,7 +138,9 @@ export class CreateHabit implements OnInit {
       color: val.color || '#3b82f6',
       frequency: targetFrequency,
       days: targetFrequency === HabitFrequency.Weekly ? (val.days as number[]) : [],
-      category: targetCategory
+      category: targetCategory,
+      reminderEnabled: !!val.reminderEnabled,
+      reminderTime: val.reminderTime || '08:00'
     };
 
     if (this.data?.habit?.id) {

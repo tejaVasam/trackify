@@ -124,7 +124,8 @@ export class OnboardingComponent {
       // Setup default configuration categories or habits specifically for this user if desired
       
       // Navigate globally inwards
-      this.router.navigate(['/']);
+      this.router.navigate(['/dashboard']);
+
     }
   }
 }

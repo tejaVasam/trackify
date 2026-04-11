@@ -21,9 +21,10 @@ export const routes: Routes = [
         children: [
             {
                 path: '',
-                redirectTo: 'habits',
+                redirectTo: 'dashboard',
                 pathMatch: 'full'
             },
+
             {
                 path: 'dashboard',
                 component: Dashboard

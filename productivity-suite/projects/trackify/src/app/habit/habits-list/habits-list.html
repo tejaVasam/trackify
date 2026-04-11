@@ -1,33 +1,89 @@
 <div class="p-16 df fd-c gap-8">
   <div class="df fd-r ai-c jc-s">
-    <h2 class="m-0">My Habits</h2>
-    <button mat-flat-button color="primary" (click)="openCreateHabitDialog()">
-      Create Habit
-    </button>
+    <h2 class="m-0 fs-24 fw-700">My Habits</h2>
+    <div class="df fd-r ai-c gap-4">
+      <mat-form-field appearance="outline" class="hide-subscript" style="width: 160px;">
+        <mat-select [value]="selectedCategoryId()" (selectionChange)="selectedCategoryId.set($event.value)">
+          <mat-option value="all">All Categories</mat-option>
+          @for(cat of categories(); track cat.id) {
+          <mat-option [value]="cat.id">{{ cat.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <button mat-flat-button color="primary" (click)="openCreateHabitDialog()" class="br-8">
+        New Habit
+      </button>
+    </div>
   </div>
 
   <div class="df fd-c gap-4">
-      @for(habit of habits(); track habit.id)
-      {
-      <div class="habit-card p-16 b-1-solid br-8 df fd-r ai-c jc-s cursor-pointer" style="transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.03);" (click)="viewDetails(habit.id!)">
-          <div class="df fd-c" style="flex: 1;">
-            <h3 class="m-0 fw-600 fs-16">{{ habit.name }}</h3>
-            <p class="m-0 mt-4 text-secondary">{{ habit.description }}</p>
+    @for(habit of filteredHabits(); track habit.id)
+    {
+    <div class="habit-card p-16 b-1-solid br-8 df fd-r ai-c jc-s cursor-pointer"
+      style="transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.03); background-color: #fff;"
+      (click)="viewDetails(habit.id!)">
+      <div class="df fd-c" style="flex: 1;">
+        <div class="df fd-r ai-c gap-2 flex-wrap">
+          <h3 class="m-0 fw-600 fs-16">{{ habit.name }}</h3>
+
+          <!-- Category Tag -->
+          @if (habit.category) {
+          <div class="df ai-c gap-1 px-8 py-2 br-4" style="background-color: #f1f5f9; border: 1px solid #e2e8f0;">
+            <span class="fs-10 fw-700 uppercase ls-1" style="color: #64748b;">{{ habit.category.name }}</span>
           </div>
-          <div class="df fd-r gap-8">
-            <button mat-icon-button color="primary" (click)="$event.stopPropagation(); editHabit(habit)">
-              <mat-icon>edit</mat-icon>
-            </button>
-            <button mat-icon-button color="warn" (click)="$event.stopPropagation(); deleteHabit(habit)">
-              <mat-icon>delete</mat-icon>
-            </button>
+          }
+
+          @if (habit.currentStreak > 0) {
+
+          <div class="df ai-c gap-1 px-8 py-2 br-12" style="background-color: #fff7ed; border: 1px solid #ffedd5;">
+            <span style="font-size: 14px;">🔥</span>
+            <span class="fs-12 fw-700" style="color: #ea580c;">{{ habit.currentStreak }}</span>
           </div>
+          }
+        </div>
+        <p class="m-0 mt-4 text-secondary fs-13 truncate-1">{{ habit.description }}</p>
+
+        <!-- Frequency Display -->
+        <div class="df fd-r ai-c gap-2 mt-8">
+          @if (habit.frequency === HabitFrequency.Daily) {
+          <div class="px-8 py-2 br-4" style="background-color: #f0fdf4; border: 1px solid #dcfce7;">
+            <span class="fs-10 fw-700 uppercase ls-1" style="color: #166534;">Daily</span>
+          </div>
+          } @else {
+          <div class="df fd-r gap-1">
+            @for (day of allDays; track day.value) {
+            <div class="df ai-c jc-c"
+              style="width: 18px; height: 18px; border-radius: 4px; font-size: 9px; font-weight: 700;"
+              [style.background-color]="habit.days?.includes(day.value) ? '#10b981' : '#f1f5f9'"
+              [style.color]="habit.days?.includes(day.value) ? '#fff' : '#94a3b8'">
+              {{ day.label }}
+            </div>
+            }
+          </div>
+          }
+        </div>
+
+        <div class="df fd-r ai-c gap-2 mt-8">
+
+          <mat-icon class="fs-14 fw-400" style="width: 14px; height: 14px; color: #94a3b8;">emoji_events</mat-icon>
+          <span class="fs-11 fw-500 text-secondary ls-1 uppercase">Best: {{ habit.longestStreak }} days</span>
+        </div>
       </div>
-      } @empty {
-      <div class="empty-state p-32 df fd-c ai-c gap-4 b-1-dashed br-8">
-          <p class="m-0 text-secondary">No habits found. Let's create one!</p>
-          <button mat-stroked-button color="primary" (click)="openCreateHabitDialog()">Quick Create</button>
+
+      <div class="df fd-r gap-8">
+        <button mat-icon-button color="primary" (click)="$event.stopPropagation(); editHabit(habit)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="$event.stopPropagation(); deleteHabit(habit)">
+          <mat-icon>delete</mat-icon>
+        </button>
       </div>
-      }
+    </div>
+    } @empty {
+    <div class="empty-state p-32 df fd-c ai-c gap-4 b-1-dashed br-8">
+      <p class="m-0 text-secondary">No habits found. Let's create one!</p>
+      <button mat-stroked-button color="primary" (click)="openCreateHabitDialog()">Quick Create</button>
+    </div>
+    }
   </div>
 </div>

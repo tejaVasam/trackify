@@ -15,7 +15,9 @@ import { DateStripComponent } from '../shared/components/date-strip/date-strip';
 interface TodayHabitView {
   habit: Habit;
   completed: boolean;
+  streak: number;
 }
+
 
 
 
@@ -96,17 +98,27 @@ export class Today implements OnInit {
       return false;
     });
 
-    this.habitsView.set(targetActiveHabits.map(habit => ({
-      habit,
-      completed: completedIds.has(habit.id!)
-    })));
+    const viewData = await Promise.all(targetActiveHabits.map(async (habit) => {
+      const stats = await this.habitLogService.getStreakStatus(habit.id!);
+      return {
+        habit,
+        completed: completedIds.has(habit.id!),
+        streak: stats.current
+      };
+    }));
+
+    this.habitsView.set(viewData);
   }
 
   async toggleHabit(habitId: number) {
     const newState = await this.habitLogService.toggleCompletion(habitId, this.activeDateStr());
+    
+    // Refresh stats for this specific habit to update streak immediately
+    const updatedStats = await this.habitLogService.getStreakStatus(habitId);
+    
     this.habitsView.update(current =>
       current.map(item =>
-        item.habit.id === habitId ? { ...item, completed: newState } : item
+        item.habit.id === habitId ? { ...item, completed: newState, streak: updatedStats.current } : item
       )
     );
   }
