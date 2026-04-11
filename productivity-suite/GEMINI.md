@@ -23,6 +23,7 @@ These are the foundational guidelines and conventions for the `productivity-suit
 ## SCSS Style Guide
 
 ### 1. Architecture & Syntax
+- **Color Tokens:** Whenever any colors are needed in the `productivity-suite` workspace, you MUST refer to the semantic tokens defined in `light-theme.scss`. If a required color token is missing, add it to `light-theme.scss` (or `colors.scss` for base scales) rather than hardcoding colors.
 - **Modern Sass:** Always use `@use` instead of the deprecated `@import`. Keep module scope clean and explicit.
 - **Utility First:** Leverage the utility classes (like gaps, toRem) before writing custom component styles.
 - **BEM Methodology:** Follow BEM (Block Element Modifier) naming conventions for custom classes to ensure scoping, readability, and modularity (e.g., `.card`, `.card__header`, `.card--active`).

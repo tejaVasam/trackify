@@ -1,0 +1,40 @@
+.light-theme {
+  // Background and Surfaces
+  --background-default: var(--neutral-50);
+  --background-alt: var(--neutral-100);
+  --surface-default: var(--neutral-50);
+  --surface-alt: var(--neutral-100);
+  --surface-elevated: var(--neutral-50);
+  
+  // Borders
+  --border-subtle: var(--neutral-200);
+  --border-default: var(--neutral-300);
+  --border-strong: var(--neutral-400);
+  --border-focus: var(--primary-500);
+
+  // Text
+  --text-primary: var(--neutral-900);
+  --text-secondary: var(--neutral-600);
+  --text-tertiary: var(--neutral-500);
+  --text-disabled: var(--neutral-400);
+  --text-inverse: var(--neutral-50);
+  --text-on-primary: #ffffff;
+  --text-on-success: #ffffff;
+  --text-on-warning: #ffffff;
+  --text-on-error: #ffffff;
+
+  // Action
+  --action-primary-default: var(--primary-500);
+  --action-primary-hover: var(--primary-600);
+  --action-primary-active: var(--primary-700);
+  --action-primary-disabled: var(--primary-200);
+  
+  --action-secondary-default: var(--secondary-500);
+  --action-secondary-hover: var(--secondary-600);
+  --action-secondary-active: var(--secondary-700);
+  --action-secondary-disabled: var(--secondary-200);
+
+  // Shadows
+  --shadow-color: rgb(0 0 0 / 0.1);
+  --shadow-color-strong: rgb(0 0 0 / 0.2);
+}

@@ -84,9 +84,24 @@
     },
     "shared-ui": {
       "projectType": "library",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss",
+          "skipTests": true
+        },
+        "@schematics/angular:service": {
+          "skipTests": true
+        },
+        "@schematics/angular:directive": {
+          "skipTests": true
+        },
+        "@schematics/angular:pipe": {
+          "skipTests": true
+        }
+      },
       "root": "projects/shared-ui",
       "sourceRoot": "projects/shared-ui/src",
-      "prefix": "lib",
+      "prefix": "t-lib",
       "architect": {
         "build": {
           "builder": "@angular/build:ng-packagr",
