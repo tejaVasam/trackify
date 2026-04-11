@@ -1,0 +1,21 @@
+@use './utility' as *;
+
+// Generates gap classes based on a 4px scale (1 unit = 4px)
+// Examples: .gap-1 (4px), .gap-2 (8px), ... .gap-24 (96px)
+
+@for $i from 0 through 24 {
+  // Multiply by 4 to get the pixel value, then convert to rem
+  $pxValue: $i * 4;
+  
+  .gap-#{$i} {
+    gap: toRem($pxValue);
+  }
+
+  .gap-x-#{$i} {
+    column-gap: toRem($pxValue);
+  }
+
+  .gap-y-#{$i} {
+    row-gap: toRem($pxValue);
+  }
+}
