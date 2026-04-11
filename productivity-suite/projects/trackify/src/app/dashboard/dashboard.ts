@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { HabitService } from '../../services/habit.service';
 import { HabitLogService } from '../../services/habit-log.service';
 import { CategoryService } from '../../services/category.service';
@@ -8,6 +8,8 @@ import { RouterModule } from '@angular/router';
 import { HabitFrequency } from '../../enums/habit-frequency.enum';
 import { Days } from '../../enums/days.enum';
 import { db, User } from '../../db/app.db';
+import { BaseChartDirective } from 'ng2-charts';
+import { ChartConfiguration } from 'chart.js';
 
 interface DashboardStats {
   todayCompletedCount: number;
@@ -38,9 +40,9 @@ interface WeeklyMatrixItem {
 @Component({
   selector: 't-dashboard',
   standalone: true,
-  imports: [MatIconModule, RouterModule],
+  imports: [MatIconModule, RouterModule, BaseChartDirective],
   template: `
-    <div class="p-24 df fd-c gap-6 font-inter" style="background-color: #f7f3f0; min-height: 100vh;">
+    <div class="p-24 df fd-c gap-6 font-inter" style="background-color: var(--background-default); min-height: 100vh;">
       <!-- Welcome Message / Onboarding Prompt -->
       @if (stats().showWelcome) {
         <div class="w-100 br-24 p-24 mb-16 animate-fade-in" 
@@ -87,8 +89,6 @@ interface WeeklyMatrixItem {
       <div class="w-100 br-24 p-24 position-relative overflow-hidden" 
            style="background: linear-gradient(135deg, #1e293b, #0f172a); color: #fff; box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.3); box-sizing: border-box;">
         
-        <!-- Decorative Glow -->
-        <div class="position-absolute" style="top: -50px; right: -50px; width: 150px; height: 150px; background: radial-gradient(circle, rgba(16, 185, 129, 0.2) 0%, transparent 70%);"></div>
 
         <div class="df fd-r gap-8 ai-c position-relative z-1 flex-wrap">
           <!-- Circular Progress -->
@@ -128,7 +128,7 @@ interface WeeklyMatrixItem {
         </div>
       </div>
 
-      <div class="df fd-r flex-wrap gap-4 w-100">
+      <div class="df fd-r gap-4 w-100">
         <!-- Streak Card -->
         <div class="df fd-c gap-4 p-20 br-16 bg-white flex-1" style="min-width: 180px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05); box-sizing: border-box;">
           <div class="df jc-sb ai-c">
@@ -157,11 +157,22 @@ interface WeeklyMatrixItem {
         </div>
       </div>
 
+      <!-- Activity Heat Chart -->
+      <div class="bg-white p-24 br-16 w-100" style="box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05); box-sizing: border-box; margin-bottom: 8px;">
+        <div class="df fd-r ai-c jc-sb flex-wrap gap-4 mb-16">
+            <h2 class="m-0 fs-18 fw-700" style="color: var(--text-primary);">Activity Volume</h2>
+            <span class="fs-12 fw-600 text-secondary ls-1 ml-auto">PAST 7 DAYS</span>
+        </div>
+        <div class="w-100 position-relative" style="height: 180px;">
+           <canvas baseChart [data]="chartDataConfiguration()" [options]="chartOptions()" type="bar"></canvas>
+        </div>
+      </div>
+
       <!-- 4. Interactive Weekly Grid -->
       <div class="bg-white p-24 br-16 w-100" style="box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05); box-sizing: border-box;">
-        <div class="df fd-r ai-c jc-sb mb-20">
+        <div class="df fd-r ai-c jc-sb flex-wrap gap-4 mb-20">
             <h2 class="m-0 fs-18 fw-700" style="color: #1e293b;">Weekly Tracker</h2>
-            <span class="fs-12 fw-600 text-secondary ls-1">PAST 7 DAYS</span>
+            <span class="fs-12 fw-600 text-secondary ls-1 ml-auto">PAST 7 DAYS</span>
         </div>
         
         <div class="overflow-x-auto w-100 hide-scrollbar">
@@ -271,10 +282,44 @@ export class Dashboard implements OnInit {
   weeklyMatrix = signal<WeeklyMatrixItem[]>([]);
   activeUser = signal<User | null>(null);
 
+  chartDataConfiguration = computed<ChartConfiguration<'bar'>['data']>(() => {
+    const data = this.weeklyGraph();
+    return {
+      labels: data.map(d => d.dateLabel),
+      datasets: [{
+        data: data.map(d => d.count),
+        label: 'Completions',
+        backgroundColor: '#3b82f6',
+        borderRadius: 6,
+        barPercentage: 0.6
+      }]
+    };
+  });
+
+  chartOptions = computed<ChartConfiguration<'bar'>['options']>(() => {
+    const maxVal = Math.max(...this.weeklyGraph().map(d => d.count), 5);
+    return {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { enabled: true }
+      },
+      scales: {
+        x: { grid: { display: false } },
+        y: {
+          beginAtZero: true,
+          suggestedMax: maxVal + 1,
+          ticks: { stepSize: 1, precision: 0 }
+        }
+      }
+    };
+  });
+
   async ngOnInit() {
     const loadedUser = await db.users.orderBy('id').first();
     if (loadedUser) {
-        this.activeUser.set(loadedUser);
+      this.activeUser.set(loadedUser);
     }
     await this.calculateMetrics();
   }
@@ -295,7 +340,7 @@ export class Dashboard implements OnInit {
     const todayDate = new Date();
     const todayMillis = new Date(todayDate).setHours(0, 0, 0, 0);
     const msInDay = 86400000;
-    
+
     const todayStr = this.getLocalFormattedDate(todayDate);
     const jsDay = todayDate.getDay();
     const mapDayToEnum: Record<number, Days> = {
@@ -320,7 +365,7 @@ export class Dashboard implements OnInit {
 
     let todayCompletedCount = 0;
     const missedHabits: string[] = [];
-    
+
     for (const h of targetActiveHabitsToday) {
       if (todayCompletedIds.has(h.id!)) {
         todayCompletedCount++;
@@ -328,7 +373,7 @@ export class Dashboard implements OnInit {
         missedHabits.push(h.name);
       }
     }
-    
+
     const todayTotalCount = targetActiveHabitsToday.length;
     const todayPercentage = todayTotalCount === 0 ? 0 : Math.round((todayCompletedCount / todayTotalCount) * 100);
 
@@ -337,37 +382,37 @@ export class Dashboard implements OnInit {
     // ============================================
     const distinctLogDates = Array.from(new Set(allLogs.map(l => l.dateStr))).sort().reverse();
     const epochDays = distinctLogDates.map(dStr => {
-        const [yy, mm, dd] = dStr.split('-');
-        return Math.floor(new Date(Number(yy), Number(mm)-1, Number(dd)).getTime() / msInDay);
+      const [yy, mm, dd] = dStr.split('-');
+      return Math.floor(new Date(Number(yy), Number(mm) - 1, Number(dd)).getTime() / msInDay);
     });
 
     let bestStreak = 0;
     let currentStreak = 0;
 
     if (epochDays.length > 0) {
-        let tempStreak = 1;
-        bestStreak = 1;
+      let tempStreak = 1;
+      bestStreak = 1;
+      for (let i = 0; i < epochDays.length - 1; i++) {
+        if (epochDays[i] - epochDays[i + 1] === 1) {
+          tempStreak++;
+          if (tempStreak > bestStreak) bestStreak = tempStreak;
+        } else {
+          tempStreak = 1;
+        }
+      }
+
+      const todayEpoch = Math.floor(todayMillis / msInDay);
+      // Valid streak if latest log is exactly today or yesterday
+      if (epochDays[0] === todayEpoch || epochDays[0] === todayEpoch - 1) {
+        currentStreak = 1;
         for (let i = 0; i < epochDays.length - 1; i++) {
-            if (epochDays[i] - epochDays[i+1] === 1) {
-                tempStreak++;
-                if (tempStreak > bestStreak) bestStreak = tempStreak;
-            } else {
-                tempStreak = 1;
-            }
+          if (epochDays[i] - epochDays[i + 1] === 1) {
+            currentStreak++;
+          } else {
+            break;
+          }
         }
-        
-        const todayEpoch = Math.floor(todayMillis / msInDay);
-        // Valid streak if latest log is exactly today or yesterday
-        if (epochDays[0] === todayEpoch || epochDays[0] === todayEpoch - 1) {
-            currentStreak = 1;
-            for (let i = 0; i < epochDays.length - 1; i++) {
-                if (epochDays[i] - epochDays[i+1] === 1) {
-                    currentStreak++;
-                } else {
-                    break;
-                }
-            }
-        }
+      }
     }
 
     // ============================================
@@ -396,31 +441,31 @@ export class Dashboard implements OnInit {
     // WEEKLY MATRIX DATA
     // ============================================
     const matrix: WeeklyMatrixItem[] = habits.map(h => {
-        return {
-            habitId: h.id!,
-            name: h.name,
-            days: last7DaysStr.map(dateStr => {
-                const log = allLogs.find(l => l.habitId === h.id && l.dateStr === dateStr);
-                const isCompleted = !!log;
-                
-                // Determine if it was missed (past date, not completed, and was an active day for this habit)
-                let status: 'completed' | 'pending' | 'missed' = isCompleted ? 'completed' : 'pending';
-                
-                if (!isCompleted && dateStr < todayStr) {
-                    const dObj = new Date(dateStr);
-                    const dEnum = mapDayToEnum[dObj.getDay()];
-                    if (h.frequency === HabitFrequency.Daily || (h.days && h.days.includes(dEnum))) {
-                        status = 'missed';
-                    }
-                }
-                return { dateStr, status };
-            })
-        };
+      return {
+        habitId: h.id!,
+        name: h.name,
+        days: last7DaysStr.map(dateStr => {
+          const log = allLogs.find(l => l.habitId === h.id && l.dateStr === dateStr);
+          const isCompleted = !!log;
+
+          // Determine if it was missed (past date, not completed, and was an active day for this habit)
+          let status: 'completed' | 'pending' | 'missed' = isCompleted ? 'completed' : 'pending';
+
+          if (!isCompleted && dateStr < todayStr) {
+            const dObj = new Date(dateStr);
+            const dEnum = mapDayToEnum[dObj.getDay()];
+            if (h.frequency === HabitFrequency.Daily || (h.days && h.days.includes(dEnum))) {
+              status = 'missed';
+            }
+          }
+          return { dateStr, status };
+        })
+      };
     });
     this.weeklyMatrix.set(matrix);
 
     const sevenDaysAgoCutoffStr = this.getLocalFormattedDate(new Date(todayMillis - (6 * msInDay)));
-    
+
     // Top Habit tracker
     const habitCounts: Record<number, number> = {};
 
@@ -443,7 +488,7 @@ export class Dashboard implements OnInit {
     for (const p of graphPoints) {
       p.percentage = (p.count / maxDailyCountInGraph) * 100;
     }
-    
+
     // Approximation for completion rate 7 days (Total logs / (Total Habits * 7)) * 100
     // If you only want an arbitrary metric, realistically you evaluate Active Targets. 
     // Here we compute average volume roughly. To be safe, if habits.length * 7 is denominator:
@@ -455,13 +500,13 @@ export class Dashboard implements OnInit {
     // ============================================
     let topHabitName = 'No Data';
     let topHabitScore = 0;
-    
+
     for (const [hIdStr, score] of Object.entries(habitCounts)) {
-        if (score > topHabitScore) {
-            topHabitScore = score;
-            const ref = habits.find(h => h.id === Number(hIdStr));
-            if (ref) topHabitName = ref.name;
-        }
+      if (score > topHabitScore) {
+        topHabitScore = score;
+        const ref = habits.find(h => h.id === Number(hIdStr));
+        if (ref) topHabitName = ref.name;
+      }
     }
 
     // ============================================
@@ -472,22 +517,22 @@ export class Dashboard implements OnInit {
 
     // Check for streak at risk (yesterday done, today not)
     for (const h of habits) {
-        const hLogs = allLogs.filter(l => l.habitId === h.id);
-        const yesterdayStr = this.getLocalFormattedDate(new Date(todayMillis - msInDay));
-        const doneYesterday = hLogs.some(l => l.dateStr === yesterdayStr);
-        const doneToday = hLogs.some(l => l.dateStr === todayStr);
-        
-        if (doneYesterday && !doneToday) {
-            insightMessage = `Your streak for "${h.name}" is at risk! Log it now to keep it alive.`;
-            insightHabitId = h.id;
-            break; 
-        }
+      const hLogs = allLogs.filter(l => l.habitId === h.id);
+      const yesterdayStr = this.getLocalFormattedDate(new Date(todayMillis - msInDay));
+      const doneYesterday = hLogs.some(l => l.dateStr === yesterdayStr);
+      const doneToday = hLogs.some(l => l.dateStr === todayStr);
+
+      if (doneYesterday && !doneToday) {
+        insightMessage = `Your streak for "${h.name}" is at risk! Log it now to keep it alive.`;
+        insightHabitId = h.id;
+        break;
+      }
     }
 
     // If no streak at risk, check if almost all habits done today
     if (!insightHabitId && todayPercentage > 0 && todayPercentage < 100) {
-        insightMessage = `You're just ${todayTotalCount - todayCompletedCount} habit away from a perfect day!`;
-        insightHabitId = habits.find(h => !todayCompletedIds.has(h.id!))?.id;
+      insightMessage = `You're just ${todayTotalCount - todayCompletedCount} habit away from a perfect day!`;
+      insightHabitId = habits.find(h => !todayCompletedIds.has(h.id!))?.id;
     }
 
     // Set Signals to render UI!

@@ -104,13 +104,14 @@ export class OnboardingComponent {
       // Automatic biological mapping heuristic bindings bypassing arbitrary unknown voids elegantly
       if (!finalAvatar) {
          if (formGender === 'female') {
-            finalAvatar = 'https://api.dicebear.com/7.x/avataaars/svg?seed=Mia';
+            finalAvatar = 'https://api.dicebear.com/7.x/lorelei/svg?seed=Bella';
          } else if (formGender === 'male') {
-            finalAvatar = 'https://api.dicebear.com/7.x/avataaars/svg?seed=Felix';
+            finalAvatar = 'https://api.dicebear.com/7.x/lorelei/svg?seed=Milo';
          } else {
-            finalAvatar = 'https://api.dicebear.com/7.x/avataaars/svg?seed=Aneka';
+            finalAvatar = 'https://api.dicebear.com/7.x/lorelei/svg?seed=Lucky';
          }
       }
+
 
       const user: User = {
         name: this.onboardForm.value.name,

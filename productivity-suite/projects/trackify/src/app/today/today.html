@@ -1,10 +1,10 @@
 <div class="df fd-c w-100"
-    style="background-color: #f7f3f0; min-height: 100%; position: relative; font-family: 'Inter', sans-serif;">
+    style="background-color: var(--background-default); min-height: 100%; position: relative; font-family: 'Inter', sans-serif;">
 
     <!-- Header -->
     <div class="df fd-r jc-sb ai-c w-100 p-24 pb-16">
         <div class="df fd-c gap-2">
-            <h1 class="m-0 fs-28 fw-700" style="color: #212121; letter-spacing: -0.5px;">Morning, Budi</h1>
+            <h1 class="m-0 fs-28 fw-700" style="color: var(--text-primary); letter-spacing: -0.5px;">Morning, Budi</h1>
             <span class="fs-13 fw-500 text-secondary" style="color: #6b7280;">{{ activeDateDisplay() }}</span>
         </div>
 
@@ -19,7 +19,7 @@
 
     <!-- Daily Routine Section -->
     <div class="df fd-r jc-sb ai-c w-100 px-24 mb-16" style="box-sizing: border-box;">
-        <h2 class="m-0 fs-18 fw-700" style="color: #212121;">Daily routine</h2>
+        <h2 class="m-0 fs-18 fw-700" style="color: var(--text-primary);">Daily routine</h2>
         <span class="fs-13 fw-600 cursor-pointer" style="color: #8b5a45;">See all</span>
     </div>
 
@@ -42,8 +42,8 @@
             </div>
 
             <!-- Routine Card -->
-            <div class="bg-white p-16 br-16 df fd-r ai-c gap-4 w-100 fg-1"
-                style="box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03); border: 1px solid rgba(0,0,0,0.02); box-sizing: border-box; background-color: var(--background-alt);"
+            <div class="p-16 br-16 df fd-r ai-c gap-4 w-100 fg-1"
+                style="box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03); border: 1px solid var(--border-subtle); box-sizing: border-box; background-color: var(--surface-default);"
                 [style.opacity]="item.completed ? '0.7' : '1'">
                 <!-- Habit Icon Box -->
                 <div class="df ai-c jc-c" [style.background-color]="item.habit.color + '20'"
@@ -54,7 +54,7 @@
                 <!-- Habit Texts -->
                 <div class="df fd-c flex-1 overflow-hidden gap-1" style="min-width: 0;">
                     <div class="df fd-r ai-c gap-2">
-                        <h3 class="m-0 fs-15 fw-600 truncate text-primary" style="color: #212121;"
+                        <h3 class="m-0 fs-15 fw-600 truncate" style="color: var(--text-primary);"
                             [style.text-decoration]="item.completed ? 'line-through' : 'none'">
                             {{ item.habit.name }}
                         </h3>
@@ -71,17 +71,12 @@
                 </div>
 
 
-                <!-- Details Right Side -->
-                <div class="df fd-c ai-c gap-1 pl-16 pt-4 pb-4"
-                    style="min-width: 50px; border-left: 1px solid #f4f4f5;">
-                    <mat-icon style="color: #52525b; font-size: 18px; width: 18px; height: 18px;">schedule</mat-icon>
-                    <span class="fs-11 fw-600" style="color: #a1a1aa;">15 min</span>
-                </div>
+
             </div>
         </div>
         } @empty {
-        <div class="p-32 df fd-c ai-c jc-c gap-2 bg-white br-16 position-relative z-1 w-100"
-            style="box-shadow: 0 4px 12px rgba(0,0,0,0.03); box-sizing: border-box;">
+        <div class="p-32 df fd-c ai-c jc-c gap-2 br-16 position-relative z-1 w-100"
+            style="background-color: var(--surface-default); box-shadow: 0 4px 12px rgba(0,0,0,0.03); box-sizing: border-box;">
             <mat-icon style="font-size: 48px; width: 48px; height: 48px; color: #cbd5e1;">event_busy</mat-icon>
             <span class="fs-14 fw-600 text-secondary">No routines for this day!</span>
         </div>

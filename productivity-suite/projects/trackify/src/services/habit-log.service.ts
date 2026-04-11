@@ -6,14 +6,29 @@ import { db, HabitLog } from '../db/app.db';
 })
 export class HabitLogService {
   
-  async markHabitAsCompleted(habitId: number, dateStr: string): Promise<number> {
+  async markHabitAsCompleted(habitId: number, dateStr: string, note?: string): Promise<number> {
     const log: HabitLog = {
       habitId,
       dateStr,
-      completedAt: Date.now()
+      completedAt: Date.now(),
+      note
     };
     return db.habitLogs.add(log);
   }
+
+  async saveNote(habitId: number, dateStr: string, note: string): Promise<void> {
+    const existing = await db.habitLogs.where({ habitId, dateStr }).first();
+    if (existing && existing.id) {
+       await db.habitLogs.update(existing.id, { note });
+    } else {
+       await this.markHabitAsCompleted(habitId, dateStr, note);
+    }
+  }
+
+  async getLog(habitId: number, dateStr: string): Promise<HabitLog | undefined> {
+    return db.habitLogs.where({ habitId, dateStr }).first();
+  }
+
 
   async removeCompletion(habitId: number, dateStr: string): Promise<void> {
     const existing = await db.habitLogs.where({ habitId, dateStr }).first();

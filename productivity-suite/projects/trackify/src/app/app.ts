@@ -7,6 +7,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { db, User } from '../db/app.db';
 import { NotificationService } from '../services/notification.service';
+import { ThemeService } from '../services/theme.service';
 import { inject } from '@angular/core';
 
 @Component({
@@ -30,6 +31,7 @@ export class App implements OnInit {
   activeUser = signal<User | null>(null);
   
   private notificationService = inject(NotificationService);
+  themeService = inject(ThemeService);
 
   async ngOnInit() {
     this.checkScreenSize();

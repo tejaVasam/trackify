@@ -9,7 +9,9 @@ export interface HabitLog {
   habitId: number;
   dateStr: string; // e.g., 'YYYY-MM-DD'
   completedAt: number; // Unix timestamp
+  note?: string;
 }
+
 
 export interface User {
   id?: number;
@@ -43,7 +45,12 @@ export class AppDB extends Dexie {
     this.version(4).stores({
       users: '++id, name' // Users profile configuration tracking table
     });
+
+    this.version(5).stores({
+      habitLogs: '++id, habitId, dateStr, [habitId+dateStr]' 
+    });
   }
+
 }
 
 export const db = new AppDB();

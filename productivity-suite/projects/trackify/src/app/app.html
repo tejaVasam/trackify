@@ -36,7 +36,7 @@
   </mat-sidenav>
 
   <!-- Interactive primary focus UI container -->
-  <mat-sidenav-content style="background-color: var(--background-alt, #f4f4f5);">
+  <mat-sidenav-content style="background-color: var(--background-alt);">
     <mat-toolbar color="primary" style="box-shadow: 0 2px 6px rgb(0 0 0 / 15%); z-index: 10; position: relative;">
       <button mat-icon-button (click)="toggleSidenav()" aria-label="Toggle sidenav">
         <mat-icon>menu</mat-icon>
@@ -46,6 +46,9 @@
       
       @if (activeUser()?.avatar) {
         <div class="df fd-r ai-c gap-8 px-8">
+            <button mat-icon-button (click)="themeService.toggleTheme()" aria-label="Toggle theme">
+               <mat-icon>{{ themeService.isDarkMode() ? 'light_mode' : 'dark_mode' }}</mat-icon>
+            </button>
             <span class="fs-14 fw-600 hide-on-mobile">{{ activeUser()?.name }}</span>
             <div style="width: 36px; height: 36px; min-width: 36px; min-height: 36px; border-radius: 50%; overflow: hidden; border: 2px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center;">
                 <img [src]="activeUser()?.avatar" style="width: 100%; height: 100%; object-fit: cover;" alt="avatar">

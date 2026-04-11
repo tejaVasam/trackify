@@ -5,7 +5,9 @@
   </button>
 </div>
 
-<form [formGroup]="habitForm" (ngSubmit)="onSubmit()" class="df fd-c gap-5 p-24" style="box-sizing: border-box; overflow-x: hidden;">
+<form [formGroup]="habitForm" (ngSubmit)="onSubmit()" class="df fd-c gap-5 p-24" 
+      style="box-sizing: border-box; overflow-x: hidden; overflow-y: auto; max-height: 75vh;">
+
 
   <!-- Habit Name -->
   <div class="df fd-c gap-2">

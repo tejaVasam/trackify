@@ -24,7 +24,7 @@ interface TodayHabitView {
 @Component({
   selector: 't-today',
   standalone: true,
-  imports: [MatListModule, MatIconModule, MatCheckboxModule, MatButtonModule, TitleCasePipe, RouterModule, DateStripComponent],
+  imports: [MatListModule, MatIconModule, MatCheckboxModule, MatButtonModule, RouterModule, DateStripComponent],
   templateUrl: './today.html',
   styleUrl: './today.scss',
 })
