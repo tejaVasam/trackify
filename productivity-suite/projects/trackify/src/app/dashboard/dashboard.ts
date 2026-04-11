@@ -113,15 +113,15 @@ interface DashboardStats {
       <!-- 4. Weekly Progress Chart -->
       <div class="bg-white p-24 br-16 w-100" style="box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05); box-sizing: border-box;">
         <h2 class="m-0 fs-16 fw-700 mb-24" style="color: #212121;">Weekly Timeline</h2>
-        <div class="df fd-r ai-fe jc-sa w-100" style="height: 160px;">
+        <div class="df fd-r ai-fe jc-sb w-100" style="height: 160px; column-gap: 8px;">
           @for (day of weeklyGraph(); track day.dateLabel) {
-            <div class="df fd-c ai-c gap-2 flex-1">
+            <div class="df fd-c ai-c gap-2" style="flex: 1 1 0%;">
               <div class="w-100 br-8 overflow-hidden df fd-c jc-fe" 
-                   style="max-width: 32px; height: 120px; background-color: #f8fafc;">
+                   style="max-width: 32px; height: 120px; background-color: #f1f5f9;">
                  <div class="w-100 br-8" 
                       [style.height]="day.percentage + '%'" 
-                      [style.background-color]="day.count > 0 ? '#10b981' : 'transparent'"
-                      style="transition: height 0.6s cubic-bezier(0.4, 0, 0.2, 1); min-height: 4px;">
+                      [style.background-color]="day.count > 0 ? '#10b981' : '#e2e8f0'"
+                      style="transition: height 0.6s cubic-bezier(0.4, 0, 0.2, 1); min-height: 6px;">
                  </div>
               </div>
               <span class="fs-12 fw-600" style="color: #9ca3af;">{{ day.dateLabel }}</span>

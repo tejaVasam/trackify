@@ -1,6 +1,6 @@
 <mat-sidenav-container style="height: 100vh;">
   <!-- Sidenav specific sidebar definition -->
-  <mat-sidenav [opened]="isSidenavOpened()" [mode]="isMobile() ? 'over' : 'side'" style="width: 260px; box-shadow: 2px 0 6px rgb(0 0 0 / 10%);">
+  <mat-sidenav [opened]="isSidenavOpened()" [mode]="isMobile() ? 'over' : 'side'" [autoFocus]="false" style="width: 260px; box-shadow: 2px 0 6px rgb(0 0 0 / 10%);">
     <div class="df fd-c h-100" style="height: 100%;">
       <div class="p-16 df ai-c gap-8" style="height: 64px; box-sizing: border-box;">
         <mat-icon color="primary" class="fs-24">track_changes</mat-icon>
