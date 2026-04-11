@@ -1,14 +1,33 @@
-<div>
-    @for(habit of habits; track habit.id)
-    {
-    <div class="habit-card">
-        <h3>{{ habit.name }}</h3>
-        <p>{{ habit.description }}</p>
-    </div>
-    } @empty {
-    <div class="empty-state">
-        <p>No habits found. Let's create one!</p>
-    </div>
-    }
+<div class="p-16 df fd-c gap-8">
+  <div class="df fd-r ai-c jc-s">
+    <h2 class="m-0">My Habits</h2>
+    <button mat-flat-button color="primary" (click)="openCreateHabitDialog()">
+      Create Habit
+    </button>
+  </div>
+
+  <div class="df fd-c gap-4">
+      @for(habit of habits(); track habit.id)
+      {
+      <div class="habit-card p-16 b-1-solid br-8 df fd-r ai-c jc-s">
+          <div class="df fd-c" style="flex: 1;">
+            <h3 class="m-0">{{ habit.name }}</h3>
+            <p class="m-0 mt-4 text-secondary">{{ habit.description }}</p>
+          </div>
+          <div class="df fd-r gap-8">
+            <button mat-icon-button color="primary" (click)="editHabit(habit)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="deleteHabit(habit)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+      </div>
+      } @empty {
+      <div class="empty-state p-32 df fd-c ai-c gap-4 b-1-dashed br-8">
+          <p class="m-0 text-secondary">No habits found. Let's create one!</p>
+          <button mat-stroked-button color="primary" (click)="openCreateHabitDialog()">Quick Create</button>
+      </div>
+      }
+  </div>
 </div>
-<router-outlet></router-outlet>

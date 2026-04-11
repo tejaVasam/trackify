@@ -1,11 +1,12 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BaseControl } from '../../base-control';
+import { FieldComponent } from '../field/field.component';
 
 @Component({
   selector: 'ui-checkbox',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FieldComponent],
   templateUrl: './checkbox.component.html',
   styleUrls: ['./checkbox.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,4 +1,26 @@
 /* You can add global styles to this file, and also import other style files */
 
+
 @use './styles/themes/colors';
 @use './styles/themes/light-theme';
+@use './styles/flex.scss';
+@use './styles/gaps.scss';
+@use './styles/paddings.scss';
+@use './styles/fonts.scss';
+@use './styles/forms.scss';
+@use './styles/borders.scss';
+@use './styles/margins.scss';
+@use './styles/modifiers.scss';
+
+@import '@angular/material/prebuilt-themes/rose-red.css';
+
+html,
+ßbody {
+    height: 100%;
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.border-none {
+    border: none;
+}

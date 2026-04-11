@@ -1,20 +1,16 @@
-<div class="ui-checkbox df fd-r ai-c gap-2">
-  <input
-    type="checkbox"
-    [id]="id()"
-    [disabled]="isDisabled() || disabled()"
-    [checked]="!!internalValue()"
-    (change)="onChangeEvent($event)"
-    (blur)="markAsTouched()"
-    class="ui-checkbox__input"
-  />
-  @if (label()) {
-    <label [for]="id()" class="ui-checkbox__label">
+<ui-field [hasError]="hasError" [hint]="hint()" variant="selection">
+  <label class="df fd-r ai-c gap-2" style="cursor: pointer;">
+    <input
+      type="checkbox"
+      [id]="id()"
+      [disabled]="isDisabled() || disabled()"
+      [checked]="!!internalValue()"
+      (change)="onChangeEvent($event)"
+      (blur)="markAsTouched()"
+    />
+    <span>
       {{ label() }}
-      @if (required()) { <span class="ui-checkbox__required">*</span> }
-    </label>
-  }
-  @if (hasError) {
-    <span class="ui-checkbox__error">Invalid selection</span>
-  }
-</div>
+      @if (required()) { <span class="ui-field-required">*</span> }
+    </span>
+  </label>
+</ui-field>

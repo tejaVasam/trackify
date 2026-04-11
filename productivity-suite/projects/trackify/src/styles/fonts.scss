@@ -1,0 +1,8 @@
+@use './utility';
+
+// Generate font size utility classes from 8px to 100px
+@for $i from 8 through 100 {
+    .fs-#{$i} {
+        font-size: utility.toRem($i);
+    }
+}

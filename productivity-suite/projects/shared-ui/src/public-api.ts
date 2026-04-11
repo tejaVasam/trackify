@@ -4,6 +4,7 @@
 
 export * from './lib/base-control';
 export * from './lib/components/input/input.component';
+export * from './lib/components/field/field.component';
 export * from './lib/components/radio/radio.component';
 export * from './lib/components/checkbox/checkbox.component';
 export * from './lib/components/button/button.component';

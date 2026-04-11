@@ -1,26 +1,12 @@
-<div class="ui-input-wrapper df fd-c gap-1">
-  <div class="ui-field" [class.ui-field--error]="hasError">
-    @if (label()) {
-      <label [for]="id()" class="ui-field__label">
-        {{ label() }}
-        @if (required()) { <span class="ui-field__required">*</span> }
-      </label>
-    }
-    <input
-      [id]="id()"
-      [type]="type()"
-      [placeholder]="placeholder()"
-      [disabled]="isDisabled() || disabled()"
-      [value]="internalValue() || ''"
-      (input)="onInput($event)"
-      (blur)="markAsTouched()"
-      class="ui-field__input"
-    />
-  </div>
-  @if (hint() && !hasError) {
-    <span class="ui-input-hint">{{ hint() }}</span>
-  }
-  @if (hasError) {
-    <span class="ui-input-error">This field is invalid</span>
-  }
-</div>
+<ui-field [label]="label()" [forId]="id()" [required]="required()" [hasError]="hasError" [hint]="hint()">
+  <input
+    [id]="id()"
+    [type]="type()"
+    [placeholder]="placeholder()"
+    [disabled]="isDisabled() || disabled()"
+    [value]="internalValue() || ''"
+    (input)="onInput($event)"
+    (blur)="markAsTouched()"
+    class="form-input-reset"
+  />
+</ui-field>

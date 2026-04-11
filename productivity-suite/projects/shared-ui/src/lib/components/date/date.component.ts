@@ -1,11 +1,12 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BaseControl } from '../../base-control';
+import { FieldComponent } from '../field/field.component';
 
 @Component({
   selector: 'ui-date',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FieldComponent],
   templateUrl: './date.component.html',
   styleUrls: ['./date.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,10 +1,4 @@
-<div class="ui-field df fd-c gap-1">
-  @if (label()) {
-    <label [for]="id()" class="ui-field__label">
-      {{ label() }}
-      @if (required()) { <span class="ui-field__required">*</span> }
-    </label>
-  }
+<ui-field [label]="label()" [forId]="id()" [required]="required()" [hasError]="hasError" [hint]="hint()">
   <input
     [id]="id()"
     type="date"
@@ -12,13 +6,6 @@
     [value]="internalValue() || ''"
     (input)="onInput($event)"
     (blur)="markAsTouched()"
-    [class.ui-field__input--error]="hasError"
-    class="ui-field__input ui-field__date p-8"
+    class="form-input-reset"
   />
-  @if (hint() && !hasError) {
-    <span class="ui-field__hint">{{ hint() }}</span>
-  }
-  @if (hasError) {
-    <span class="ui-field__error">This date is invalid</span>
-  }
-</div>
+</ui-field>

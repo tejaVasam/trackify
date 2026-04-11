@@ -1,0 +1,101 @@
+<div class="df fd-c w-100"
+    style="background-color: #f7f3f0; min-height: 100%; position: relative; font-family: 'Inter', sans-serif;">
+
+    <!-- Header -->
+    <div class="df fd-r jc-sb ai-c w-100 p-24 pb-16">
+        <div class="df fd-c gap-2">
+            <h1 class="m-0 fs-28 fw-700" style="color: #212121; letter-spacing: -0.5px;">Morning, Budi</h1>
+            <span class="fs-13 fw-500 text-secondary" style="color: #6b7280;">{{ activeDateDisplay() }}</span>
+        </div>
+
+    </div>
+
+    <!-- Horizontal scrolling date strip -->
+    <div class="df fd-r jc-sb ai-c w-100 px-24 pb-24 overflow-x-auto hide-scrollbar">
+        @for(day of dateStrip(); track day.dateStr) {
+        <div class="df fd-c ai-c gap-2 cursor-pointer" (click)="selectDate(day.dateStr)" style="min-width: 48px;">
+            <span class="fs-12 fw-600" [style.color]="day.dateStr === activeDateStr() ? '#212121' : '#a1a1aa'">
+                {{ day.dayName | titlecase }}
+            </span>
+            <div class="df ai-c jc-c br-pill fw-600 fs-16 transition-all"
+                style="width: 48px; height: 48px; box-sizing: border-box;"
+                [style.background-color]="day.dateStr === activeDateStr() ? '#2f343b' : '#ffffff'"
+                [style.color]="day.dateStr === activeDateStr() ? '#ffffff' : '#212121'"
+                [style.box-shadow]="day.dateStr === activeDateStr() ? '0 8px 16px rgba(47, 52, 59, 0.3)' : '0 2px 4px rgba(0,0,0,0.02)'">
+                {{ day.dayNumber }}
+            </div>
+        </div>
+        }
+    </div>
+
+
+
+    <!-- Daily Routine Section -->
+    <div class="df fd-r jc-sb ai-c w-100 px-24 mb-16" style="box-sizing: border-box;">
+        <h2 class="m-0 fs-18 fw-700" style="color: #212121;">Daily routine</h2>
+        <span class="fs-13 fw-600 cursor-pointer" style="color: #8b5a45;">See all</span>
+    </div>
+
+    <div class="df fd-c gap-4 position-relative w-100 px-24 pb-80" style="box-sizing: border-box;">
+
+        <div class="position-absolute"
+            style="left: 36px; top: 20px; bottom: 20px; width: 0px; border-left: 2px dotted #e5e7eb; z-index: 0;"></div>
+
+        @for(item of habitsView(); track item.habit.id; let i = $index) {
+        <div class="df fd-r gap-4 ai-c w-100 position-relative z-1" style="box-sizing: border-box;"
+            (click)="toggleHabit(item.habit.id!)">
+            <!-- Complete Checkbox Circle -->
+            <div class="df ai-c jc-c cursor-pointer transition-all bg-white"
+                style="width: 24px; height: 24px; min-width: 24px; border-radius: 50%; box-sizing: border-box;"
+                [style.background-color]="item.completed ? '#f97316' : '#fff'"
+                [style.border]="item.completed ? 'none' : '2px solid #cbd5e1'">
+                @if(item.completed) {
+                <mat-icon style="font-size: 16px; width: 16px; height: 16px; color: white;">check</mat-icon>
+                }
+            </div>
+
+            <!-- Routine Card -->
+            <div class="bg-white p-16 br-16 df fd-r ai-c gap-4 w-100"
+                style="box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03); border: 1px solid rgba(0,0,0,0.02); box-sizing: border-box;"
+                [style.opacity]="item.completed ? '0.7' : '1'">
+                <!-- Habit Icon Box -->
+                <div class="df ai-c jc-c" [style.background-color]="item.habit.color + '20'"
+                    style="width: 48px; height: 48px; min-width: 48px; border-radius: 14px;">
+                    <mat-icon [style.color]="item.habit.color">{{ item.habit.icon }}</mat-icon>
+                </div>
+
+                <!-- Habit Texts -->
+                <div class="df fd-c flex-1 overflow-hidden gap-1" style="min-width: 0;">
+                    <h3 class="m-0 fs-15 fw-600 truncate text-primary" style="color: #212121;"
+                        [style.text-decoration]="item.completed ? 'line-through' : 'none'">
+                        {{ item.habit.name }}
+                    </h3>
+                    <p class="m-0 fs-12 fw-500" style="color: #a1a1aa;">{{ item.habit.description || 'Streak tracking'
+                        }}</p>
+                </div>
+
+                <!-- Details Right Side -->
+                <div class="df fd-c ai-c gap-1 pl-16 pt-4 pb-4"
+                    style="min-width: 50px; border-left: 1px solid #f4f4f5;">
+                    <mat-icon style="color: #52525b; font-size: 18px; width: 18px; height: 18px;">schedule</mat-icon>
+                    <span class="fs-11 fw-600" style="color: #a1a1aa;">15 min</span>
+                </div>
+            </div>
+        </div>
+        } @empty {
+        <div class="p-32 df fd-c ai-c jc-c gap-2 bg-white br-16 position-relative z-1 w-100"
+            style="box-shadow: 0 4px 12px rgba(0,0,0,0.03); box-sizing: border-box;">
+            <mat-icon style="font-size: 48px; width: 48px; height: 48px; color: #cbd5e1;">event_busy</mat-icon>
+            <span class="fs-14 fw-600 text-secondary">No routines for this day!</span>
+        </div>
+        }
+    </div>
+
+    <!-- Add Floating Action Button -->
+    <button mat-fab class="position-fixed"
+        style="bottom: 24px; right: 24px; background-color: #5e3023; color: white; width: 64px; height: 64px; box-shadow: 0 8px 16px rgba(94, 48, 35, 0.4); z-index: 100;"
+        routerLink="/habits">
+        <mat-icon
+            style="font-size: 32px; width: 32px; height: 32px; padding: 16px; margin: 0; box-sizing: border-box;">add</mat-icon>
+    </button>
+</div>

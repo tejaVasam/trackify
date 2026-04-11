@@ -41,6 +41,8 @@ export class HabitService {
   // Delete a habit
   async deleteHabit(id: number): Promise<void> {
     await db.habits.delete(id);
+    // Explicitly cascade delete habit history records natively tracking to this parent
+    await db.habitLogs.where('habitId').equals(id).delete(); 
     await this.loadHabits();
   }
 }

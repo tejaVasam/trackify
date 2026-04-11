@@ -1,11 +1,12 @@
 import { Component, ChangeDetectionStrategy, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BaseControl } from '../../base-control';
+import { FieldComponent } from '../field/field.component';
 
 @Component({
   selector: 'ui-input',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FieldComponent],
   templateUrl: './input.component.html',
   styleUrls: ['./input.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

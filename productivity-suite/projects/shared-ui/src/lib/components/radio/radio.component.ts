@@ -1,6 +1,7 @@
 import { Component, ChangeDetectionStrategy, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BaseControl } from '../../base-control';
+import { FieldComponent } from '../field/field.component';
 
 export interface RadioOption {
   label: string;
@@ -10,7 +11,7 @@ export interface RadioOption {
 @Component({
   selector: 'ui-radio',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FieldComponent],
   templateUrl: './radio.component.html',
   styleUrls: ['./radio.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

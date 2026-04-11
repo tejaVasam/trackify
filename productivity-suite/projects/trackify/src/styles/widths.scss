@@ -1,0 +1,14 @@
+// Generate percentage width utility classes from 1% to 100%
+@for $i from 1 through 100 {
+    .w-#{$i} {
+        width: $i * 1%;
+    }
+
+    .min-w-#{$i} {
+        min-width: $i * 1%;
+    }
+
+    .max-w-#{$i} {
+        max-width: $i * 1%;
+    }
+}

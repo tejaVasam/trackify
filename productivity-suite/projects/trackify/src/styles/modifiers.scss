@@ -1,0 +1,61 @@
+/* Global visual and state modifiers */
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.us-none {
+  user-select: none;
+}
+
+.bg-primary {
+  background-color: var(--primary-500);
+}
+
+.text-inverse {
+  color: var(--text-inverse, #ffffff);
+}
+
+.fw-400 {
+  font-weight: 400;
+}
+
+.fw-500 {
+  font-weight: 500;
+}
+
+.fw-600 {
+  font-weight: 600;
+}
+
+.fw-700 {
+  font-weight: 700;
+}
+
+.overflow-x-auto {
+  overflow-x: auto;
+}
+
+.hide-scrollbar {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.selection-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: var(--text-inverse, #ffffff);
+}
+
+.opacity-0 {
+  opacity: 0;
+}
+
+.hide-subscript {
+  .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
+}

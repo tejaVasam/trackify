@@ -1,59 +1,114 @@
-<div class="create-habit-form-container p-16">
-  <h2>Create a New Habit</h2>
-  <form [formGroup]="habitForm" (ngSubmit)="onSubmit()">
-    
-    <!-- Habit Name -->
-    <ui-input
-      formControlName="name"
-      label="Habit Name"
-      placeholder="E.g., Read a book"
-      hint="Choose an engaging name for your habit"
-      [required]="true"
-    ></ui-input>
+<div class="df fd-r ai-c jc-s pt-24 px-24 pb-8">
+  <span class="m-0 fw-700 fs-24">{{ data?.habit ? 'Edit Habit' : 'New Habit' }}</span>
+  <button mat-icon-button mat-dialog-close type="button">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
 
-    <!-- Description -->
-    <ui-input
-      formControlName="description"
-      label="Description (Optional)"
-      placeholder="Why do you want to keep this habit?"
-    ></ui-input>
+<form [formGroup]="habitForm" (ngSubmit)="onSubmit()" class="df fd-c gap-5 p-24">
+
+  <!-- Habit Name -->
+  <div class="df fd-c gap-2">
+    <span class="fs-13 fw-600 text-secondary uppercase ls-1">Habit Name</span>
+    <mat-form-field appearance="outline" class="w-100 hide-subscript m-0 p-0">
+      <input matInput formControlName="name" placeholder="e.g. Morning meditation" required>
+    </mat-form-field>
+  </div>
+
+  <!-- Description -->
+  <div class="df fd-c gap-2">
+    <span class="fs-13 fw-600 text-secondary uppercase ls-1">Description (Optional)</span>
+    <mat-form-field appearance="outline" class="w-100 hide-subscript m-0 p-0">
+      <input matInput formControlName="description" placeholder="Why is this habit important?">
+    </mat-form-field>
+  </div>
+
+  <!-- Color and Frequency row -->
+  <div class="df fd-r ai-fs gap-2 w-100">
+
+    <!-- Color Picker Matrix -->
+    <div class="df fd-c gap-8 flex-1">
+      <span class="fs-13 fw-600 text-secondary uppercase ls-1">Color</span>
+      <div class="df fd-r gap-8 flex-wrap" style="max-width: 170px;">
+        @for (color of presetColors; track color) {
+        <div class="cursor-pointer us-none" [style.background-color]="color"
+          style="width: 32px; height: 32px; min-width: 32px; border-radius: 50%; border: 3px solid #fff; transition: box-shadow 0.2s; box-sizing: border-box; flex-shrink: 0;"
+          [style.box-shadow]="habitForm.value.color === color ? '0 0 0 2px #111' : 'none'" (click)="selectColor(color)">
+        </div>
+        }
+      </div>
+    </div>
+
+    <!-- Frequency -->
+    <div class="df fd-c gap-2 flex-1">
+      <span class="fs-13 fw-600 text-secondary uppercase ls-1">Frequency</span>
+      <mat-form-field appearance="outline" class="w-100 hide-subscript m-0 p-0">
+        <mat-select formControlName="frequency" required>
+          @for (opt of frequencyOptions; track opt.value) {
+          <mat-option [value]="opt.value">{{ opt.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+  </div>
+
+  @if (habitForm.get('frequency')?.value === 1) {
+  <!-- Explicit Specific Days Selector Block -->
+  <div class="df fd-c gap-2 w-100 pt-8">
+    <span class="fs-13 fw-600 text-secondary uppercase ls-1">Select Custom Days</span>
+    <mat-form-field appearance="outline" class="w-100 hide-subscript m-0 p-0">
+      <mat-select formControlName="days" multiple required>
+        @for (day of daysOptions; track day.value) {
+        <mat-option [value]="day.value">{{ day.label }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+  }
+
+  <!-- Options Sub Row -->
+  <div class="df fd-r ai-fs gap-2 w-100 ">
 
     <!-- Icon -->
-    <ui-input
-      formControlName="icon"
-      label="Icon symbol (Optional)"
-      placeholder="E.g., 'star' or 'fitness_center'"
-    ></ui-input>
-
-    <!-- Color -->
-    <ui-input
-      formControlName="color"
-      type="text"
-      label="Color Code"
-      placeholder="#2196f3"
-    ></ui-input>
-    
-    <!-- Frequency Dropdown -->
-    <ui-dropdown
-      formControlName="frequency"
-      label="Frequency"
-      [options]="frequencyOptions"
-      [required]="true"
-    ></ui-dropdown>
-
-    <!-- Category Dropdown -->
-    <ui-dropdown
-      formControlName="category"
-      label="Category"
-      [options]="categoryOptions"
-      [required]="true"
-    ></ui-dropdown>
-
-    <!-- Submit Button -->
-    <div class="actions pt-16">
-      <ui-button type="submit" variant="primary">
-        Create Habit
-      </ui-button>
+    <div class="df fd-c gap-2 flex-1">
+      <span class="fs-13 fw-600 text-secondary uppercase ls-1">Icon</span>
+      <mat-form-field appearance="outline" class="w-100 hide-subscript m-0 p-0">
+        <mat-select formControlName="icon">
+          <mat-select-trigger>
+            <div>
+              <mat-icon>{{ habitForm.get('icon')?.value }}</mat-icon>
+            </div>
+          </mat-select-trigger>
+          @for (ic of iconOptions; track ic) {
+          <mat-option [value]="ic">
+            <div class="df ai-c gap-2">
+              <mat-icon>{{ ic }}</mat-icon>
+              <span>{{ ic }}</span>
+            </div>
+          </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
     </div>
-  </form>
-</div>
+
+    <!-- Category -->
+    <div class="df fd-c gap-2 flex-1">
+      <span class="fs-13 fw-600 text-secondary uppercase ls-1">Category</span>
+      <mat-form-field appearance="outline" class="w-100 hide-subscript m-0 p-0">
+        <mat-select formControlName="category" required>
+          @for (opt of categoryOptions(); track opt.id) {
+          <mat-option [value]="opt.id">{{ opt.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+  </div>
+
+  <!-- Submit Action Button -->
+  <button mat-flat-button color="primary" type="submit" class="w-100 br-8 fw-600 mt-24"
+    style="padding: 24px 0; font-size: 16px; background-color: #20B2AA;">
+    {{ data?.habit ? 'Save Changes' : 'Create Habit' }}
+  </button>
+</form>

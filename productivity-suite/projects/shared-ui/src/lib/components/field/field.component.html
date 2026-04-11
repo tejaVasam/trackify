@@ -1,0 +1,30 @@
+<div class="form-field-wrapper df fd-c gap-1">
+  @if (variant() === 'default') {
+    <div class="form-field-filled" [class.has-error]="hasError()">
+      @if (label()) {
+        <label [for]="forId()" class="form-label-small">
+          {{ label() }}
+          @if (required()) { <span class="text-error">*</span> }
+        </label>
+      }
+      <ng-content></ng-content>
+    </div>
+  } @else {
+    <div class="df fd-c gap-1">
+      @if (label()) {
+        <label class="form-label-standard">
+          {{ label() }}
+          @if (required()) { <span class="text-error">*</span> }
+        </label>
+      }
+      <ng-content></ng-content>
+    </div>
+  }
+  
+  @if (hint() && !hasError()) {
+    <span class="form-hint-text">{{ hint() }}</span>
+  }
+  @if (hasError()) {
+    <span class="form-error-text">This field is invalid</span>
+  }
+</div>
