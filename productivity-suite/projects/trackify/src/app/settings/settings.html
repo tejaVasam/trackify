@@ -1,0 +1,25 @@
+<div class="p-24 df fd-c gap-6 font-inter settings-elm-1" >
+      <div class="df fd-c gap-1">
+        <h1 class="m-0 fs-28 fw-700 text-primary settings-elm-2" >Settings</h1>
+        <p class="m-0 fs-14 fw-500 settings-elm-3" >Manage your application data and preferences</p>
+      </div>
+
+      <div class="bg-white br-16 p-24 df fd-c gap-4 w-100 settings-elm-4" >
+        <div class="df fd-c gap-2 mb-8">
+            <h2 class="m-0 fs-18 fw-700 text-warn">Danger Zone</h2>
+            <p class="m-0 fs-14 text-secondary">Irreversible destructive actions against your device's local database.</p>
+        </div>
+        
+        <div class="df fd-c gap-4">
+           <div class="df fd-r jc-sb ai-c p-20 br-8 b-1-solid settings-elm-5" >
+              <div class="df fd-c gap-1">
+                 <span class="fs-16 fw-700 settings-elm-6" >Wipe Tracking Data</span>
+                 <span class="fs-13 fw-500 settings-elm-7" >Permanently delete all habits, logs, categories, and your profile.</span>
+              </div>
+              <button mat-flat-button color="warn" class="fw-700" (click)="clearAllData()">
+                 <mat-icon class="mr-4">delete_forever</mat-icon> Erase All Native Data
+              </button>
+           </div>
+        </div>
+      </div>
+    </div>

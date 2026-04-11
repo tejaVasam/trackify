@@ -1,2 +1,209 @@
-<p>dashboard works!</p>
-<button routerLink="lib-preview">go to preview</button>
+<div class="p-24 df fd-c gap-6 font-inter dash-elm-1" >
+      <!-- Welcome Message / Onboarding Prompt -->
+      @if (stats().showWelcome) {
+        <div class="w-100 br-24 p-24 mb-16 animate-fade-in" 
+             class="dash-elm-2">
+          <div class="df fd-r ai-c gap-4">
+            <div class="df ai-c jc-c br-pill bg-white dash-elm-3" >
+                <mat-icon class="dash-elm-4">celebration</mat-icon>
+            </div>
+            <div class="df fd-c gap-1">
+                <h2 class="m-0 fs-22 fw-800">Welcome to Trackify, {{ activeUser()?.name }}!</h2>
+                <p class="m-0 fs-14 fw-500 dash-elm-5" >Ready to build some life-changing habits?</p>
+            </div>
+          </div>
+          
+          @if (stats().noCategories) {
+            <div class="mt-20 p-16 br-16 dash-elm-6" >
+                <div class="df fd-r ai-c jc-sb flex-wrap gap-4">
+                    <div class="df fd-c gap-1">
+                        <span class="fs-15 fw-700">First Step: Create a Category</span>
+                        <span class="fs-13 fw-500 dash-elm-7" >Categories like 'Health' or 'Work' help you stay organized.</span>
+                    </div>
+                    <button routerLink="/categories" mat-flat-button class="br-12 fw-700 px-20" 
+                            class="dash-elm-8">
+                        Setup Categories
+                    </button>
+                </div>
+            </div>
+          }
+        </div>
+      }
+
+      <!-- Header block -->
+
+      <div class="df fd-r jc-sb ai-c">
+         <div class="df fd-c gap-1">
+           <h1 class="m-0 fs-28 fw-700 text-primary dash-elm-9" >
+              {{ activeUser() ? 'Hello, ' + activeUser()!.name + '!' : 'Your Dashboard' }}
+           </h1>
+           <p class="m-0 fs-14 fw-500 dash-elm-10" >See your progress and stay motivated</p>
+         </div>
+      </div>
+
+      <!-- 1. Smart Progress Card (Hero) -->
+      <div class="w-100 br-24 p-24 position-relative overflow-hidden" 
+           class="dash-elm-11">
+        
+
+        <div class="df fd-r gap-8 ai-c position-relative z-1 flex-wrap">
+          <!-- Circular Progress -->
+          <div class="df ai-c jc-c position-relative dash-elm-12" >
+            <svg viewBox="0 0 36 36" class="dash-elm-13">
+              <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                    fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="3" />
+              <path [attr.stroke-dasharray]="stats().todayPercentage + ', 100'"
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                    fill="none" stroke="var(--success-default)" stroke-width="3" stroke-linecap="round" 
+                    class="dash-elm-14" />
+            </svg>
+            <div class="df fd-c ai-c position-absolute">
+                <span class="fs-22 fw-800">{{ stats().todayPercentage }}%</span>
+                <span class="fs-10 fw-600 uppercase ls-1 dash-elm-15" >Today</span>
+            </div>
+          </div>
+          
+          <!-- Insight Content -->
+          <div class="df fd-c gap-3 flex-1 dash-elm-16" >
+            <div class="df ai-c gap-2">
+                <mat-icon class="fs-18 dash-elm-17" >auto_awesome</mat-icon>
+                <span class="fs-12 fw-700 uppercase ls-1 dash-elm-18" >Smart Insight</span>
+            </div>
+            <p class="m-0 fs-16 fw-600 dash-elm-19" >
+                {{ stats().insightMessage }}
+            </p>
+            @if (stats().insightHabitId) {
+                <button (click)="quickLog(stats().insightHabitId!)" 
+                        class="df ai-c jc-c gap-2 mt-2 px-16 py-8 br-12 border-none cursor-pointer hover-lift"
+                        class="dash-elm-20">
+                    <mat-icon class="dash-elm-21">check_circle</mat-icon>
+                    <span class="fs-13 fw-700">Quick Log</span>
+                </button>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="df fd-r gap-4 w-100">
+        <!-- Streak Card -->
+        <div class="df fd-c gap-4 p-20 br-16 bg-white flex-1 dash-elm-22" >
+          <div class="df jc-sb ai-c">
+            <span class="fs-14 fw-700 uppercase ls-1 dash-elm-23" >Streak</span>
+            <div class="br-pill px-8 py-4 df ai-c gap-1 dash-elm-24" >
+               <mat-icon class="dash-elm-25">local_fire_department</mat-icon>
+               <span class="fs-11 fw-700">{{ stats().platformStreak }}d</span>
+            </div>
+          </div>
+          <div class="df fd-r gap-2 ai-fe">
+            <span class="fs-28 fw-800 dash-elm-26" >{{ stats().platformStreak }}</span>
+            <span class="fs-13 fw-500 mb-1 dash-elm-27" >days total</span>
+          </div>
+        </div>
+
+        <!-- Completion Card -->
+        <div class="df fd-c gap-4 p-20 br-16 bg-white flex-1 dash-elm-28" >
+           <div class="df jc-sb ai-c">
+            <span class="fs-14 fw-700 uppercase ls-1 dash-elm-29" >Consistency</span>
+            <mat-icon class="dash-elm-30">insights</mat-icon>
+          </div>
+          <div class="df fd-r gap-2 ai-fe">
+            <span class="fs-28 fw-800 dash-elm-31" >{{ stats().completionRate7Days }}%</span>
+            <span class="fs-13 fw-500 mb-1 dash-elm-32" >7 day avg</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Activity Heat Chart -->
+      <div class="bg-white p-24 br-16 w-100 dash-elm-33" >
+        <div class="df fd-r ai-c jc-sb flex-wrap gap-4 mb-16">
+            <h2 class="m-0 fs-18 fw-700 dash-elm-34" >Activity Volume</h2>
+            <span class="fs-12 fw-600 text-secondary ls-1 ml-auto">PAST 7 DAYS</span>
+        </div>
+        <div class="w-100 position-relative dash-elm-35" >
+           <canvas baseChart [data]="chartDataConfiguration()" [options]="chartOptions()" type="bar"></canvas>
+        </div>
+      </div>
+
+      <!-- 4. Interactive Weekly Grid -->
+      <div class="bg-white p-24 br-16 w-100 dash-elm-36" >
+        <div class="df fd-r ai-c jc-sb flex-wrap gap-4 mb-20">
+            <h2 class="m-0 fs-18 fw-700 dash-elm-37" >Weekly Tracker</h2>
+            <span class="fs-12 fw-600 text-secondary ls-1 ml-auto">PAST 7 DAYS</span>
+        </div>
+        
+        <div class="overflow-x-auto w-100 hide-scrollbar">
+            <div class="df fd-c gap-4 dash-elm-38" >
+                <!-- Header Row -->
+                <div class="df fd-r ai-c py-4 dash-elm-39" >
+                    <div class="dash-elm-40"></div>
+                    @for (day of weeklyGraph(); track day.dateLabel) {
+                        <div class="df jc-c dash-elm-41" >
+                            <span class="fs-11 fw-700 text-secondary uppercase ls-1 dash-elm-42" >{{ day.dateLabel }}</span>
+                        </div>
+                    }
+                </div>
+
+                <!-- Habit Rows -->
+                @for (entry of weeklyMatrix(); track entry.habitId) {
+                    <div class="df fd-r ai-c py-12 dash-elm-43" >
+                        <div class="df fd-r ai-c gap-3 overflow-hidden dash-elm-44" >
+                            <span class="fs-13 fw-600 truncate text-primary">{{ entry.name }}</span>
+                        </div>
+                        @for (day of entry.days; track day.dateStr) {
+                            <div class="df jc-c dash-elm-45" >
+                                <div (click)="toggleGridHabit(entry.habitId, day.dateStr)" 
+                                     class="df ai-c jc-c cursor-pointer transition-all"
+                                     class="dash-elm-46">
+                                     
+                                     @if (day.status === 'completed') {
+                                        <div class="df ai-c jc-c br-pill bg-success dash-elm-47" >
+                                            <mat-icon class="dash-elm-48">check</mat-icon>
+                                        </div>
+                                     } @else if (day.status === 'missed') {
+                                        <div class="df ai-c jc-c br-pill dash-elm-49" >
+                                            <mat-icon class="dash-elm-50">close</mat-icon>
+                                        </div>
+                                     } @else {
+                                        <div class="br-pill dash-elm-51" ></div>
+                                     }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+      </div>
+
+      <!-- 5. Secondary Insights -->
+      <div class="df fd-r flex-wrap gap-4 w-100 pb-24">
+        <!-- Top Habit -->
+        <div class="bg-white br-16 p-20 flex-1 df fd-r ai-c gap-4 dash-elm-52" >
+            <div class="df ai-c jc-c br-pill text-white dash-elm-53" >
+              <mat-icon class="dash-elm-54">military_tech</mat-icon>
+            </div>
+            <div class="df fd-c overflow-hidden">
+              <span class="fs-11 fw-700 text-secondary uppercase ls-1">Record Habit</span>
+              <span class="fs-15 fw-700 truncate dash-elm-55" >{{ stats().topHabitName }}</span>
+            </div>
+            <span class="ml-auto fs-16 fw-800 dash-elm-56" >{{ stats().topHabitScore }}x</span>
+        </div>
+
+        <!-- Missed Habits -->
+        <div class="bg-white br-16 p-20 flex-1 df fd-r ai-c gap-4 dash-elm-57" >
+            <div class="df ai-c jc-c br-pill text-white dash-elm-58" >
+              <mat-icon class="dash-elm-59">error_outline</mat-icon>
+            </div>
+            <div class="df fd-c overflow-hidden">
+              <span class="fs-11 fw-700 text-secondary uppercase ls-1">Pending Today</span>
+              @if (stats().missedHabits.length > 0) {
+                <span class="fs-14 fw-600 truncate dash-elm-60" >
+                  {{ stats().missedHabits.join(', ') }}
+                </span>
+              } @else {
+                <span class="fs-14 fw-600 dash-elm-61" >Perfect Day in progress!</span>
+              }
+            </div>
+        </div>
+      </div>
+    </div>

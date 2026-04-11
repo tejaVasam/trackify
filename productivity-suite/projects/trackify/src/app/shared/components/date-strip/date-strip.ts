@@ -14,35 +14,8 @@ interface DateObj {
   selector: 't-date-strip',
   standalone: true,
   imports: [TitleCasePipe, MatIconModule, MatButtonModule],
-  template: `
-    <div class="df fd-r ai-c gap-1 w-100 px-24 pb-24" style="box-sizing: border-box;">
-      <button mat-icon-button (click)="shiftDays(-7)" style="color: #a1a1aa; flex-shrink: 0;" aria-label="Previous week">
-        <mat-icon>chevron_left</mat-icon>
-      </button>
-
-      <!-- Horizontal scrolling date strip -->
-      <div class="df fd-r jc-sb ai-c w-100 overflow-x-auto hide-scrollbar scroll-smooth">
-        @for(day of dateStrip(); track day.dateStr) {
-          <div class="df fd-c ai-c gap-2 cursor-pointer" (click)="onSelectDate(day.dateStr)" style="min-width: 48px;">
-              <span class="fs-12 fw-600 transition-all" [style.color]="day.dateStr === activeDate() ? '#212121' : '#a1a1aa'">
-                  {{ day.dayName | titlecase }}
-              </span>
-              <div class="df ai-c jc-c br-pill fw-600 fs-16 transition-all"
-                  style="width: 48px; height: 48px; box-sizing: border-box;"
-                  [style.background-color]="day.dateStr === activeDate() ? '#2f343b' : 'transparent'"
-                  [style.color]="day.dateStr === activeDate() ? '#ffffff' : '#212121'"
-                  [style.box-shadow]="day.dateStr === activeDate() ? '0 8px 16px rgba(47, 52, 59, 0.3)' : 'none'">
-                  {{ day.dayNumber }}
-              </div>
-          </div>
-        }
-      </div>
-
-      <button mat-icon-button (click)="shiftDays(7)" style="color: #a1a1aa; flex-shrink: 0;" aria-label="Next week">
-        <mat-icon>chevron_right</mat-icon>
-      </button>
-    </div>
-  `
+  templateUrl: './date-strip.html',
+  styleUrl: './date-strip.scss'
 })
 export class DateStripComponent implements OnInit {
   activeDate = input.required<string>(); // The currently selected date

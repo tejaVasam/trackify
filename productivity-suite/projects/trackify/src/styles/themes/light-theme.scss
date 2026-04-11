@@ -23,6 +23,27 @@
   --text-on-warning: #ffffff;
   --text-on-error: #ffffff;
 
+  // Semantic / Status
+  --success-default: var(--success-500);
+  --success-strong: var(--success-600);
+  --success-light: var(--success-100);
+  --success-soft: var(--success-50);
+
+  --warning-default: var(--warning-500);
+  --warning-strong: var(--warning-600);
+  --warning-light: var(--warning-100);
+  --warning-soft: var(--warning-50);
+
+  --error-default: var(--error-500);
+  --error-strong: var(--error-600);
+  --error-light: var(--error-100);
+  --error-soft: var(--error-50);
+
+  --info-default: var(--info-500);
+  --info-strong: var(--info-600);
+  --info-light: var(--info-100);
+  --info-soft: var(--info-50);
+
   // Action
   --action-primary-default: var(--primary-500);
   --action-primary-hover: var(--primary-600);

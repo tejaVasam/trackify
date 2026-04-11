@@ -1,13 +1,13 @@
-<mat-sidenav-container style="height: 100vh;">
+<mat-sidenav-container class="app-elm-1">
   <!-- Sidenav specific sidebar definition -->
-  <mat-sidenav [opened]="isSidenavOpened()" [mode]="isMobile() ? 'over' : 'side'" [autoFocus]="false" style="width: 260px; box-shadow: 2px 0 6px rgb(0 0 0 / 10%);">
-    <div class="df fd-c h-100" style="height: 100%;">
-      <div class="p-16 df ai-c gap-8" style="height: 64px; box-sizing: border-box;">
+  <mat-sidenav [opened]="isSidenavOpened()" [mode]="isMobile() ? 'over' : 'side'" [autoFocus]="false" class="app-elm-2">
+    <div class="df fd-c h-100 app-elm-3" >
+      <div class="p-16 df ai-c gap-8 app-elm-4" >
         <mat-icon color="primary" class="fs-24">track_changes</mat-icon>
-        <span class="fs-20" style="font-weight: 500;">Trackify</span>
+        <span class="fs-20 app-elm-5" >Trackify</span>
       </div>
       
-      <mat-nav-list style="flex: 1;">
+      <mat-nav-list class="app-elm-6">
         <a mat-list-item routerLink="/dashboard" routerLinkActive="active" (click)="closeOnMobile()">
           <mat-icon matListItemIcon>dashboard</mat-icon>
           <span matListItemTitle>Dashboard</span>
@@ -36,12 +36,12 @@
   </mat-sidenav>
 
   <!-- Interactive primary focus UI container -->
-  <mat-sidenav-content style="background-color: var(--background-alt);">
-    <mat-toolbar color="primary" style="box-shadow: 0 2px 6px rgb(0 0 0 / 15%); z-index: 10; position: relative;">
+  <mat-sidenav-content class="app-elm-7">
+    <mat-toolbar color="primary" class="app-elm-8">
       <button mat-icon-button (click)="toggleSidenav()" aria-label="Toggle sidenav">
         <mat-icon>menu</mat-icon>
       </button>
-      <span class="fs-20" style="font-weight: 400;">{{ title() }}</span>
+      <span class="fs-20 app-elm-9" >{{ title() }}</span>
       <span class="flex-1"></span>
       
       @if (activeUser()?.avatar) {
@@ -50,15 +50,15 @@
                <mat-icon>{{ themeService.isDarkMode() ? 'light_mode' : 'dark_mode' }}</mat-icon>
             </button>
             <span class="fs-14 fw-600 hide-on-mobile">{{ activeUser()?.name }}</span>
-            <div style="width: 36px; height: 36px; min-width: 36px; min-height: 36px; border-radius: 50%; overflow: hidden; border: 2px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center;">
-                <img [src]="activeUser()?.avatar" style="width: 100%; height: 100%; object-fit: cover;" alt="avatar">
+            <div class="app-elm-10">
+                <img [src]="activeUser()?.avatar" class="app-elm-11" alt="avatar">
             </div>
         </div>
       }
     </mat-toolbar>
     
-    <div class="app-router-wrapper" style="height: calc(100vh - 64px); overflow-y: auto;">
-      <div style="max-width: 1200px; margin: 0 auto;">
+    <div class="app-router-wrapper app-elm-12" >
+      <div class="app-elm-13">
         <router-outlet></router-outlet>
       </div>
     </div>

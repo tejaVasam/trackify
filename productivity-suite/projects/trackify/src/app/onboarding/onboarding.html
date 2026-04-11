@@ -1,0 +1,59 @@
+<div class="df fd-c ai-c jc-c min-vh-100 onboarding-elm-1" >
+      
+      <div class="bg-white br-24 df fd-c gap-8 w-100 onboarding-elm-2" >
+        
+        <div class="df fd-c ai-c text-center gap-4 mb-24">
+           <div class="df ai-c jc-c br-pill text-white mb-8 onboarding-elm-3" >
+               <mat-icon class="onboarding-elm-4">rocket_launch</mat-icon>
+           </div>
+           <h1 class="m-0 fs-28 fw-800 text-primary">Welcome to Trackify!</h1>
+           <p class="m-0 fs-16 fw-500 text-secondary">Let's set up your profile to get started.</p>
+        </div>
+
+        <form [formGroup]="onboardForm" (ngSubmit)="onSubmit()" class="df fd-c gap-4 w-100">
+           
+           <!-- Setup Avatar Upload -->
+           <div class="df fd-c ai-c gap-2 mb-16 position-relative w-100">
+             <div class="bg-white overflow-hidden cursor-pointer" 
+                  class="onboarding-elm-5"
+                  (click)="fileInput.click()">
+                 @if (previewBase64) {
+                   <img [src]="previewBase64" class="onboarding-elm-6" alt="avatar-preview">
+                 } @else {
+                   <mat-icon class="onboarding-elm-7">add_a_photo</mat-icon>
+                 }
+                 <input #fileInput type="file" accept="image/*" capture="user" (change)="onFileSelected($event)" class="onboarding-elm-8">
+             </div>
+             <span class="fs-12 fw-600 text-secondary text-center">Upload Photo (Optional)</span>
+           </div>
+
+           <div class="df fd-c gap-2 w-100">
+              <span class="fs-13 fw-700 text-primary uppercase ls-1">Your Name</span>
+              <mat-form-field appearance="outline" class="w-100 hide-subscript">
+                  <input matInput formControlName="name" placeholder="E.g. Alex" required>
+              </mat-form-field>
+           </div>
+           
+           <div class="df fd-c gap-2 w-100">
+              <span class="fs-13 fw-700 text-primary uppercase ls-1">Gender</span>
+              <mat-form-field appearance="outline" class="w-100 hide-subscript">
+                  <mat-select formControlName="gender" required>
+                      <mat-option value="male">Male</mat-option>
+                      <mat-option value="female">Female</mat-option>
+                      <mat-option value="other">Prefer not to say</mat-option>
+                  </mat-select>
+              </mat-form-field>
+           </div>
+
+           <button mat-flat-button class="w-100 py-24 fw-800 br-12 mt-16 transition-all" 
+                   type="submit"
+                   class="onboarding-elm-9"
+                   [disabled]="!onboardForm.valid">
+               <span class="fs-16">Get Started</span>
+               <mat-icon class="ml-8 onboarding-elm-10" >arrow_forward</mat-icon>
+           </button>
+           
+        </form>
+
+      </div>
+    </div>

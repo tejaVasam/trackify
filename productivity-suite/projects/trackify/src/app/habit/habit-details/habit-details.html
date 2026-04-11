@@ -1,0 +1,201 @@
+<div class="df fd-c w-100 font-inter habit-details-elm-1" >
+
+      
+      <!-- 1. Header Navigation -->
+      <div class="df fd-r jc-sb ai-c p-20 w-100 sticky top-0 bg-white habit-details-elm-2" >
+        <div class="df fd-r gap-3 ai-c">
+          <button mat-icon-button (click)="goBack()" class="habit-details-elm-3">
+            <mat-icon class="habit-details-elm-4">arrow_back</mat-icon>
+          </button>
+          <div class="df fd-c">
+            <span class="fs-12 fw-600 text-secondary uppercase ls-1">Habit Details</span>
+            <span class="fs-18 fw-800 truncate text-primary habit-details-elm-5" >{{ habit()?.name || 'Loading...' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-24 df fd-c gap-6">
+
+        <!-- 2. Habit Summary Card -->
+        @if (habit()) {
+          <div class="bg-white br-24 p-24 df fd-c gap-4 w-100 position-relative habit-details-elm-6" >
+            <div class="habit-details-elm-7" [style.background]="'radial-gradient(circle, ' + habit()?.color + '20 0%, transparent 60%)'"></div>
+
+            
+            <div class="df fd-r ai-fs jc-sb position-relative z-1 habit-details-elm-8" >
+              <div class="df fd-r ai-c gap-4">
+                <div class="df ai-c jc-c br-16 text-white habit-details-elm-9" [style.background-color]="habit()?.color" [style.box-shadow]="'0 8px 16px -4px ' + habit()?.color + '60'">
+                    <mat-icon class="habit-details-elm-10">{{ habit()?.icon }}</mat-icon>
+                </div>
+                <div class="df fd-c flex-1 overflow-hidden">
+                    <h1 class="m-0 fs-22 fw-800 text-primary truncate">{{ habit()?.name }}</h1>
+                    <span class="fs-14 fw-500 text-secondary">{{ habit()?.description || 'Build consistency every day.' }}</span>
+                </div>
+              </div>
+              <div class="df fd-r gap-1">
+                <button mat-icon-button (click)="shiftMonth(0)" class="habit-details-elm-11 habit-details-elm-12"><mat-icon >edit</mat-icon></button>
+                <button mat-icon-button color="warn"><mat-icon class="habit-details-elm-13">delete_outline</mat-icon></button>
+              </div>
+            </div>
+            
+            <div class="mt-12 pt-20 df fd-r jc-sb ai-c gap-4 flex-wrap habit-details-elm-14" >
+               <div class="df fd-r ai-c gap-2 flex-wrap">
+                   <div class="px-10 py-4 br-8 fs-11 fw-700 uppercase ls-1" [style.background-color]="habit()?.color + '15'" [style.color]="habit()?.color">
+                       {{ habit()?.frequency === 0 ? 'Daily' : 'Weekly' }}
+                   </div>
+                   <span class="fs-13 fw-600 text-secondary">Active monitoring</span>
+               </div>
+               <div class="df fd-r ai-c gap-1">
+                   <span class="fs-12 fw-700 text-secondary">Target:</span>
+                   <span class="fs-13 fw-800 text-primary">100% Consistency</span>
+               </div>
+            </div>
+          </div>
+        }
+
+        <!-- 3. Streak & Key Stats Grid -->
+        <div class="df fd-r flex-wrap gap-4 w-100">
+          <div class="bg-white br-20 p-20 flex-1 df fd-c gap-2 min-w-140 habit-details-elm-15" >
+            <div class="df ai-c jc-c br-10 mb-8 habit-details-elm-16" >
+                <mat-icon class="habit-details-elm-17">local_fire_department</mat-icon>
+            </div>
+            <span class="fs-11 fw-700 text-secondary uppercase ls-1">Current</span>
+            <span class="fs-24 fw-900 text-primary">{{ currentStreak() }}</span>
+          </div>
+
+          <div class="bg-white br-20 p-20 flex-1 df fd-c gap-2 min-w-140 habit-details-elm-18" >
+            <div class="df ai-c jc-c br-10 mb-8 habit-details-elm-19" >
+                <mat-icon class="habit-details-elm-20">emoji_events</mat-icon>
+            </div>
+            <span class="fs-11 fw-700 text-secondary uppercase ls-1">Record</span>
+            <span class="fs-24 fw-900 text-primary">{{ bestStreak() }}</span>
+          </div>
+
+          <div class="bg-white br-20 p-20 flex-1 df fd-c gap-2 min-w-140 habit-details-elm-21" >
+            <div class="df ai-c jc-c br-10 mb-8 habit-details-elm-22" >
+                <mat-icon class="habit-details-elm-23">task_alt</mat-icon>
+            </div>
+            <span class="fs-11 fw-700 text-secondary uppercase ls-1">Success</span>
+            <span class="fs-24 fw-900" [style.color]="getSuccessRateColor()">{{ monthlySuccessRate() }}%</span>
+          </div>
+
+          <div class="bg-white br-20 p-20 flex-1 df fd-c gap-2 min-w-140 habit-details-elm-24" >
+            <div class="df ai-c jc-c br-10 mb-8 habit-details-elm-25" >
+                <mat-icon class="habit-details-elm-26">done_all</mat-icon>
+            </div>
+            <span class="fs-11 fw-700 text-secondary uppercase ls-1">Total</span>
+            <span class="fs-24 fw-900 text-primary">{{ totalCompletions() }}</span>
+          </div>
+        </div>
+
+        <!-- 4. Calendar View Heatmap -->
+        <div class="bg-white br-24 p-24 w-100 df fd-c gap-6 mt-12 habit-details-elm-27" >
+          <div class="df fd-r jc-sb ai-c mb-20">
+            <div class="df fd-c">
+                <span class="fs-13 fw-700 text-secondary uppercase ls-1">Consistency Map</span>
+                <span class="fs-20 fw-800 text-primary">{{ activeMonthDisplay() }}</span>
+            </div>
+            <div class="df fd-r gap-2 habit-details-elm-28" >
+              <button mat-icon-button (click)="shiftMonth(-1)" class="habit-details-elm-29">
+                <mat-icon class="habit-details-elm-30">chevron_left</mat-icon>
+              </button>
+               <button mat-icon-button (click)="shiftMonth(1)" class="habit-details-elm-31">
+                <mat-icon class="habit-details-elm-32">chevron_right</mat-icon>
+              </button>
+            </div>
+          </div>
+
+          <!-- Weekday Headers -->
+          <div class="df fd-r w-100 mb-8 habit-details-elm-33" >
+            @for (day of ['S', 'M', 'T', 'W', 'T', 'F', 'S']; track $index) {
+              <div class="text-center fs-11 fw-800 habit-details-elm-34" >{{ day }}</div>
+            }
+          </div>
+
+          <!-- Calendar Grid -->
+          <div class="df fd-r flex-wrap w-100 gap-y-1">
+             @for (blank of emptyDaysPrefix(); track $index) {
+               <div class="habit-details-elm-35"></div>
+             }
+             @for (cell of calendarDays(); track cell.dateStr) {
+               <div class="df ai-c jc-c position-relative habit-details-elm-36" >
+                  <button class="br-12 border-none df fd-c ai-c jc-c fw-700 fs-15 cursor-pointer transition-all"
+                          [style.width]="'40px'"
+                          [style.height]="'40px'"
+                          [style.background-color]="getCellBg(cell)"
+                          [style.color]="getCellColor(cell)"
+                          [style.opacity]="cell.isInFuture ? '0.3' : '1'"
+                          [style.border]="cell.isToday ? '2px solid var(--text-primary)' : 'none'"
+                          [disabled]="cell.isInFuture || !cell.isConfiguredDay"
+                          (click)="onDateClick(cell)">
+                    {{ cell.dayNum }}
+                    
+                    @if (cell.note) {
+                        <div class="position-absolute habit-details-elm-37" ></div>
+                    }
+                  </button>
+               </div>
+             }
+          </div>
+
+          <!-- Legend -->
+          <div class="df fd-r jc-c gap-4 mt-20 pt-20 habit-details-elm-38" >
+              <div class="df ai-c gap-1">
+                  <div class="br-4 habit-details-elm-39" ></div>
+                  <span class="fs-11 fw-600 text-secondary">Done</span>
+              </div>
+              <div class="df ai-c gap-1 ml-4">
+                  <div class="br-4 habit-details-elm-40" ></div>
+                  <span class="fs-11 fw-600 text-secondary">Missed</span>
+              </div>
+              <div class="df ai-c gap-1 ml-4">
+                  <div class="br-4 habit-details-elm-41" ></div>
+                  <span class="fs-11 fw-600 text-secondary">Locked</span>
+              </div>
+          </div>
+        </div>
+
+        <!-- 5. Trends & Reports Chart -->
+        <div class="bg-white br-24 p-24 w-100 df fd-c gap-6 mt-12 habit-details-elm-42" >
+           <div class="df fd-r jc-sb ai-c mb-8">
+              <span class="fs-18 fw-800 text-primary">Trends</span>
+           </div>
+
+           <!-- Switcher -->
+           <mat-tab-group [selectedIndex]="0" (selectedIndexChange)="onTabChange($event)" fitInkBarToContent class="habit-details-elm-43">
+              <mat-tab label="Weekly"></mat-tab>
+              <mat-tab label="Monthly"></mat-tab>
+              <mat-tab label="Yearly"></mat-tab>
+           </mat-tab-group>
+
+           <!-- Chart Rendering -->
+           <div class="w-100 mt-16 position-relative habit-details-elm-44" >
+              <canvas baseChart
+                  [data]="chartDataConfiguration()"
+                  [options]="chartOptions()"
+                  type="line">
+              </canvas>
+           </div>
+        </div>
+      </div>
+
+      <!-- 6. Today Action Section (Sticky Bottom) -->
+      @if(habit() && isTodayConfigured()) {
+      <div class="p-24 w-100 bg-white b-t-1-solid position-fixed habit-details-elm-45" >
+        <button mat-flat-button class="w-100 py-32 fw-800 br-16 transition-all" 
+                [style.background-color]="isDoneToday() ? '#f0fdf4' : habit()?.color"
+                [style.color]="isDoneToday() ? 'var(--success-default)' : 'white'"
+                [style.border]="isDoneToday() ? '2px solid var(--success-default)' : 'none'"
+                (click)="toggleToday()">
+           <div class="df ai-c jc-c gap-3">
+               <mat-icon class="habit-details-elm-46">{{ isDoneToday() ? 'task_alt' : 'check_circle' }}</mat-icon>
+               <span class="fs-17">{{ isDoneToday() ? 'Marked as Done!' : 'Mark Today as Done' }}</span>
+           </div>
+        </button>
+      </div>
+      }
+      
+      <!-- Padding box pushing past fixed sticky bottom -->
+      <div class="habit-details-elm-47"></div>
+
+    </div>

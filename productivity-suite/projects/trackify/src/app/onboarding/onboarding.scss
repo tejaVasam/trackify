@@ -1,0 +1,66 @@
+.onboarding-elm-1 {
+  background-color: #f7f3f0;
+  padding: 24px;
+}
+
+.onboarding-elm-2 {
+  max-width: 400px;
+  padding: 32px;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.05);
+  padding-bottom: 48px;
+}
+
+.onboarding-elm-3 {
+  background: linear-gradient(135deg, var(--success-default), var(--primary-500));
+  width: 80px;
+  height: 80px;
+}
+
+.onboarding-elm-4 {
+  font-size: 36px;
+  width: 36px;
+  height: 36px;
+}
+
+.onboarding-elm-5 {
+  width: 100px;
+  height: 100px;
+  min-width: 100px;
+  min-height: 100px;
+  max-width: 100px;
+  max-height: 100px;
+  border-radius: 50%;
+  border: 3px dashed var(--success-default);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.onboarding-elm-6 {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.onboarding-elm-7 {
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+  color: var(--success-default);
+}
+
+.onboarding-elm-8 {
+  display: none;
+}
+
+.onboarding-elm-9 {
+  background-color: var(--success-default);
+  color: white;
+}
+
+.onboarding-elm-10 {
+  font-size: 20px;
+}

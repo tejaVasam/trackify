@@ -64,7 +64,7 @@ export class CreateHabit implements OnInit {
   ];
 
   presetColors = [
-    '#3b82f6', '#4ade80', '#c084fc', '#fba94c',
+    'var(--primary-500)', '#4ade80', '#c084fc', '#fba94c',
     '#f472b6', '#5eead4', '#f87171', '#fcd34d'
   ];
 
@@ -72,7 +72,7 @@ export class CreateHabit implements OnInit {
     name: ['', Validators.required],
     description: [''],
     icon: ['star'],
-    color: ['#3b82f6'],
+    color: ['var(--primary-500)'],
     frequency: [HabitFrequency.Daily, Validators.required],
     days: [[] as number[]],
     category: [1, Validators.required],
@@ -135,7 +135,7 @@ export class CreateHabit implements OnInit {
       name: val.name!,
       description: val.description || '',
       icon: val.icon || 'star',
-      color: val.color || '#3b82f6',
+      color: val.color || 'var(--primary-500)',
       frequency: targetFrequency,
       days: targetFrequency === HabitFrequency.Weekly ? (val.days as number[]) : [],
       category: targetCategory,

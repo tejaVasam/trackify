@@ -1,11 +1,11 @@
 <div class="df fd-c w-100"
-    style="background-color: var(--background-default); min-height: 100%; position: relative; font-family: 'Inter', sans-serif;">
+    class="today-elm-1">
 
     <!-- Header -->
     <div class="df fd-r jc-sb ai-c w-100 p-24 pb-16">
         <div class="df fd-c gap-2">
-            <h1 class="m-0 fs-28 fw-700" style="color: var(--text-primary); letter-spacing: -0.5px;">Morning, Budi</h1>
-            <span class="fs-13 fw-500 text-secondary" style="color: #6b7280;">{{ activeDateDisplay() }}</span>
+            <h1 class="m-0 fs-28 fw-700 today-elm-2" >Morning, Budi</h1>
+            <span class="fs-13 fw-500 text-secondary today-elm-3" >{{ activeDateDisplay() }}</span>
         </div>
 
     </div>
@@ -18,55 +18,55 @@
 
 
     <!-- Daily Routine Section -->
-    <div class="df fd-r jc-sb ai-c w-100 px-24 mb-16" style="box-sizing: border-box;">
-        <h2 class="m-0 fs-18 fw-700" style="color: var(--text-primary);">Daily routine</h2>
-        <span class="fs-13 fw-600 cursor-pointer" style="color: #8b5a45;">See all</span>
+    <div class="df fd-r jc-sb ai-c w-100 px-24 mb-16 today-elm-4" >
+        <h2 class="m-0 fs-18 fw-700 today-elm-5" >Daily routine</h2>
+        <span class="fs-13 fw-600 cursor-pointer today-elm-6" >See all</span>
     </div>
 
-    <div class="df fd-c gap-4 position-relative w-100 px-24 pb-80" style="box-sizing: border-box;">
+    <div class="df fd-c gap-4 position-relative w-100 px-24 pb-80 today-elm-7" >
 
         <div class="position-absolute"
-            style="left: 36px; top: 20px; bottom: 20px; width: 0px; border-left: 2px dotted #e5e7eb; z-index: 0;"></div>
+            class="today-elm-8"></div>
 
         @for(item of habitsView(); track item.habit.id; let i = $index) {
-        <div class="df fd-r gap-4 ai-c w-100 position-relative z-1" style="box-sizing: border-box;"
+        <div class="df fd-r gap-4 ai-c w-100 position-relative z-1 today-elm-9" 
             (click)="toggleHabit(item.habit.id!)">
             <!-- Complete Checkbox Circle -->
             <div class="df ai-c jc-c cursor-pointer transition-all bg-white"
-                style="width: 24px; height: 24px; min-width: 24px; border-radius: 50%; box-sizing: border-box;"
-                [style.background-color]="item.completed ? '#f97316' : '#fff'"
+                class="today-elm-10"
+                [style.background-color]="item.completed ? 'var(--warning-default)' : 'var(--background-default)'"
                 [style.border]="item.completed ? 'none' : '2px solid #cbd5e1'">
                 @if(item.completed) {
-                <mat-icon style="font-size: 16px; width: 16px; height: 16px; color: white;">check</mat-icon>
+                <mat-icon class="today-elm-11">check</mat-icon>
                 }
             </div>
 
             <!-- Routine Card -->
             <div class="p-16 br-16 df fd-r ai-c gap-4 w-100 fg-1"
-                style="box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03); border: 1px solid var(--border-subtle); box-sizing: border-box; background-color: var(--surface-default);"
+                class="today-elm-12"
                 [style.opacity]="item.completed ? '0.7' : '1'">
                 <!-- Habit Icon Box -->
                 <div class="df ai-c jc-c" [style.background-color]="item.habit.color + '20'"
-                    style="width: 48px; height: 48px; min-width: 48px; border-radius: 14px;">
+                    class="today-elm-13">
                     <mat-icon [style.color]="item.habit.color">{{ item.habit.icon }}</mat-icon>
                 </div>
 
                 <!-- Habit Texts -->
-                <div class="df fd-c flex-1 overflow-hidden gap-1" style="min-width: 0;">
+                <div class="df fd-c flex-1 overflow-hidden gap-1 today-elm-14" >
                     <div class="df fd-r ai-c gap-2">
-                        <h3 class="m-0 fs-15 fw-600 truncate" style="color: var(--text-primary);"
+                        <h3 class="m-0 fs-15 fw-600 truncate today-elm-15" 
                             [style.text-decoration]="item.completed ? 'line-through' : 'none'">
                             {{ item.habit.name }}
                         </h3>
                         @if (item.streak > 0) {
                         <div class="df ai-c gap-1 px-6 py-1 br-8"
-                            style="background-color: #fff7ed; border: 1px solid #ffedd5;">
-                            <span style="font-size: 11px;">🔥</span>
-                            <span class="fs-10 fw-700" style="color: #ea580c;">{{ item.streak }}</span>
+                            class="today-elm-16">
+                            <span class="today-elm-17">🔥</span>
+                            <span class="fs-10 fw-700 today-elm-18" >{{ item.streak }}</span>
                         </div>
                         }
                     </div>
-                    <p class="m-0 fs-12 fw-500 truncate" style="color: #a1a1aa;">{{ item.habit.description || 'No
+                    <p class="m-0 fs-12 fw-500 truncate today-elm-19" >{{ item.habit.description || 'No
                         description' }}</p>
                 </div>
 
@@ -76,8 +76,8 @@
         </div>
         } @empty {
         <div class="p-32 df fd-c ai-c jc-c gap-2 br-16 position-relative z-1 w-100"
-            style="background-color: var(--surface-default); box-shadow: 0 4px 12px rgba(0,0,0,0.03); box-sizing: border-box;">
-            <mat-icon style="font-size: 48px; width: 48px; height: 48px; color: #cbd5e1;">event_busy</mat-icon>
+            class="today-elm-20">
+            <mat-icon class="today-elm-21">event_busy</mat-icon>
             <span class="fs-14 fw-600 text-secondary">No routines for this day!</span>
         </div>
         }

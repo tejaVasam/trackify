@@ -6,7 +6,7 @@
 </div>
 
 <form [formGroup]="habitForm" (ngSubmit)="onSubmit()" class="df fd-c gap-5 p-24" 
-      style="box-sizing: border-box; overflow-x: hidden; overflow-y: auto; max-height: 75vh;">
+      class="create-habit-elm-1">
 
 
   <!-- Habit Name -->
@@ -26,15 +26,15 @@
   </div>
 
   <!-- Color and Frequency row -->
-  <div class="df fd-r ai-fs gap-4 w-100 flex-wrap" style="box-sizing: border-box;">
+  <div class="df fd-r ai-fs gap-4 w-100 flex-wrap create-habit-elm-2" >
 
     <!-- Color Picker Matrix -->
-    <div class="df fd-c gap-2 flex-1" style="min-width: 200px;">
-      <span class="fs-13 fw-600 text-primary uppercase ls-1" style="color: #000;">Color</span>
-      <div class="df fd-r gap-4 flex-wrap" style="max-width: 170px;">
+    <div class="df fd-c gap-2 flex-1 create-habit-elm-3" >
+      <span class="fs-13 fw-600 text-primary uppercase ls-1 create-habit-elm-4" >Color</span>
+      <div class="df fd-r gap-4 flex-wrap create-habit-elm-5" >
         @for (color of presetColors; track color) {
         <div class="cursor-pointer us-none" [style.background-color]="color"
-          style="width: 32px; height: 32px; min-width: 32px; border-radius: 50%; border: 3px solid #fff; transition: box-shadow 0.2s; box-sizing: border-box; flex-shrink: 0;"
+          class="create-habit-elm-6"
           [style.box-shadow]="habitForm.value.color === color ? '0 0 0 2px #111' : 'none'" (click)="selectColor(color)">
         </div>
         }
@@ -42,8 +42,8 @@
     </div>
 
     <!-- Frequency -->
-    <div class="df fd-c gap-2 flex-1" style="min-width: 0;">
-      <span class="fs-13 fw-600 text-primary uppercase ls-1" style="color: #000;">Frequency</span>
+    <div class="df fd-c gap-2 flex-1 create-habit-elm-7" >
+      <span class="fs-13 fw-600 text-primary uppercase ls-1 create-habit-elm-8" >Frequency</span>
       <mat-form-field appearance="outline" class="w-100 hide-subscript m-0 p-0">
         <mat-select formControlName="frequency" required>
           @for (opt of frequencyOptions; track opt.value) {
@@ -70,11 +70,11 @@
   }
 
   <!-- Options Sub Row -->
-  <div class="df fd-r ai-fs gap-4 w-100 mt-8 flex-wrap" style="box-sizing: border-box;">
+  <div class="df fd-r ai-fs gap-4 w-100 mt-8 flex-wrap create-habit-elm-9" >
 
     <!-- Icon -->
-    <div class="df fd-c gap-2 flex-1" style="min-width: 0;">
-      <span class="fs-13 fw-600 text-primary uppercase ls-1" style="color: #000;">Icon</span>
+    <div class="df fd-c gap-2 flex-1 create-habit-elm-10" >
+      <span class="fs-13 fw-600 text-primary uppercase ls-1 create-habit-elm-11" >Icon</span>
       <mat-form-field appearance="outline" class="w-100 hide-subscript m-0 p-0">
         <mat-select formControlName="icon">
           <mat-select-trigger>
@@ -95,8 +95,8 @@
     </div>
 
     <!-- Category -->
-    <div class="df fd-c gap-2 flex-1" style="min-width: 0;">
-      <span class="fs-13 fw-600 text-primary uppercase ls-1" style="color: #000;">Category</span>
+    <div class="df fd-c gap-2 flex-1 create-habit-elm-12" >
+      <span class="fs-13 fw-600 text-primary uppercase ls-1 create-habit-elm-13" >Category</span>
       <mat-form-field appearance="outline" class="w-100 hide-subscript m-0 p-0">
         <mat-select formControlName="category" required>
           @for (opt of categoryOptions(); track opt.id) {
@@ -109,7 +109,7 @@
   </div>
 
   <!-- Reminders Section -->
-  <div class="df fd-r ai-c jc-s mt-16 p-16 br-12" style="background-color: #f8fafc; border: 1px solid #e2e8f0;">
+  <div class="df fd-r ai-c jc-s mt-16 p-16 br-12 create-habit-elm-14" >
     <div class="df fd-c gap-1">
       <span class="fs-14 fw-600">Daily Reminder</span>
       <span class="fs-12 text-secondary">Get notified when it's time</span>
@@ -130,7 +130,7 @@
 
   <!-- Submit Action Button -->
   <button mat-flat-button color="primary" type="submit" class="w-100 br-8 fw-600 mt-24"
-    style="padding: 24px 0; font-size: 16px; background-color: #20B2AA;">
+    class="create-habit-elm-15">
     {{ data?.habit ? 'Save Changes' : 'Create Habit' }}
   </button>
 </form>

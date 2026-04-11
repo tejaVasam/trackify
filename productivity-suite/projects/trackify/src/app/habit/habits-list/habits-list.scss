@@ -1,0 +1,58 @@
+.habits-list-elm-1 {
+  width: 160px;
+}
+
+.habits-list-elm-2 {
+  transition: all 0.2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  background-color: var(--background-default);
+}
+
+.habits-list-elm-3 {
+  flex: 1;
+}
+
+.habits-list-elm-4 {
+  background-color: var(--border-subtle);
+  border: 1px solid var(--border-default);
+}
+
+.habits-list-elm-5 {
+  color: #64748b;
+}
+
+.habits-list-elm-6 {
+  background-color: var(--warning-soft);
+  border: 1px solid #ffedd5;
+}
+
+.habits-list-elm-7 {
+  font-size: 14px;
+}
+
+.habits-list-elm-8 {
+  color: var(--warning-strong);
+}
+
+.habits-list-elm-9 {
+  background-color: var(--success-soft);
+  border: 1px solid #dcfce7;
+}
+
+.habits-list-elm-10 {
+  color: #166534;
+}
+
+.habits-list-elm-11 {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.habits-list-elm-12 {
+  width: 14px;
+  height: 14px;
+  color: var(--text-secondary);
+}
