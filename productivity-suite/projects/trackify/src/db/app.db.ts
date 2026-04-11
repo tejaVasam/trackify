@@ -11,10 +11,19 @@ export interface HabitLog {
   completedAt: number; // Unix timestamp
 }
 
+export interface User {
+  id?: number;
+  name: string;
+  gender?: 'male' | 'female' | 'other';
+  avatar?: string;
+  createdAt: number;
+}
+
 export class AppDB extends Dexie {
   habits!: Table<Habit, number>;
   habitLogs!: Table<HabitLog, number>;
   categories!: Table<Category, number>;
+  users!: Table<User, number>;
 
   constructor() {
     super('TrackifyDB');
@@ -31,10 +40,10 @@ export class AppDB extends Dexie {
       categories: '++id, name' // Standard category table
     });
 
-
+    this.version(4).stores({
+      users: '++id, name' // Users profile configuration tracking table
+    });
   }
-
-
 }
 
 export const db = new AppDB();

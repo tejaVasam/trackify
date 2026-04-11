@@ -1,11 +1,12 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { HabitService } from '../../../services/habit.service';
 import { Habit } from '../../../models/habit.model';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CreateHabit } from '../create-habit/create-habit';
 import { ConfirmDialog } from '../../shared/confirm-dialog';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 't-habits-list',
@@ -16,6 +17,7 @@ import { ConfirmDialog } from '../../shared/confirm-dialog';
 export class HabitsList implements OnInit {
   private habitService = inject(HabitService);
   private dialog = inject(MatDialog);
+  private router = inject(Router);
   habits = signal<Habit[]>([]);
 
   async ngOnInit(): Promise<void> {
@@ -32,7 +34,7 @@ export class HabitsList implements OnInit {
       maxWidth: '90vw'
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result: any) => {
       if (result) {
         this.loadHabits();
       }
@@ -46,9 +48,13 @@ export class HabitsList implements OnInit {
       data: { habit } // Send target habit as MAT_DIALOG_DATA injection
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result: any) => {
       if (result) this.loadHabits();
     });
+  }
+
+  viewDetails(habitId: number) {
+    this.router.navigate(['/habits', habitId]);
   }
 
   deleteHabit(habit: Habit) {
@@ -60,7 +66,7 @@ export class HabitsList implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe(async confirmed => {
+    dialogRef.afterClosed().subscribe(async (confirmed: any) => {
       if (confirmed && habit.id) {
         await this.habitService.deleteHabit(habit.id);
         await this.loadHabits();

@@ -6,32 +6,49 @@ import { CreateHabit } from './habit/create-habit/create-habit';
 import { Today } from './today/today';
 import { Settings } from './settings/settings';
 import { Categories } from './categories/categories';
+import { HabitDetails } from './habit/habit-details/habit-details';
+import { onboardingGuard } from './guards/auth.guard';
+import { OnboardingComponent } from './onboarding/onboarding';
 
 export const routes: Routes = [
     {
+        path: 'onboarding',
+        component: OnboardingComponent
+    },
+    {
         path: '',
-        redirectTo: 'habits',
-        pathMatch: 'full'
-    },
-    {
-        path: 'dashboard',
-        component: Dashboard
-    },
-    {
-        path: 'habits',
-        component: HabitsList,
-    },
-    {
-        path: 'today',
-        component: Today
-    },
-    {
-        path: 'categories',
-        component: Categories
-    },
-    {
-        path: 'settings',
-        component: Settings
+        canActivate: [onboardingGuard],
+        children: [
+            {
+                path: '',
+                redirectTo: 'habits',
+                pathMatch: 'full'
+            },
+            {
+                path: 'dashboard',
+                component: Dashboard
+            },
+            {
+                path: 'habits',
+                component: HabitsList,
+            },
+            {
+                path: 'habits/:id',
+                component: HabitDetails
+            },
+            {
+                path: 'today',
+                component: Today
+            },
+            {
+                path: 'categories',
+                component: Categories
+            },
+            {
+                path: 'settings',
+                component: Settings
+            }
+        ]
     },
     {
         path: 'preview',

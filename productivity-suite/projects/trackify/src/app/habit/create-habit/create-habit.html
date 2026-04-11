@@ -5,7 +5,7 @@
   </button>
 </div>
 
-<form [formGroup]="habitForm" (ngSubmit)="onSubmit()" class="df fd-c gap-5 p-24">
+<form [formGroup]="habitForm" (ngSubmit)="onSubmit()" class="df fd-c gap-5 p-24" style="box-sizing: border-box; overflow-x: hidden;">
 
   <!-- Habit Name -->
   <div class="df fd-c gap-2">
@@ -24,12 +24,12 @@
   </div>
 
   <!-- Color and Frequency row -->
-  <div class="df fd-r ai-fs gap-2 w-100">
+  <div class="df fd-r ai-fs gap-4 w-100 flex-wrap" style="box-sizing: border-box;">
 
     <!-- Color Picker Matrix -->
-    <div class="df fd-c gap-8 flex-1">
-      <span class="fs-13 fw-600 text-secondary uppercase ls-1">Color</span>
-      <div class="df fd-r gap-8 flex-wrap" style="max-width: 170px;">
+    <div class="df fd-c gap-2 flex-1" style="min-width: 200px;">
+      <span class="fs-13 fw-600 text-primary uppercase ls-1" style="color: #000;">Color</span>
+      <div class="df fd-r gap-4 flex-wrap" style="max-width: 170px;">
         @for (color of presetColors; track color) {
         <div class="cursor-pointer us-none" [style.background-color]="color"
           style="width: 32px; height: 32px; min-width: 32px; border-radius: 50%; border: 3px solid #fff; transition: box-shadow 0.2s; box-sizing: border-box; flex-shrink: 0;"
@@ -40,8 +40,8 @@
     </div>
 
     <!-- Frequency -->
-    <div class="df fd-c gap-2 flex-1">
-      <span class="fs-13 fw-600 text-secondary uppercase ls-1">Frequency</span>
+    <div class="df fd-c gap-2 flex-1" style="min-width: 0;">
+      <span class="fs-13 fw-600 text-primary uppercase ls-1" style="color: #000;">Frequency</span>
       <mat-form-field appearance="outline" class="w-100 hide-subscript m-0 p-0">
         <mat-select formControlName="frequency" required>
           @for (opt of frequencyOptions; track opt.value) {
@@ -68,11 +68,11 @@
   }
 
   <!-- Options Sub Row -->
-  <div class="df fd-r ai-fs gap-2 w-100 ">
+  <div class="df fd-r ai-fs gap-4 w-100 mt-8 flex-wrap" style="box-sizing: border-box;">
 
     <!-- Icon -->
-    <div class="df fd-c gap-2 flex-1">
-      <span class="fs-13 fw-600 text-secondary uppercase ls-1">Icon</span>
+    <div class="df fd-c gap-2 flex-1" style="min-width: 0;">
+      <span class="fs-13 fw-600 text-primary uppercase ls-1" style="color: #000;">Icon</span>
       <mat-form-field appearance="outline" class="w-100 hide-subscript m-0 p-0">
         <mat-select formControlName="icon">
           <mat-select-trigger>
@@ -93,8 +93,8 @@
     </div>
 
     <!-- Category -->
-    <div class="df fd-c gap-2 flex-1">
-      <span class="fs-13 fw-600 text-secondary uppercase ls-1">Category</span>
+    <div class="df fd-c gap-2 flex-1" style="min-width: 0;">
+      <span class="fs-13 fw-600 text-primary uppercase ls-1" style="color: #000;">Category</span>
       <mat-form-field appearance="outline" class="w-100 hide-subscript m-0 p-0">
         <mat-select formControlName="category" required>
           @for (opt of categoryOptions(); track opt.id) {

@@ -9,16 +9,16 @@
   <div class="df fd-c gap-4">
       @for(habit of habits(); track habit.id)
       {
-      <div class="habit-card p-16 b-1-solid br-8 df fd-r ai-c jc-s">
+      <div class="habit-card p-16 b-1-solid br-8 df fd-r ai-c jc-s cursor-pointer" style="transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.03);" (click)="viewDetails(habit.id!)">
           <div class="df fd-c" style="flex: 1;">
-            <h3 class="m-0">{{ habit.name }}</h3>
+            <h3 class="m-0 fw-600 fs-16">{{ habit.name }}</h3>
             <p class="m-0 mt-4 text-secondary">{{ habit.description }}</p>
           </div>
           <div class="df fd-r gap-8">
-            <button mat-icon-button color="primary" (click)="editHabit(habit)">
+            <button mat-icon-button color="primary" (click)="$event.stopPropagation(); editHabit(habit)">
               <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button color="warn" (click)="deleteHabit(habit)">
+            <button mat-icon-button color="warn" (click)="$event.stopPropagation(); deleteHabit(habit)">
               <mat-icon>delete</mat-icon>
             </button>
           </div>

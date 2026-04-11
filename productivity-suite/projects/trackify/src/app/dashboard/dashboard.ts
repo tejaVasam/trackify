@@ -5,6 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { HabitFrequency } from '../../enums/habit-frequency.enum';
 import { Days } from '../../enums/days.enum';
+import { db, User } from '../../db/app.db';
 
 interface DashboardStats {
   todayCompletedCount: number;
@@ -26,16 +27,29 @@ interface DashboardStats {
   template: `
     <div class="p-24 df fd-c gap-6 font-inter" style="background-color: #f7f3f0; min-height: 100vh;">
       <!-- Header block -->
-      <div class="df fd-c gap-1">
-        <h1 class="m-0 fs-28 fw-700 text-primary" style="color: #212121;">Your Dashboard</h1>
-        <p class="m-0 fs-14 fw-500" style="color: #6b7280;">See your progress and stay motivated</p>
+      <div class="df fd-r jc-sb ai-c">
+         <div class="df fd-c gap-1">
+           <h1 class="m-0 fs-28 fw-700 text-primary" style="color: #212121;">
+              {{ activeUser() ? 'Hello, ' + activeUser()!.name + '!' : 'Your Dashboard' }}
+           </h1>
+           <p class="m-0 fs-14 fw-500" style="color: #6b7280;">See your progress and stay motivated</p>
+         </div>
+         @if (activeUser()?.avatar) {
+            <div style="width: 56px; height: 56px; min-width: 56px; min-height: 56px; border-radius: 50%; overflow: hidden; border: 2px solid #10b981; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); display: flex; align-items: center; justify-content: center;">
+                <img [src]="activeUser()?.avatar" style="width: 100%; height: 100%; object-fit: cover;" alt="Dashboard Avatar">
+            </div>
+         }
       </div>
 
       <!-- 1. Today Progress -->
       <div class="w-100 br-16 p-24 position-relative overflow-hidden" 
            style="background: linear-gradient(135deg, #1f2937, #111827); color: #fff; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.2); box-sizing: border-box;">
         
-        <div class="position-absolute" style="top: -20px; right: -20px; width: 150px; height: 150px; border-radius: 50%; background: rgba(255,255,255,0.05);"></div>
+        <div class="position-absolute df jc-c ai-c" style="top: -10px; right: -10px; width: 130px; height: 130px; border-radius: 50%; overflow: hidden; border: 4px solid rgba(255,255,255,0.05); box-shadow: 0 10px 20px rgba(0,0,0,0.3);">
+            @if(activeUser()?.avatar) {
+               <img [src]="activeUser()?.avatar" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+            }
+        </div>
         
         <div class="df fd-r gap-6 ai-c position-relative z-1">
           <div class="df ai-c jc-c position-relative circular-wrapper" style="width: 80px; height: 80px;">
@@ -169,8 +183,13 @@ export class Dashboard implements OnInit {
   });
 
   weeklyGraph = signal<{ dateLabel: string; count: number; percentage: number }[]>([]);
+  activeUser = signal<User | null>(null);
 
   async ngOnInit() {
+    const loadedUser = await db.users.orderBy('id').first();
+    if (loadedUser) {
+        this.activeUser.set(loadedUser);
+    }
     await this.calculateMetrics();
   }
 

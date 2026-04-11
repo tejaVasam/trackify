@@ -10,23 +10,19 @@ import { TitleCasePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HabitFrequency } from '../../enums/habit-frequency.enum';
 import { Days } from '../../enums/days.enum';
+import { DateStripComponent } from '../shared/components/date-strip/date-strip';
 
 interface TodayHabitView {
   habit: Habit;
   completed: boolean;
 }
 
-interface DateObj {
-  date: Date;
-  dayName: string;
-  dayNumber: number;
-  dateStr: string;
-}
+
 
 @Component({
   selector: 't-today',
   standalone: true,
-  imports: [MatListModule, MatIconModule, MatCheckboxModule, MatButtonModule, TitleCasePipe, RouterModule],
+  imports: [MatListModule, MatIconModule, MatCheckboxModule, MatButtonModule, TitleCasePipe, RouterModule, DateStripComponent],
   templateUrl: './today.html',
   styleUrl: './today.scss',
 })
@@ -35,7 +31,6 @@ export class Today implements OnInit {
   private habitLogService = inject(HabitLogService);
 
   activeDateStr = signal<string>('');
-  dateStrip = signal<DateObj[]>([]);
   habitsView = signal<TodayHabitView[]>([]);
 
   activeDateDisplay = computed(() => {
@@ -48,7 +43,6 @@ export class Today implements OnInit {
 
   ngOnInit() {
     this.activeDateStr.set(this.getLocalFormattedDate(new Date()));
-    this.generateDateStrip();
     this.loadHabitsForActiveDate();
   }
 
@@ -57,25 +51,6 @@ export class Today implements OnInit {
     const m = String(date.getMonth() + 1).padStart(2, '0');
     const d = String(date.getDate()).padStart(2, '0');
     return `${y}-${m}-${d}`;
-  }
-
-  generateDateStrip() {
-    const dates: DateObj[] = [];
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    for (let i = -4; i <= 4; i++) {
-      const d = new Date(today);
-      d.setDate(today.getDate() + i);
-
-      dates.push({
-        date: d,
-        dayName: d.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase(),
-        dayNumber: d.getDate(),
-        dateStr: this.getLocalFormattedDate(d)
-      });
-    }
-    this.dateStrip.set(dates);
   }
 
   selectDate(dateStr: string) {

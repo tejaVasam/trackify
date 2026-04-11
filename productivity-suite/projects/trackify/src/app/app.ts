@@ -5,6 +5,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
+import { db, User } from '../db/app.db';
 
 @Component({
   selector: 'app-root',
@@ -24,9 +25,14 @@ export class App implements OnInit {
   protected readonly title = signal('Trackify');
   isSidenavOpened = signal(true);
   isMobile = signal(false);
+  activeUser = signal<User | null>(null);
 
-  ngOnInit() {
+  async ngOnInit() {
     this.checkScreenSize();
+    const loadedUser = await db.users.orderBy('id').first();
+    if (loadedUser) {
+      this.activeUser.set(loadedUser);
+    }
   }
 
   @HostListener('window:resize')
