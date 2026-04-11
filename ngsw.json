@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1775941660137,
+  "timestamp": 1775944206555,
   "index": "/Angular/index.html",
   "assetGroups": [
     {
@@ -13,9 +13,9 @@
       "urls": [
         "/Angular/favicon.ico",
         "/Angular/index.html",
-        "/Angular/main-5LK66JFY.js",
+        "/Angular/main-DGKZQ55D.js",
         "/Angular/manifest.webmanifest",
-        "/Angular/styles-JHSIIA7Q.css"
+        "/Angular/styles-CZP5PRUN.css"
       ],
       "patterns": []
     },
@@ -50,10 +50,10 @@
     "/Angular/icons/icon-512x512.png": "1de182f76f7329dfa8f9fcdd1fdcdd695bea6a99",
     "/Angular/icons/icon-72x72.png": "aa88a6096bd973be7f6d7a5489bfa6bc2463f8c4",
     "/Angular/icons/icon-96x96.png": "7fb8f59c30ce2ff12c700321a0b39e14b3dc8f95",
-    "/Angular/index.html": "67bcb468767471e415eb7019289840e730d64d31",
-    "/Angular/main-5LK66JFY.js": "7ae3a323045ec4971ba4e73674809267cea3e669",
+    "/Angular/index.html": "711ceab056b921af1cad3befae87e672d59893df",
+    "/Angular/main-DGKZQ55D.js": "8ba188d884c4bc17ed83f18b0c2ccf65161515f3",
     "/Angular/manifest.webmanifest": "ecacbd5af75216551570c03f35674a0ec8a001c7",
-    "/Angular/styles-JHSIIA7Q.css": "21db44df4a5e62ae48de207e3dcb0e3ded898de9"
+    "/Angular/styles-CZP5PRUN.css": "6eae95ef41410dfa652daedff4cc06387974cafa"
   },
   "navigationUrls": [
     {
