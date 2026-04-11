@@ -1,1 +1,59 @@
-<p>create-habit works!</p>
+<div class="create-habit-form-container p-16">
+  <h2>Create a New Habit</h2>
+  <form [formGroup]="habitForm" (ngSubmit)="onSubmit()">
+    
+    <!-- Habit Name -->
+    <ui-input
+      formControlName="name"
+      label="Habit Name"
+      placeholder="E.g., Read a book"
+      hint="Choose an engaging name for your habit"
+      [required]="true"
+    ></ui-input>
+
+    <!-- Description -->
+    <ui-input
+      formControlName="description"
+      label="Description (Optional)"
+      placeholder="Why do you want to keep this habit?"
+    ></ui-input>
+
+    <!-- Icon -->
+    <ui-input
+      formControlName="icon"
+      label="Icon symbol (Optional)"
+      placeholder="E.g., 'star' or 'fitness_center'"
+    ></ui-input>
+
+    <!-- Color -->
+    <ui-input
+      formControlName="color"
+      type="text"
+      label="Color Code"
+      placeholder="#2196f3"
+    ></ui-input>
+    
+    <!-- Frequency Dropdown -->
+    <ui-dropdown
+      formControlName="frequency"
+      label="Frequency"
+      [options]="frequencyOptions"
+      [required]="true"
+    ></ui-dropdown>
+
+    <!-- Category Dropdown -->
+    <ui-dropdown
+      formControlName="category"
+      label="Category"
+      [options]="categoryOptions"
+      [required]="true"
+    ></ui-dropdown>
+
+    <!-- Submit Button -->
+    <div class="actions pt-16">
+      <ui-button type="submit" variant="primary">
+        Create Habit
+      </ui-button>
+    </div>
+  </form>
+</div>

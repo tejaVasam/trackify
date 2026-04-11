@@ -1,27 +1,27 @@
 .df
 {
     display: flex;
-    .fd-c
+    &.fd-c
     {
         flex-direction: column;
     }
-    .fd-r
+    &.fd-r
     {
         flex-direction: row;
     }
-    .ai-c
+    &.ai-c
     {
         align-items: center;
     }
-    .ai-s
+    &.ai-s
     {
         align-items: stretch;
     }
-    .jc-c
+    &.jc-c
     {
         justify-content: center;
     }
-    .jc-s
+    &.jc-s
     {
         justify-content: space-between;
     }

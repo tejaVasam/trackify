@@ -6,32 +6,7 @@ import { BaseControl } from '../../base-control';
   selector: 'ui-date',
   standalone: true,
   imports: [CommonModule],
-  template: `
-    <div class="ui-field">
-      @if (label()) {
-        <label [for]="id()" class="ui-field__label">
-          {{ label() }}
-          @if (required()) { <span class="ui-field__required">*</span> }
-        </label>
-      }
-      <input
-        [id]="id()"
-        type="date"
-        [disabled]="isDisabled() || disabled()"
-        [value]="internalValue() || ''"
-        (input)="onInput($event)"
-        (blur)="markAsTouched()"
-        [class.ui-field__input--error]="hasError"
-        class="ui-field__input ui-field__date"
-      />
-      @if (hint() && !hasError) {
-        <span class="ui-field__hint">{{ hint() }}</span>
-      }
-      @if (hasError) {
-        <span class="ui-field__error">This date is invalid</span>
-      }
-    </div>
-  `,
+  templateUrl: './date.component.html',
   styleUrls: ['./date.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

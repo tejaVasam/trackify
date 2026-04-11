@@ -11,36 +11,7 @@ export interface DropdownOption {
   selector: 'ui-dropdown',
   standalone: true,
   imports: [CommonModule],
-  template: `
-    <div class="ui-field">
-      @if (label()) {
-        <label [for]="id()" class="ui-field__label">
-          {{ label() }}
-          @if (required()) { <span class="ui-field__required">*</span> }
-        </label>
-      }
-      <select
-        [id]="id()"
-        [disabled]="isDisabled() || disabled()"
-        (change)="onChangeEvent($event)"
-        (blur)="markAsTouched()"
-        [class.ui-field__input--error]="hasError"
-        class="ui-field__select"
-      >
-        <option [value]="null" [disabled]="true" [selected]="internalValue() == null">
-          {{ placeholder() || 'Select an option' }}
-        </option>
-        @for (option of options(); track option.value) {
-          <option [value]="option.value" [selected]="internalValue() === option.value">
-            {{ option.label }}
-          </option>
-        }
-      </select>
-      @if (hasError) {
-        <span class="ui-field__error">This field is invalid</span>
-      }
-    </div>
-  `,
+  templateUrl: './dropdown.component.html',
   styleUrls: ['./dropdown.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

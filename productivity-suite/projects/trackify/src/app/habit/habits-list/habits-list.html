@@ -1,0 +1,14 @@
+<div>
+    @for(habit of habits; track habit.id)
+    {
+    <div class="habit-card">
+        <h3>{{ habit.name }}</h3>
+        <p>{{ habit.description }}</p>
+    </div>
+    } @empty {
+    <div class="empty-state">
+        <p>No habits found. Let's create one!</p>
+    </div>
+    }
+</div>
+<router-outlet></router-outlet>

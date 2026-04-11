@@ -1,0 +1,4 @@
+export ANTHROPIC_API_KEY=AIza-YOUR-GEMINI-KEY-HERE
+export ANTHROPIC_BASE_URL=https://generativelanguage.googleapis.com/v1beta/openai/
+export ANTHROPIC_MODEL=gemini-2.5-flash
+export ANTHROPIC_AUTH_TOKEN=AIzaSyCp2Ve90mti9Cvd4bmqS6xIYyltSbQET4U

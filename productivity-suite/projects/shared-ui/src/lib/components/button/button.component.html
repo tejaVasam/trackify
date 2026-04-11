@@ -1,0 +1,9 @@
+<button
+  [type]="type()"
+  [disabled]="isDisabled() || disabled()"
+  (click)="onClick($event)"
+  (blur)="markAsTouched()"
+  class="ui-btn ui-btn--{{ variant() }} p-8"
+>
+  <ng-content></ng-content>
+</button>

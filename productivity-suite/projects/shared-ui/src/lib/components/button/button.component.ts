@@ -6,17 +6,7 @@ import { BaseControl } from '../../base-control';
   selector: 'ui-button',
   standalone: true,
   imports: [CommonModule],
-  template: `
-    <button
-      [type]="type()"
-      [disabled]="isDisabled() || disabled()"
-      (click)="onClick($event)"
-      (blur)="markAsTouched()"
-      class="ui-btn ui-btn--{{ variant() }}"
-    >
-      <ng-content></ng-content>
-    </button>
-  `,
+  templateUrl: './button.component.html',
   styleUrls: ['./button.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

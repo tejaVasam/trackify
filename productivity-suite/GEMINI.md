@@ -28,6 +28,7 @@ These are the foundational guidelines and conventions for the `productivity-suit
 - **Utility First:** Leverage the utility classes (like gaps, toRem) before writing custom component styles.
 - **BEM Methodology:** Follow BEM (Block Element Modifier) naming conventions for custom classes to ensure scoping, readability, and modularity (e.g., `.card`, `.card__header`, `.card--active`).
 - **Rem Units:** Use `rem` for typography, padding, margins, and gaps. Utilize the `toRem` function defined in `utility.scss` for precise pixel-to-rem conversions.
+- **Utility CSS Preferences:** Always prioritize and directly apply the shared utility classes (e.g. `df`, `fd-c`, `gap-*`, `p-*`) located in `trackify/src/styles.scss` inside your DOM structure instead of writing component-specific custom CSS unless strictly required.
 
 ### 2. Structure & Organization
 - **Nesting:** Avoid nesting deeper than 3 levels to maintain low specificity, readability, and avoid rendering performance issues.
@@ -35,6 +36,9 @@ These are the foundational guidelines and conventions for the `productivity-suit
 - **Mobile-First:** Write media queries with a mobile-first approach (using `min-width`).
 
 ## HTML Style Guide
+
+### 0. Architecture
+- **Segregation:** Always segregate HTML templates into their own `.html` files instead of using inline `template` strings in `.ts` files to ensure modularity.
 
 ### 1. Semantic Markup
 - **Semantics:** Use semantic HTML5 elements (`<header>`, `<main>`, `<footer>`, `<article>`, `<section>`, `<nav>`) instead of generic `<div>` elements wherever possible to improve SEO and structure.

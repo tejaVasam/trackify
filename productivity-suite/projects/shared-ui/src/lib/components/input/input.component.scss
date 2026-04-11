@@ -1,4 +1,72 @@
-// Empty style file initialized
+.ui-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
 .ui-field {
-  // Styles will use generic BEM class names and reference light-theme.scss via variables
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background-color: #e5e5ec;
+  border-radius: 4px 4px 0 0;
+  border-bottom: 1px solid #45474a;
+  padding: 8px 12px 6px 12px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: #dadae2;
+  }
+
+  &:focus-within {
+    background-color: #d1d1d9;
+    border-bottom: 2px solid #202124;
+    padding-bottom: 5px;
+  }
+
+  &--error {
+    border-bottom-color: #d93025;
+    &:focus-within {
+      border-bottom-color: #d93025;
+    }
+  }
+
+  &__label {
+    font-size: 13px;
+    color: #4a4a4a;
+    margin-bottom: 2px;
+    line-height: 1;
+    font-weight: 400;
+  }
+
+  &__input {
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    color: #111;
+    padding: 0;
+    width: 100%;
+    line-height: 1.4;
+    font-family: inherit;
+
+    &::placeholder {
+      color: #9aa0a6;
+    }
+
+    &:disabled {
+      color: #80868b;
+    }
+  }
+}
+
+.ui-input-hint {
+  font-size: 12px;
+  color: #5f6368;
+  padding-left: 12px;
+}
+
+.ui-input-error {
+  font-size: 12px;
+  color: #d93025;
+  padding-left: 12px;
 }

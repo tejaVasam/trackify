@@ -6,17 +6,15 @@ import { Habit } from '../models/habit.model';
   providedIn: 'root'
 })
 export class HabitService {
-  // Signal to hold the current list of habits for reactive UI
-  habits = signal<Habit[]>([]);
+ 
 
   constructor() {
     this.loadHabits();
   }
 
   // Reload habits from Dexie and update signal
-  async loadHabits(): Promise<void> {
-    const allHabits = await db.habits.toArray();
-    this.habits.set(allHabits);
+  async loadHabits(): Promise<Habit[]> {
+   return  db.habits.toArray();
   }
 
   // Get a single habit by ID
