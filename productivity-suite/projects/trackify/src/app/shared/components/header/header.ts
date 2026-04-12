@@ -12,6 +12,7 @@ import { AvatarComponent } from '../avatar/avatar';
   standalone: true,
   imports: [CommonModule, MatToolbarModule, MatButtonModule, MatIconModule, AvatarComponent],
   templateUrl: './header.html',
+  styleUrls: ['./header.scss']
 
 })
 export class HeaderComponent {

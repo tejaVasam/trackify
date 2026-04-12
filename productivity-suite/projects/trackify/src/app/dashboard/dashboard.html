@@ -59,9 +59,9 @@
                         stroke="#10b981" stroke-width="3" stroke-linecap="round"
                         style="transition: stroke-dasharray 0.8s ease-out;" />
                 </svg>
-                <div class="df fd-c ai-c position-absolute">
-                    <span class="fs-22 fw-800">{{ stats().todayPercentage }}%</span>
-                    <span class="fs-10 fw-600 uppercase ls-1" style="opacity: 0.6;">Today</span>
+                <div class="df fd-c ai-c position-absolute text-bg">
+                    <span class="fs-22 fw-800 text-bg">{{ stats().todayPercentage }}%</span>
+                    <span class="fs-10 fw-600 uppercase ls-1 text-bg" style="opacity: 0.6;">Today</span>
                 </div>
             </div>
 
@@ -89,8 +89,8 @@
     <div class="df fd-r gap-4 w-100">
         <!-- Streak Card -->
         <div class="df fd-c gap-4 p-20 br-16 bg-white flex-1"
-            style="min-width: 180px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05); box-sizing: border-box;">
-            <div class="df jc-sb ai-c">
+            style="box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05); box-sizing: border-box;">
+            <div class="df jc-sb ai-c gap-2">
                 <span class="fs-14 fw-700 uppercase ls-1" style="color: #94a3b8;">Streak</span>
                 <div class="br-pill px-8 py-4 df ai-c gap-1" style="background-color: #fff7ed; color: #ea580c;">
                     <mat-icon style="font-size: 14px; width:14px; height:14px;">local_fire_department</mat-icon>
@@ -98,22 +98,22 @@
                 </div>
             </div>
             <div class="df fd-r gap-2 ai-fe">
-                <span class="fs-28 fw-800" style="color: #1e293b; line-height: 1;">{{ stats().platformStreak }}</span>
-                <span class="fs-13 fw-500 mb-1" style="color: #64748b;">days total</span>
+                <span class="fs-28 fw-800" style="line-height: 1;">{{ stats().platformStreak }}</span>
+                <span class="fs-13 fw-500 mb-1">days total</span>
             </div>
         </div>
 
         <!-- Completion Card -->
         <div class="df fd-c gap-4 p-20 br-16 bg-white flex-1"
-            style="min-width: 180px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05); box-sizing: border-box;">
-            <div class="df jc-sb ai-c">
-                <span class="fs-14 fw-700 uppercase ls-1" style="color: #94a3b8;">Consistency</span>
+            style=" box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05); box-sizing: border-box;">
+            <div class="df jc-sb ai-c gap-2">
+                <span class="fs-14 fw-700 uppercase ls-1">Consistency</span>
                 <mat-icon style="color: #10b981; font-size: 18px;">insights</mat-icon>
             </div>
             <div class="df fd-r gap-2 ai-fe">
-                <span class="fs-28 fw-800" style="color: #1e293b; line-height: 1;">{{ stats().completionRate7Days
+                <span class="fs-28 fw-800" style="line-height: 1;">{{ stats().completionRate7Days
                     }}%</span>
-                <span class="fs-13 fw-500 mb-1" style="color: #64748b;">7 day avg</span>
+                <span class="fs-13 fw-500 mb-1">7 day avg</span>
             </div>
         </div>
     </div>

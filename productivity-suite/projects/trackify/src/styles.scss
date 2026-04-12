@@ -25,6 +25,14 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+* {
+    color: var(--text-primary);
+}
+
 .border-none {
     border: none;
+}
+
+.text-bg {
+    color: var(--background-default);
 }

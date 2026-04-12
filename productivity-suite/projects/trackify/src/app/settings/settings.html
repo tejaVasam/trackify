@@ -1,7 +1,7 @@
-<div class="p-24 df fd-c gap-6 font-inter" style="background-color: #f7f3f0; ">
+<div class="p-24 df fd-c gap-6 font-inter">
     <div class="df fd-c gap-1">
-        <h1 class="m-0 fs-28 fw-700 text-primary" style="color: #212121;">Settings</h1>
-        <p class="m-0 fs-14 fw-500" style="color: #6b7280;">Manage your application data and preferences</p>
+        <h1 class="m-0 fs-28 fw-700 text-primary">Settings</h1>
+        <p class="m-0 fs-14 fw-500">Manage your application data and preferences</p>
     </div>
 
     <!-- Profile Settings Card -->
@@ -14,10 +14,12 @@
 
         <form [formGroup]="profileForm" (ngSubmit)="saveProfile()" class="df fd-c gap-6 w-100">
             <!-- Avatar Upload -->
-            <div class="df ai-c gap-8 p-16 br-12" style="background-color: #f8fafc;">
+            <div class="df ai-c gap-8 p-16 br-12">
                 <div class="cursor-pointer" (click)="fileInput.click()">
-                    <t-avatar [name]="profileForm.get('name')?.value || ''" [avatar]="previewAvatar" [size]="80"></t-avatar>
-                    <input #fileInput type="file" accept="image/*" (change)="onFileSelected($event)" style="display: none;">
+                    <t-avatar [name]="profileForm.get('name')?.value || ''" [avatar]="previewAvatar"
+                        [size]="80"></t-avatar>
+                    <input #fileInput type="file" accept="image/*" (change)="onFileSelected($event)"
+                        style="display: none;">
                 </div>
                 <div class="df fd-c gap-1">
                     <span class="fs-15 fw-700">Profile Picture</span>
@@ -32,7 +34,7 @@
                         <input matInput formControlName="name" placeholder="E.g. Alex" required>
                     </mat-form-field>
                 </div>
-                
+
                 <div class="df fd-c gap-2 flex-1" style="min-width: 200px;">
                     <span class="fs-13 fw-700 text-primary uppercase ls-1">Gender</span>
                     <mat-form-field appearance="outline" class="w-100 hide-subscript">
@@ -46,7 +48,8 @@
             </div>
 
             <div class="df jc-fe">
-                <button mat-flat-button color="primary" type="submit" [disabled]="profileForm.invalid" class="fw-700 py-12 px-24 br-8">
+                <button mat-flat-button color="primary" type="submit" [disabled]="profileForm.invalid"
+                    class="fw-700 py-12 px-24 br-8">
                     Save Changes
                 </button>
             </div>

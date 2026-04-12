@@ -14,12 +14,8 @@ export class ThemeService {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'dark') {
       this.setDarkMode(true);
-    } else if (savedTheme === 'light') {
-      this.setDarkMode(false);
     } else {
-      // Check system preference
-      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-      this.setDarkMode(prefersDark);
+      this.setDarkMode(false);
     }
   }
 

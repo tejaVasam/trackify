@@ -12,6 +12,7 @@ import { HabitFrequency } from '../../enums/habit-frequency.enum';
 import { Days } from '../../enums/days.enum';
 import { DateStripComponent } from '../shared/components/date-strip/date-strip';
 import { db } from '../../db/app.db';
+import { TimeAvailabilityComponent } from '../shared/components/time-availability/time-availability';
 
 interface TodayHabitView {
   habit: Habit;
@@ -25,7 +26,7 @@ interface TodayHabitView {
 @Component({
   selector: 't-today',
   standalone: true,
-  imports: [MatListModule, MatIconModule, MatCheckboxModule, MatButtonModule, RouterModule, DateStripComponent],
+  imports: [MatListModule, MatIconModule, MatCheckboxModule, MatButtonModule, RouterModule, DateStripComponent, TimeAvailabilityComponent],
   templateUrl: './today.html',
   styleUrl: './today.scss',
 })
@@ -35,6 +36,16 @@ export class Today implements OnInit {
 
   activeDateStr = signal<string>('');
   habitsView = signal<TodayHabitView[]>([]);
+
+  totalDedicatedMinutes = computed(() => {
+    return this.habitsView().reduce((acc, item) => acc + (item.habit.duration || 0), 0);
+  });
+
+  completedMinutes = computed(() => {
+    return this.habitsView()
+      .filter(item => item.completed)
+      .reduce((acc, item) => acc + (item.habit.duration || 0), 0);
+  });
 
   activeDateDisplay = computed(() => {
     const dStr = this.activeDateStr();
