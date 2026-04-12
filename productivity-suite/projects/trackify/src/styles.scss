@@ -34,5 +34,7 @@ body {
 }
 
 .text-bg {
-    color: var(--background-default);
+    * {
+        color: var(--background-default);
+    }
 }

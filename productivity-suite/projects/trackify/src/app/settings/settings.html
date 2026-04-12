@@ -49,7 +49,7 @@
 
             <div class="df jc-fe">
                 <button mat-flat-button color="primary" type="submit" [disabled]="profileForm.invalid"
-                    class="fw-700 py-12 px-24 br-8">
+                    class="fw-700 py-12 px-24 br-8 text-bg">
                     Save Changes
                 </button>
             </div>
@@ -72,7 +72,7 @@
                     <span class="fs-13 fw-500" style="color: #ef4444;">Permanently delete all habits, logs, categories,
                         and your profile.</span>
                 </div>
-                <button mat-flat-button color="warn" class="fw-700" (click)="clearAllData()">
+                <button mat-flat-button color="warn" class="fw-700 text-bg" (click)="clearAllData()">
                     <mat-icon class="mr-4">delete_forever</mat-icon> Erase
                 </button>
             </div>

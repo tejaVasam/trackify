@@ -9,7 +9,7 @@
             <mat-label>New Category</mat-label>
             <input matInput [(ngModel)]="newCategoryName" name="catName" placeholder="e.g. Finances" required>
         </mat-form-field>
-        <button mat-flat-button color="primary" type="submit" [disabled]="!newCategoryName">Add</button>
+        <button mat-flat-button color="primary" type="submit" [disabled]="!newCategoryName" class="text-bg">Add</button>
     </form>
 
     <mat-accordion class="w-100">

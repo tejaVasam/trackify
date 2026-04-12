@@ -18,11 +18,11 @@
         </div>
     </div>
 
-    <div class="p-24 df fd-c gap-6">
+    <div class="p-38 df fd-c gap-6">
 
         <!-- 2. Habit Summary Card -->
         @if (habit()) {
-        <div class="bg-white br-24 p-24 df fd-c gap-4 w-100 position-relative"
+        <div class="bg-white br-24  df fd-c gap-4 w-100 position-relative"
             style="box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); box-sizing: border-box; overflow: hidden;">
             <div [style.background]="'radial-gradient(circle, ' + habit()?.color + '20 0%, transparent 60%)'"
                 style="position: absolute; top: -20px; right: -20px; width: 140px; height: 140px; border-radius: 50%;">
@@ -120,7 +120,7 @@
         </div>
 
         <!-- 4. Calendar View Heatmap -->
-        <div class="bg-white br-24 p-24 w-100 df fd-c gap-6 mt-12"
+        <div class="bg-white br-24  w-100 df fd-c gap-6 mt-12"
             style="box-shadow: 0 10px 25px -5px rgba(0,0,0,0.03); box-sizing: border-box;">
             <div class="df fd-r jc-sb ai-c mb-20">
                 <div class="df fd-c">
@@ -153,16 +153,22 @@
                 }
                 @for (cell of calendarDays(); track cell.dateStr) {
                 <div class="df ai-c jc-c position-relative" style="flex: 0 0 14.28%; height: 48px;">
-                    <button class="br-12 border-none df fd-c ai-c jc-c fw-700 fs-15 cursor-pointer transition-all"
+                    <button class="br-12 border-none df fd-c ai-c jc-c fw-700 fs-15 cursor-pointer transition-all position-relative"
                         [style.width]="'40px'" [style.height]="'40px'" [style.background-color]="getCellBg(cell)"
                         [style.color]="getCellColor(cell)" [style.opacity]="cell.isInFuture ? '0.3' : '1'"
                         [style.border]="cell.isToday ? '2px solid #1e293b' : 'none'"
-                        [disabled]="cell.isInFuture || !cell.isConfiguredDay" (click)="onDateClick(cell)">
+                        [disabled]="cell.isInFuture && !cell.isConfiguredDay"
+                        (pointerdown)="onDatePointerDown(cell)"
+                        (pointerup)="onDatePointerUp(cell)">
                         {{ cell.dayNum }}
 
-                        @if (cell.note) {
+                        @if (cell.mood) {
+                        <span class="position-absolute fs-10" style="top: -2px; right: -2px;">{{ cell.mood }}</span>
+                        }
+
+                        @if (cell.hasNote) {
                         <div class="position-absolute"
-                            style="bottom: 8px; width: 4px; height: 4px; border-radius: 50%; background-color: currentColor; opacity: 0.6;">
+                            style="bottom: 4px; width: 4px; height: 4px; border-radius: 50%; background-color: currentColor; opacity: 0.8;">
                         </div>
                         }
                     </button>
@@ -191,7 +197,7 @@
         </div>
 
         <!-- 5. Trends & Reports Chart -->
-        <div class="bg-white br-24 p-24 w-100 df fd-c gap-6 mt-12"
+        <div class="bg-white br-24  w-100 df fd-c gap-6 mt-12"
             style="box-shadow: 0 10px 25px -5px rgba(0,0,0,0.03); box-sizing: border-box;">
             <div class="df fd-r jc-sb ai-c mb-8">
                 <span class="fs-18 fw-800 text-primary">Trends</span>

@@ -25,6 +25,21 @@ export class HabitLogService {
     }
   }
 
+  async saveLogData(habitId: number, dateStr: string, data: Partial<HabitLog>): Promise<void> {
+    const existing = await db.habitLogs.where({ habitId, dateStr }).first();
+    if (existing && existing.id) {
+      await db.habitLogs.update(existing.id, data);
+    } else {
+      const log: HabitLog = {
+        habitId,
+        dateStr,
+        completedAt: Date.now(),
+        ...data
+      };
+      await db.habitLogs.add(log);
+    }
+  }
+
   async getLog(habitId: number, dateStr: string): Promise<HabitLog | undefined> {
     return db.habitLogs.where({ habitId, dateStr }).first();
   }

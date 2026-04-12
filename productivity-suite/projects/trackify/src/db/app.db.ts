@@ -9,7 +9,11 @@ export interface HabitLog {
   habitId: number;
   dateStr: string; // e.g., 'YYYY-MM-DD'
   completedAt: number; // Unix timestamp
-  note?: string;
+  note?: string; // Keep for backward compatibility or simple notes
+  mood?: string;
+  tags?: string[];
+  reflectionNote?: string;
+  planNote?: string;
 }
 
 
