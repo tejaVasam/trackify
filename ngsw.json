@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1775947491786,
+  "timestamp": 1775985592527,
   "index": "/Angular/index.html",
   "assetGroups": [
     {
@@ -11,11 +11,13 @@
         "ignoreVary": true
       },
       "urls": [
+        "/Angular/chunk-3DOWXQDF.js",
+        "/Angular/chunk-VCIKQ6IA.js",
         "/Angular/favicon.ico",
         "/Angular/index.html",
-        "/Angular/main-3XOM3ONL.js",
+        "/Angular/main-NHBGLMIJ.js",
         "/Angular/manifest.webmanifest",
-        "/Angular/styles-TIFWQWLZ.css"
+        "/Angular/styles-FXEMYVNG.css"
       ],
       "patterns": []
     },
@@ -42,6 +44,8 @@
   ],
   "dataGroups": [],
   "hashTable": {
+    "/Angular/chunk-3DOWXQDF.js": "4994d69018a2c5b7021dcc2bfed284fc3556e54e",
+    "/Angular/chunk-VCIKQ6IA.js": "d99463db618c16bba6a9e4628cec517e2f036294",
     "/Angular/favicon.ico": "9c39f434fe1261f68c5e3eefdf734630d99c5670",
     "/Angular/favicon.png": "e62fad51a74297b272b2823356318ef13ec83bba",
     "/Angular/icons/icon-128x128.png": "f912963bdc6d5a38d8f1dd0afbaab2ce8d657acb",
@@ -52,10 +56,10 @@
     "/Angular/icons/icon-512x512.png": "1de182f76f7329dfa8f9fcdd1fdcdd695bea6a99",
     "/Angular/icons/icon-72x72.png": "aa88a6096bd973be7f6d7a5489bfa6bc2463f8c4",
     "/Angular/icons/icon-96x96.png": "7fb8f59c30ce2ff12c700321a0b39e14b3dc8f95",
-    "/Angular/index.html": "d4592e21ed97ed03a867a70be55756bc1df09be5",
-    "/Angular/main-3XOM3ONL.js": "c9432551bb2c805434aa034df7ece38f85d34eb9",
+    "/Angular/index.html": "ae735a6f9c43c25ddbc0fcd0c70d7306088f86e1",
+    "/Angular/main-NHBGLMIJ.js": "93cb9cee24a49a70fbf045e462e035a314f0c827",
     "/Angular/manifest.webmanifest": "ecacbd5af75216551570c03f35674a0ec8a001c7",
-    "/Angular/styles-TIFWQWLZ.css": "0307dd41322a2f03653017e29c4d5a152089b23f"
+    "/Angular/styles-FXEMYVNG.css": "a525dc89fac8f5cd1ef9fc8e11f9792b94e45068"
   },
   "navigationUrls": [
     {
