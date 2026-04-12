@@ -5,8 +5,8 @@
   </button>
 </div>
 
-<form [formGroup]="habitForm" (ngSubmit)="onSubmit()" class="df fd-c gap-5 p-24" 
-      style="box-sizing: border-box; overflow-x: hidden; overflow-y: auto; max-height: 75vh;">
+<form [formGroup]="habitForm" (ngSubmit)="onSubmit()" class="df fd-c gap-5 p-24"
+  style="box-sizing: border-box; overflow-x: hidden; overflow-y: auto; max-height: 75vh;">
 
 
   <!-- Habit Name -->
@@ -26,10 +26,10 @@
   </div>
 
   <!-- Color and Frequency row -->
-  <div class="df fd-r ai-fs gap-4 w-100 flex-wrap" style="box-sizing: border-box;">
+  <div class="df fd-r gap-4 w-100">
 
     <!-- Color Picker Matrix -->
-    <div class="df fd-c gap-2 flex-1" style="min-width: 200px;">
+    <div class="df fd-c gap-2 flex-1">
       <span class="fs-13 fw-600 text-primary uppercase ls-1" style="color: #000;">Color</span>
       <div class="df fd-r gap-4 flex-wrap" style="max-width: 170px;">
         @for (color of presetColors; track color) {
@@ -70,7 +70,7 @@
   }
 
   <!-- Options Sub Row -->
-  <div class="df fd-r ai-fs gap-4 w-100 mt-8 flex-wrap" style="box-sizing: border-box;">
+  <div class="df fd-r  gap-4 w-100" style="box-sizing: border-box;">
 
     <!-- Icon -->
     <div class="df fd-c gap-2 flex-1" style="min-width: 0;">
@@ -106,6 +106,15 @@
       </mat-form-field>
     </div>
 
+
+  </div>
+  <!-- Duration -->
+  <div class="df fd-c gap-2 flex-1" style="min-width: 0;">
+    <span class="fs-13 fw-600 text-primary uppercase ls-1" style="color: #000;">Duration (In Mins)</span>
+    <mat-form-field appearance="outline" class="w-100 hide-subscript m-0 p-0">
+      <input matInput type="number" formControlName="duration" placeholder="e.g. 30" min="0">
+      <mat-icon matPrefix>schedule</mat-icon>
+    </mat-form-field>
   </div>
 
   <!-- Reminders Section -->
@@ -114,7 +123,8 @@
       <span class="fs-14 fw-600">Daily Reminder</span>
       <span class="fs-12 text-secondary">Get notified when it's time</span>
     </div>
-    <mat-slide-toggle formControlName="reminderEnabled" (change)="onReminderToggle($event.checked)" color="primary"></mat-slide-toggle>
+    <mat-slide-toggle formControlName="reminderEnabled" (change)="onReminderToggle($event.checked)"
+      color="primary"></mat-slide-toggle>
   </div>
 
   @if (habitForm.get('reminderEnabled')?.value) {
@@ -130,7 +140,7 @@
 
   <!-- Submit Action Button -->
   <button mat-flat-button color="primary" type="submit" class="w-100 br-8 fw-600 mt-24"
-    style="padding: 24px 0; font-size: 16px; background-color: #20B2AA;">
+    style="padding: 24px 0; font-size: 16px;">
     {{ data?.habit ? 'Save Changes' : 'Create Habit' }}
   </button>
 </form>

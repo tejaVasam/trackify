@@ -9,7 +9,7 @@ export class CategoryService {
   async getCategories(): Promise<Category[]> {
     return db.categories.toArray();
   }
-  
+
   async addCategory(name: string): Promise<number> {
     return db.categories.add({ name });
   }

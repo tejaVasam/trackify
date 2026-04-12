@@ -2,14 +2,7 @@
   <div class="df fd-r ai-c jc-s">
     <h2 class="m-0 fs-24 fw-700">My Habits</h2>
     <div class="df fd-r ai-c gap-4">
-      <mat-form-field appearance="outline" class="hide-subscript" style="width: 160px;">
-        <mat-select [value]="selectedCategoryId()" (selectionChange)="selectedCategoryId.set($event.value)">
-          <mat-option value="all">All Categories</mat-option>
-          @for(cat of categories(); track cat.id) {
-          <mat-option [value]="cat.id">{{ cat.name }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
+
       <button mat-flat-button color="primary" (click)="openCreateHabitDialog()" class="br-8">
         New Habit
       </button>
@@ -17,13 +10,21 @@
   </div>
 
   <div class="df fd-c gap-4">
+    <mat-form-field appearance="outline" class="hide-subscript" style="width: 160px;">
+      <mat-select [value]="selectedCategoryId()" (selectionChange)="selectedCategoryId.set($event.value)">
+        <mat-option value="all">All Categories</mat-option>
+        @for(cat of categories(); track cat.id) {
+        <mat-option [value]="cat.id">{{ cat.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
     @for(habit of filteredHabits(); track habit.id)
     {
     <div class="habit-card p-16 b-1-solid br-8 df fd-r ai-c jc-s cursor-pointer"
       style="transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.03); background-color: #fff;"
       (click)="viewDetails(habit.id!)">
-      <div class="df fd-c" style="flex: 1;">
-        <div class="df fd-r ai-c gap-2 flex-wrap">
+      <div class="df fd-c gap-2 " style="flex: 1;">
+        <div class="df  ai-c gap-2">
           <h3 class="m-0 fw-600 fs-16">{{ habit.name }}</h3>
 
           <!-- Category Tag -->
@@ -40,8 +41,17 @@
             <span class="fs-12 fw-700" style="color: #ea580c;">{{ habit.currentStreak }}</span>
           </div>
           }
+          @if(habit.duration)
+          {
+          <div class="df ai-c gap-1 px-8 py-2 br-12" style="background-color: #fff7ed; border: 1px solid #ffedd5;">
+            <span style="font-size: 14px;">⏰</span>
+            <span class="fs-12 fw-700" style="color: #ea580c;">{{ habit.duration }}</span>
+          </div>
+          }
         </div>
+        @if(habit.description){
         <p class="m-0 mt-4 text-secondary fs-13 truncate-1">{{ habit.description }}</p>
+        }
 
         <!-- Frequency Display -->
         <div class="df fd-r ai-c gap-2 mt-8">
@@ -70,7 +80,7 @@
         </div>
       </div>
 
-      <div class="df fd-r gap-8">
+      <div class="df fd-r">
         <button mat-icon-button color="primary" (click)="$event.stopPropagation(); editHabit(habit)">
           <mat-icon>edit</mat-icon>
         </button>

@@ -4,7 +4,8 @@
     <!-- Header -->
     <div class="df fd-r jc-sb ai-c w-100 p-24 pb-16">
         <div class="df fd-c gap-2">
-            <h1 class="m-0 fs-28 fw-700" style="color: var(--text-primary); letter-spacing: -0.5px;">Morning, Budi</h1>
+            <h1 class="m-0 fs-28 fw-700" style="color: var(--text-primary); letter-spacing: -0.5px;">{{ greeting() }},
+                {{ userName() }}</h1>
             <span class="fs-13 fw-500 text-secondary" style="color: #6b7280;">{{ activeDateDisplay() }}</span>
         </div>
 
@@ -20,7 +21,6 @@
     <!-- Daily Routine Section -->
     <div class="df fd-r jc-sb ai-c w-100 px-24 mb-16" style="box-sizing: border-box;">
         <h2 class="m-0 fs-18 fw-700" style="color: var(--text-primary);">Daily routine</h2>
-        <span class="fs-13 fw-600 cursor-pointer" style="color: #8b5a45;">See all</span>
     </div>
 
     <div class="df fd-c gap-4 position-relative w-100 px-24 pb-80" style="box-sizing: border-box;">
@@ -58,6 +58,13 @@
                             [style.text-decoration]="item.completed ? 'line-through' : 'none'">
                             {{ item.habit.name }}
                         </h3>
+                        @if (item.habit.duration) {
+                        <div class="df ai-c gap-1 px-6 py-1 br-8"
+                            style="background-color: #f1f5f9; border: 1px solid #e2e8f0;">
+                            <mat-icon style="font-size: 11px; width: 11px; height: 11px; color: #64748b;">schedule</mat-icon>
+                            <span class="fs-10 fw-700" style="color: #64748b;">{{ item.habit.duration }}m</span>
+                        </div>
+                        }
                         @if (item.streak > 0) {
                         <div class="df ai-c gap-1 px-6 py-1 br-8"
                             style="background-color: #fff7ed; border: 1px solid #ffedd5;">

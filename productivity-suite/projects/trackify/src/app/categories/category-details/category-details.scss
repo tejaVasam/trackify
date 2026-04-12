@@ -1,0 +1,25 @@
+.grid-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+}
+
+.card-elevated {
+    background: var(--surface-container-low, #ffffff);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease;
+
+    &:hover {
+        transform: translateY(-4px);
+    }
+}
+
+.bg-surface {
+    background: var(--surface-container, #f8f9fa);
+}
+
+@media (max-width: 600px) {
+    .grid-stats {
+        grid-template-columns: 1fr;
+    }
+}

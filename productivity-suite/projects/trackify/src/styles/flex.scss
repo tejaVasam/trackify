@@ -29,6 +29,10 @@
         justify-content: flex-start;
     }
 
+    &.jc-fe {
+        justify-content: flex-end;
+    }
+
     &.flex-wrap {
         flex-wrap: wrap;
     }

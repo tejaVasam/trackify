@@ -1,0 +1,109 @@
+.active {
+  background-color: var(--primary-container, rgba(99, 102, 241, 0.1)) !important;
+  color: var(--on-primary-container, #6366f1) !important;
+  
+  mat-icon {
+    color: var(--primary, #6366f1) !important;
+  }
+}
+
+.hide-on-mobile {
+  @media (max-width: 600px) {
+    display: none;
+  }
+}
+
+.mobile-bottom-nav {
+  position: fixed;
+  bottom: 0px;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 10px;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  z-index: 1000;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
+
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    height: 100%;
+    cursor: pointer;
+    color: #94a3b8;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    mat-icon {
+      font-size: 26px;
+      width: 26px;
+      height: 26px;
+    }
+
+    &.active-tab {
+      color: #6366f1;
+      
+      mat-icon {
+        background: rgba(99, 102, 241, 0.1);
+        padding: 8px;
+        border-radius: 16px;
+        box-sizing: content-box;
+      }
+    }
+  }
+
+  .nav-center-item {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    top: -20px;
+
+    .fab-btn {
+      width: 60px;
+      height: 60px;
+      background: #6366f1;
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 16px rgba(99, 102, 241, 0.3);
+      color: white;
+      transition: all 0.3s ease;
+
+      mat-icon {
+        font-size: 32px;
+        width: 32px;
+        height: 32px;
+      }
+
+      &:active {
+        transform: scale(0.9);
+      }
+    }
+  }
+}
+
+// Dark mode support
+:host-context(.dark-theme) .mobile-bottom-nav {
+  background: rgba(15, 23, 42, 0.85);
+  border-top-color: rgba(255, 255, 255, 0.05);
+  
+  .nav-item {
+    color: #64748b;
+    
+    &.active-tab {
+      color: #818cf8;
+      mat-icon {
+        background: rgba(129, 140, 248, 0.15);
+      }
+    }
+  }
+}

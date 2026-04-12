@@ -1,0 +1,62 @@
+<div class="p-16 df fd-c gap-8">
+    <div class="df ai-c gap-8">
+        <button mat-icon-button routerLink="/categories">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+        <div class="df fd-c">
+            <h2 class="m-0">{{ category()?.name }} Details</h2>
+            <p class="m-0 text-secondary">Insights and statistics for this category</p>
+        </div>
+    </div>
+
+    <div class="grid-stats">
+        <mat-card class="br-16 p-16 card-elevated">
+            <mat-card-header>
+                <mat-card-title>Habit Distribution</mat-card-title>
+                <mat-card-subtitle>Completions per habit</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content class="df jc-c ai-c mt-16" style="height: 300px;">
+                @if(habits().length > 0 && logs().length > 0) {
+                <canvas baseChart [data]="doughnutChartData" [type]="'doughnut'">
+                </canvas>
+                } @else {
+                <div class="text-secondary df fd-c ai-c gap-8">
+                    <mat-icon style="font-size: 48px; height: 48px; width: 48px;">pie_chart</mat-icon>
+                    <span>No data available yet</span>
+                </div>
+                }
+            </mat-card-content>
+        </mat-card>
+
+        <mat-card class="br-16 p-16 card-elevated">
+            <mat-card-header>
+                <mat-card-title>Activity Trend</mat-card-title>
+                <mat-card-subtitle>Category completions (last 14 days)</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content class="mt-16">
+                @if(logs().length > 0) {
+                <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [type]="'line'">
+                </canvas>
+                } @else {
+                <div class="text-secondary df fd-c ai-c jc-c h-100 gap-8">
+                    <mat-icon style="font-size: 48px; height: 48px; width: 48px;">show_chart</mat-icon>
+                    <span>Start tracking to see trends</span>
+                </div>
+                }
+            </mat-card-content>
+        </mat-card>
+    </div>
+
+    <div class="df fd-c flex-wrap gap-8 mt-8">
+        <h3 class="m-0 px-8">Habits in this Category</h3>
+        <div class="df fw-w gap-12 px-8">
+            @for(h of habits(); track h.id) {
+            <div class="df ai-c gap-8 p-12 br-12 b-1-solid bg-surface flex-wrap" [style.border-left-color]="h.color"
+                style="border-left-width: 4px;">
+                <mat-icon [style.color]="h.color">{{ h.icon }}</mat-icon>
+                <span class="fw-500">{{ h.name }}</span>
+            </div>
+            }
+        </div>
+    </div>
+</div>

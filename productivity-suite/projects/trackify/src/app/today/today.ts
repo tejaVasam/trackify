@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
 import { HabitFrequency } from '../../enums/habit-frequency.enum';
 import { Days } from '../../enums/days.enum';
 import { DateStripComponent } from '../shared/components/date-strip/date-strip';
+import { db } from '../../db/app.db';
 
 interface TodayHabitView {
   habit: Habit;
@@ -43,9 +44,22 @@ export class Today implements OnInit {
     return dateObj.toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
   });
 
-  ngOnInit() {
+  userName = signal<string>('Budi');
+  greeting = computed(() => {
+    const hour = new Date().getHours();
+    if (hour < 12) return 'Morning';
+    if (hour < 17) return 'Afternoon';
+    return 'Evening';
+  });
+
+  async ngOnInit() {
     this.activeDateStr.set(this.getLocalFormattedDate(new Date()));
     this.loadHabitsForActiveDate();
+
+    const loadedUser = await db.users.orderBy('id').first();
+    if (loadedUser) {
+      this.userName.set(loadedUser.name.split(' ')[0]);
+    }
   }
 
   getLocalFormattedDate(date: Date): string {

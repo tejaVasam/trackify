@@ -13,4 +13,5 @@ export type Habit = {
   category: HabitCategory;
   reminderEnabled: boolean;
   reminderTime?: string; // HH:MM
+  duration?: number; // in minutes
 };

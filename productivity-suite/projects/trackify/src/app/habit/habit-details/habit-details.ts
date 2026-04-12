@@ -81,6 +81,12 @@ interface GridDay {
                    <div class="px-10 py-4 br-8 fs-11 fw-700 uppercase ls-1" [style.background-color]="habit()?.color + '15'" [style.color]="habit()?.color">
                        {{ habit()?.frequency === 0 ? 'Daily' : 'Weekly' }}
                    </div>
+                   @if (habit()?.duration) {
+                     <div class="df ai-c gap-1 px-10 py-4 br-8 fs-11 fw-700 text-secondary" style="background-color: var(--surface-alt);">
+                         <mat-icon style="font-size: 14px; width: 14px; height: 14px;">schedule</mat-icon>
+                         {{ habit()?.duration }} mins
+                     </div>
+                   }
                    <span class="fs-13 fw-600 text-secondary">Active monitoring</span>
                </div>
                <div class="df fd-r ai-c gap-1">

@@ -1,8 +1,6 @@
 import { Routes } from '@angular/router';
 import { Dashboard } from './dashboard/dashboard';
-import { LibPreview } from './lib-preview/lib-preview';
 import { HabitsList } from './habit/habits-list/habits-list';
-import { CreateHabit } from './habit/create-habit/create-habit';
 import { Today } from './today/today';
 import { Settings } from './settings/settings';
 import { Categories } from './categories/categories';
@@ -46,13 +44,14 @@ export const routes: Routes = [
                 component: Categories
             },
             {
+                path: 'categories/:id',
+                loadComponent: () => import('./categories/category-details/category-details').then(m => m.CategoryDetails)
+            },
+            {
                 path: 'settings',
                 component: Settings
             }
         ]
     },
-    {
-        path: 'preview',
-        component: LibPreview
-    }
+
 ];

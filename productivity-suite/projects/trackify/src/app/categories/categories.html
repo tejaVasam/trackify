@@ -1,0 +1,60 @@
+<div class="p-16 df fd-c gap-4">
+    <div class="df fd-c gap-4">
+        <h2 class="m-0">Categories</h2>
+        <p class="m-0 text-secondary">Manage your habit categories</p>
+    </div>
+
+    <form class="df ai-c gap-8" (ngSubmit)="addCategory()">
+        <mat-form-field appearance="outline" class="w-100 m-0 flex-1" style="margin-bottom: -1.25em;">
+            <mat-label>New Category</mat-label>
+            <input matInput [(ngModel)]="newCategoryName" name="catName" placeholder="e.g. Finances" required>
+        </mat-form-field>
+        <button mat-flat-button color="primary" type="submit" [disabled]="!newCategoryName">Add</button>
+    </form>
+
+    <mat-accordion class="w-100">
+        @for(cat of categories(); track cat.id) {
+        <mat-expansion-panel class="br-12 b-1-solid mb-8" hideToggle="false" #panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title class="fw-600 df ai-c jc-s gap-4 text-secondary">
+                    {{ cat.name }}
+                    <span>{{ getHabitCount(cat.id!) }} {{ getHabitCount(cat.id!) === 1 ? 'habit' : 'habits' }}</span>
+                </mat-panel-title>
+
+            </mat-expansion-panel-header>
+
+            <div>
+                @if(getHabits(cat.id!).length > 0) {
+                <div class="df fd-c gap-2">
+                    <span class="fs-12 text-secondary fw-500 uppercase px-4">Assigned Habits</span>
+                    <mat-list class="p-0">
+                        @for(habit of getHabits(cat.id!); track habit.id) {
+                        <mat-list-item class="h-auto p-0 mb-4">
+                            <mat-icon matListItemIcon [style.color]="habit.color">{{ habit.icon }}</mat-icon>
+                            <span matListItemTitle>{{ habit.name }}</span>
+                        </mat-list-item>
+                        }
+                    </mat-list>
+                </div>
+                } @else {
+                <p class="text-secondary m-0 px-4">No habits assigned yet</p>
+                }
+            </div>
+
+            <div class="df ai-c jc-sb pt-8 bt-1-solid mt-4">
+                <div class="df ai-c gap-8">
+                    <button mat-stroked-button color="primary" (click)="navigateToDetails(cat.id!)">
+                        <mat-icon>insights</mat-icon>
+                        View Details
+                    </button>
+                </div>
+                <button mat-icon-button color="warn" (click)="deleteCategory(cat.id!)"
+                    [disabled]="getHabitCount(cat.id!) > 0"
+                    [matTooltip]="getHabitCount(cat.id!) > 0 ? 'Cannot delete category with habits' : 'Delete category'">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div>
+        </mat-expansion-panel>
+        }
+    </mat-accordion>
+</div>

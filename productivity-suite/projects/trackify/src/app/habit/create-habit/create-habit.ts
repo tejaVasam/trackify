@@ -77,7 +77,8 @@ export class CreateHabit implements OnInit {
     days: [[] as number[]],
     category: [1, Validators.required],
     reminderEnabled: [false],
-    reminderTime: ['08:00']
+    reminderTime: ['08:00'],
+    duration: [0]
   });
 
   selectColor(color: string) {
@@ -98,7 +99,8 @@ export class CreateHabit implements OnInit {
         days: h.days || [],
         category: h.category?.id,
         reminderEnabled: h.reminderEnabled || false,
-        reminderTime: h.reminderTime || '08:00'
+        reminderTime: h.reminderTime || '08:00',
+        duration: h.duration || 0
       });
     } else {
       const cats = this.categoryOptions();
@@ -140,7 +142,8 @@ export class CreateHabit implements OnInit {
       days: targetFrequency === HabitFrequency.Weekly ? (val.days as number[]) : [],
       category: targetCategory,
       reminderEnabled: !!val.reminderEnabled,
-      reminderTime: val.reminderTime || '08:00'
+      reminderTime: val.reminderTime || '08:00',
+      duration: Number(val.duration) || 0
     };
 
     if (this.data?.habit?.id) {

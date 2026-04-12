@@ -47,7 +47,7 @@ export class AppDB extends Dexie {
     });
 
     this.version(5).stores({
-      habitLogs: '++id, habitId, dateStr, [habitId+dateStr]' 
+      habitLogs: '++id, habitId, dateStr, [habitId+dateStr]'
     });
   }
 
