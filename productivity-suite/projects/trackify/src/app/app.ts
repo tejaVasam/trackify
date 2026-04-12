@@ -4,13 +4,15 @@ import { NotificationService } from '../services/notification.service';
 import { inject } from '@angular/core';
 
 import { SidenavComponent } from './shared/sidenav/sidenav';
+import { HeaderComponent } from './shared/components/header/header';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
     RouterOutlet,
-    SidenavComponent
+    SidenavComponent,
+    HeaderComponent
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss',

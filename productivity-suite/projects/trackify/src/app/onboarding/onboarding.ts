@@ -7,11 +7,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { AvatarComponent } from '../shared/components/avatar/avatar';
 
 @Component({
   selector: 't-onboarding',
   standalone: true,
-  imports: [ReactiveFormsModule, MatFormFieldModule, MatSelectModule, MatInputModule, MatButtonModule, MatIconModule],
+  imports: [ReactiveFormsModule, MatFormFieldModule, MatSelectModule, MatInputModule, MatButtonModule, MatIconModule, AvatarComponent],
   template: `
     <div class="df fd-c ai-c jc-c min-vh-100" style="background-color: #f7f3f0; padding: 24px;">
       
@@ -29,14 +30,8 @@ import { MatIconModule } from '@angular/material/icon';
            
            <!-- Setup Avatar Upload -->
            <div class="df fd-c ai-c gap-2 mb-16 position-relative w-100">
-             <div class="bg-white overflow-hidden cursor-pointer" 
-                  style="width: 100px; height: 100px; min-width: 100px; min-height: 100px; max-width: 100px; max-height: 100px; border-radius: 50%; border: 3px dashed #10b981; position: relative; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"
-                  (click)="fileInput.click()">
-                 @if (previewBase64) {
-                   <img [src]="previewBase64" style="width: 100%; height: 100%; object-fit: cover; display: block;" alt="avatar-preview">
-                 } @else {
-                   <mat-icon style="font-size: 32px; width: 32px; height: 32px; color: #10b981;">add_a_photo</mat-icon>
-                 }
+             <div class="cursor-pointer" (click)="fileInput.click()">
+                 <t-avatar [name]="onboardForm.get('name')?.value || ''" [avatar]="previewBase64" [size]="100"></t-avatar>
                  <input #fileInput type="file" accept="image/*" capture="user" (change)="onFileSelected($event)" style="display: none;">
              </div>
              <span class="fs-12 fw-600 text-secondary text-center">Upload Photo (Optional)</span>

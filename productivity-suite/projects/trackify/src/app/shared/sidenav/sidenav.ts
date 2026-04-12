@@ -8,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { db, User } from '../../../db/app.db';
 import { ThemeService } from '../../../services/theme.service';
+import { AvatarComponent } from '../components/avatar/avatar';
 
 @Component({
   selector: 't-sidenav',
@@ -16,7 +17,6 @@ import { ThemeService } from '../../../services/theme.service';
     CommonModule,
     RouterModule,
     MatSidenavModule,
-    MatToolbarModule,
     MatIconModule,
     MatListModule,
     MatButtonModule
@@ -25,10 +25,10 @@ import { ThemeService } from '../../../services/theme.service';
   styleUrl: './sidenav.scss'
 })
 export class SidenavComponent implements OnInit {
-  protected readonly title = signal('Trackify');
-  isSidenavOpened = signal(true);
-  isMobile = signal(false);
-  activeUser = signal<User | null>(null);
+  public readonly title = signal('Trackify');
+  public isSidenavOpened = signal(true);
+  public isMobile = signal(false);
+  public activeUser = signal<User | null>(null);
   
   themeService = inject(ThemeService);
 

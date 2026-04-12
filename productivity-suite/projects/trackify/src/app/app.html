@@ -1,3 +1,5 @@
-<t-sidenav>
+<t-sidenav #s>
+  <t-header [isMobile]="s.isMobile()" [title]="s.title()" [activeUser]="s.activeUser()" (toggle)="s.toggleSidenav()">
+  </t-header>
   <router-outlet></router-outlet>
 </t-sidenav>

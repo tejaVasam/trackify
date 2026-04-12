@@ -4,6 +4,55 @@
         <p class="m-0 fs-14 fw-500" style="color: #6b7280;">Manage your application data and preferences</p>
     </div>
 
+    <!-- Profile Settings Card -->
+    <div class="bg-white br-16 p-24 df fd-c gap-6 w-100"
+        style="box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05); box-sizing: border-box;">
+        <div class="df fd-c gap-2 mb-8">
+            <h2 class="m-0 fs-18 fw-700 text-primary">Profile</h2>
+            <p class="m-0 fs-14 text-secondary">Update your personal information</p>
+        </div>
+
+        <form [formGroup]="profileForm" (ngSubmit)="saveProfile()" class="df fd-c gap-6 w-100">
+            <!-- Avatar Upload -->
+            <div class="df ai-c gap-8 p-16 br-12" style="background-color: #f8fafc;">
+                <div class="cursor-pointer" (click)="fileInput.click()">
+                    <t-avatar [name]="profileForm.get('name')?.value || ''" [avatar]="previewAvatar" [size]="80"></t-avatar>
+                    <input #fileInput type="file" accept="image/*" (change)="onFileSelected($event)" style="display: none;">
+                </div>
+                <div class="df fd-c gap-1">
+                    <span class="fs-15 fw-700">Profile Picture</span>
+                    <span class="fs-13 text-secondary">Click the circle to change your photo</span>
+                </div>
+            </div>
+
+            <div class="df fd-r gap-4 flex-wrap">
+                <div class="df fd-c gap-2 flex-1" style="min-width: 200px;">
+                    <span class="fs-13 fw-700 text-primary uppercase ls-1">Display Name</span>
+                    <mat-form-field appearance="outline" class="w-100 hide-subscript">
+                        <input matInput formControlName="name" placeholder="E.g. Alex" required>
+                    </mat-form-field>
+                </div>
+                
+                <div class="df fd-c gap-2 flex-1" style="min-width: 200px;">
+                    <span class="fs-13 fw-700 text-primary uppercase ls-1">Gender</span>
+                    <mat-form-field appearance="outline" class="w-100 hide-subscript">
+                        <mat-select formControlName="gender" required>
+                            <mat-option value="male">Male</mat-option>
+                            <mat-option value="female">Female</mat-option>
+                            <mat-option value="other">Other</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="df jc-fe">
+                <button mat-flat-button color="primary" type="submit" [disabled]="profileForm.invalid" class="fw-700 py-12 px-24 br-8">
+                    Save Changes
+                </button>
+            </div>
+        </form>
+    </div>
+
     <div class="bg-white br-16 p-24 df fd-c gap-4 w-100"
         style="box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05); box-sizing: border-box;">
         <div class="df fd-c gap-2 mb-8">
