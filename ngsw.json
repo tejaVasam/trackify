@@ -1,7 +1,7 @@
 {
   "configVersion": 1,
-  "timestamp": 1775985592527,
-  "index": "/Angular/index.html",
+  "timestamp": 1775997548535,
+  "index": "/trackify/index.html",
   "assetGroups": [
     {
       "name": "app",
@@ -11,13 +11,13 @@
         "ignoreVary": true
       },
       "urls": [
-        "/Angular/chunk-3DOWXQDF.js",
-        "/Angular/chunk-VCIKQ6IA.js",
-        "/Angular/favicon.ico",
-        "/Angular/index.html",
-        "/Angular/main-NHBGLMIJ.js",
-        "/Angular/manifest.webmanifest",
-        "/Angular/styles-FXEMYVNG.css"
+        "/trackify/chunk-3DOWXQDF.js",
+        "/trackify/chunk-VCIKQ6IA.js",
+        "/trackify/favicon.ico",
+        "/trackify/index.html",
+        "/trackify/main-NHBGLMIJ.js",
+        "/trackify/manifest.webmanifest",
+        "/trackify/styles-FXEMYVNG.css"
       ],
       "patterns": []
     },
@@ -29,37 +29,37 @@
         "ignoreVary": true
       },
       "urls": [
-        "/Angular/favicon.png",
-        "/Angular/icons/icon-128x128.png",
-        "/Angular/icons/icon-144x144.png",
-        "/Angular/icons/icon-152x152.png",
-        "/Angular/icons/icon-192x192.png",
-        "/Angular/icons/icon-384x384.png",
-        "/Angular/icons/icon-512x512.png",
-        "/Angular/icons/icon-72x72.png",
-        "/Angular/icons/icon-96x96.png"
+        "/trackify/favicon.png",
+        "/trackify/icons/icon-128x128.png",
+        "/trackify/icons/icon-144x144.png",
+        "/trackify/icons/icon-152x152.png",
+        "/trackify/icons/icon-192x192.png",
+        "/trackify/icons/icon-384x384.png",
+        "/trackify/icons/icon-512x512.png",
+        "/trackify/icons/icon-72x72.png",
+        "/trackify/icons/icon-96x96.png"
       ],
       "patterns": []
     }
   ],
   "dataGroups": [],
   "hashTable": {
-    "/Angular/chunk-3DOWXQDF.js": "4994d69018a2c5b7021dcc2bfed284fc3556e54e",
-    "/Angular/chunk-VCIKQ6IA.js": "d99463db618c16bba6a9e4628cec517e2f036294",
-    "/Angular/favicon.ico": "9c39f434fe1261f68c5e3eefdf734630d99c5670",
-    "/Angular/favicon.png": "e62fad51a74297b272b2823356318ef13ec83bba",
-    "/Angular/icons/icon-128x128.png": "f912963bdc6d5a38d8f1dd0afbaab2ce8d657acb",
-    "/Angular/icons/icon-144x144.png": "b155fd5f2fd5d2ea7760721063003c4cd95fd783",
-    "/Angular/icons/icon-152x152.png": "eae6e0f0c8afb8aaae339e2a569b43e9238e5e6c",
-    "/Angular/icons/icon-192x192.png": "15c4180454633880d98674aa7394656196c91584",
-    "/Angular/icons/icon-384x384.png": "94a915751ef6c9282df9aea405ad679230631814",
-    "/Angular/icons/icon-512x512.png": "1de182f76f7329dfa8f9fcdd1fdcdd695bea6a99",
-    "/Angular/icons/icon-72x72.png": "aa88a6096bd973be7f6d7a5489bfa6bc2463f8c4",
-    "/Angular/icons/icon-96x96.png": "7fb8f59c30ce2ff12c700321a0b39e14b3dc8f95",
-    "/Angular/index.html": "ae735a6f9c43c25ddbc0fcd0c70d7306088f86e1",
-    "/Angular/main-NHBGLMIJ.js": "93cb9cee24a49a70fbf045e462e035a314f0c827",
-    "/Angular/manifest.webmanifest": "ecacbd5af75216551570c03f35674a0ec8a001c7",
-    "/Angular/styles-FXEMYVNG.css": "a525dc89fac8f5cd1ef9fc8e11f9792b94e45068"
+    "/trackify/chunk-3DOWXQDF.js": "4994d69018a2c5b7021dcc2bfed284fc3556e54e",
+    "/trackify/chunk-VCIKQ6IA.js": "d99463db618c16bba6a9e4628cec517e2f036294",
+    "/trackify/favicon.ico": "9c39f434fe1261f68c5e3eefdf734630d99c5670",
+    "/trackify/favicon.png": "e62fad51a74297b272b2823356318ef13ec83bba",
+    "/trackify/icons/icon-128x128.png": "f912963bdc6d5a38d8f1dd0afbaab2ce8d657acb",
+    "/trackify/icons/icon-144x144.png": "b155fd5f2fd5d2ea7760721063003c4cd95fd783",
+    "/trackify/icons/icon-152x152.png": "eae6e0f0c8afb8aaae339e2a569b43e9238e5e6c",
+    "/trackify/icons/icon-192x192.png": "15c4180454633880d98674aa7394656196c91584",
+    "/trackify/icons/icon-384x384.png": "94a915751ef6c9282df9aea405ad679230631814",
+    "/trackify/icons/icon-512x512.png": "1de182f76f7329dfa8f9fcdd1fdcdd695bea6a99",
+    "/trackify/icons/icon-72x72.png": "aa88a6096bd973be7f6d7a5489bfa6bc2463f8c4",
+    "/trackify/icons/icon-96x96.png": "7fb8f59c30ce2ff12c700321a0b39e14b3dc8f95",
+    "/trackify/index.html": "9fc3d503128a55093bc86201b379a52f9fc75add",
+    "/trackify/main-NHBGLMIJ.js": "93cb9cee24a49a70fbf045e462e035a314f0c827",
+    "/trackify/manifest.webmanifest": "ecacbd5af75216551570c03f35674a0ec8a001c7",
+    "/trackify/styles-FXEMYVNG.css": "a525dc89fac8f5cd1ef9fc8e11f9792b94e45068"
   },
   "navigationUrls": [
     {
