@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1775997548535,
+  "timestamp": 1776004230419,
   "index": "/trackify/index.html",
   "assetGroups": [
     {
@@ -11,13 +11,12 @@
         "ignoreVary": true
       },
       "urls": [
-        "/trackify/chunk-3DOWXQDF.js",
-        "/trackify/chunk-VCIKQ6IA.js",
-        "/trackify/favicon.ico",
+        "/trackify/chunk-ENHAZUSX.js",
+        "/trackify/chunk-GIOGJFIF.js",
         "/trackify/index.html",
-        "/trackify/main-NHBGLMIJ.js",
+        "/trackify/main-LIXWFBQM.js",
         "/trackify/manifest.webmanifest",
-        "/trackify/styles-FXEMYVNG.css"
+        "/trackify/styles-S72RYLLA.css"
       ],
       "patterns": []
     },
@@ -29,37 +28,20 @@
         "ignoreVary": true
       },
       "urls": [
-        "/trackify/favicon.png",
-        "/trackify/icons/icon-128x128.png",
-        "/trackify/icons/icon-144x144.png",
-        "/trackify/icons/icon-152x152.png",
-        "/trackify/icons/icon-192x192.png",
-        "/trackify/icons/icon-384x384.png",
-        "/trackify/icons/icon-512x512.png",
-        "/trackify/icons/icon-72x72.png",
-        "/trackify/icons/icon-96x96.png"
+        "/trackify/icons/favicon.png"
       ],
       "patterns": []
     }
   ],
   "dataGroups": [],
   "hashTable": {
-    "/trackify/chunk-3DOWXQDF.js": "4994d69018a2c5b7021dcc2bfed284fc3556e54e",
-    "/trackify/chunk-VCIKQ6IA.js": "d99463db618c16bba6a9e4628cec517e2f036294",
-    "/trackify/favicon.ico": "9c39f434fe1261f68c5e3eefdf734630d99c5670",
-    "/trackify/favicon.png": "e62fad51a74297b272b2823356318ef13ec83bba",
-    "/trackify/icons/icon-128x128.png": "f912963bdc6d5a38d8f1dd0afbaab2ce8d657acb",
-    "/trackify/icons/icon-144x144.png": "b155fd5f2fd5d2ea7760721063003c4cd95fd783",
-    "/trackify/icons/icon-152x152.png": "eae6e0f0c8afb8aaae339e2a569b43e9238e5e6c",
-    "/trackify/icons/icon-192x192.png": "15c4180454633880d98674aa7394656196c91584",
-    "/trackify/icons/icon-384x384.png": "94a915751ef6c9282df9aea405ad679230631814",
-    "/trackify/icons/icon-512x512.png": "1de182f76f7329dfa8f9fcdd1fdcdd695bea6a99",
-    "/trackify/icons/icon-72x72.png": "aa88a6096bd973be7f6d7a5489bfa6bc2463f8c4",
-    "/trackify/icons/icon-96x96.png": "7fb8f59c30ce2ff12c700321a0b39e14b3dc8f95",
-    "/trackify/index.html": "9fc3d503128a55093bc86201b379a52f9fc75add",
-    "/trackify/main-NHBGLMIJ.js": "93cb9cee24a49a70fbf045e462e035a314f0c827",
-    "/trackify/manifest.webmanifest": "ecacbd5af75216551570c03f35674a0ec8a001c7",
-    "/trackify/styles-FXEMYVNG.css": "a525dc89fac8f5cd1ef9fc8e11f9792b94e45068"
+    "/trackify/chunk-ENHAZUSX.js": "972af15965acd33dfd69edc387e47e77f4dcfcbb",
+    "/trackify/chunk-GIOGJFIF.js": "c6d88fa0f9f7e1512808151fbd0856c9db125b43",
+    "/trackify/icons/favicon.png": "e62fad51a74297b272b2823356318ef13ec83bba",
+    "/trackify/index.html": "cabff259c7ca6830abb8b085474972ddf99801df",
+    "/trackify/main-LIXWFBQM.js": "1b39ef9710c357a8970a07a0b0c1e071ca053c3e",
+    "/trackify/manifest.webmanifest": "85f1862b470947866d708d54eb1e3e2dff9cfd62",
+    "/trackify/styles-S72RYLLA.css": "a64fc8ac1db79534337e3680a100f7b787974555"
   },
   "navigationUrls": [
     {
