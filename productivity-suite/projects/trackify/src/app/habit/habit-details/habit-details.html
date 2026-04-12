@@ -158,8 +158,8 @@
                         [style.color]="getCellColor(cell)" [style.opacity]="cell.isInFuture ? '0.3' : '1'"
                         [style.border]="cell.isToday ? '2px solid #1e293b' : 'none'"
                         [disabled]="cell.isInFuture && !cell.isConfiguredDay"
-                        (pointerdown)="onDatePointerDown(cell)"
-                        (pointerup)="onDatePointerUp(cell)">
+                        (pointerdown)="onDatePointerDown(cell); $event.stopPropagation()"
+                        (pointerup)="onDatePointerUp(cell); $event.stopPropagation()">
                         {{ cell.dayNum }}
 
                         @if (cell.mood) {

@@ -437,6 +437,8 @@ export class HabitDetails implements OnInit {
 
     const dialogRef = this.dialog.open(HabitLogNoteDialog, {
       width: '450px',
+      autoFocus: false,
+      restoreFocus: false,
       data: {
         dateStr: cell.dateStr,
         habitName: this.habit()?.name,
@@ -447,6 +449,7 @@ export class HabitDetails implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(async (result) => {
+      this.isLongPress = false; // Reset state
       if (result) {
         await this.habitLogService.saveLogData(id, cell.dateStr, result);
         await this.loadData();
