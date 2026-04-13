@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1776004230419,
+  "timestamp": 1776086336750,
   "index": "/trackify/index.html",
   "assetGroups": [
     {
@@ -11,12 +11,12 @@
         "ignoreVary": true
       },
       "urls": [
-        "/trackify/chunk-ENHAZUSX.js",
-        "/trackify/chunk-GIOGJFIF.js",
+        "/trackify/chunk-J3OECO35.js",
+        "/trackify/chunk-SVGAFKNC.js",
         "/trackify/index.html",
-        "/trackify/main-LIXWFBQM.js",
+        "/trackify/main-T4WBSFDZ.js",
         "/trackify/manifest.webmanifest",
-        "/trackify/styles-S72RYLLA.css"
+        "/trackify/styles-OVNI3GMV.css"
       ],
       "patterns": []
     },
@@ -35,13 +35,13 @@
   ],
   "dataGroups": [],
   "hashTable": {
-    "/trackify/chunk-ENHAZUSX.js": "972af15965acd33dfd69edc387e47e77f4dcfcbb",
-    "/trackify/chunk-GIOGJFIF.js": "c6d88fa0f9f7e1512808151fbd0856c9db125b43",
+    "/trackify/chunk-J3OECO35.js": "c41a730457a67503b57a1ad9a2b9075246afd9ff",
+    "/trackify/chunk-SVGAFKNC.js": "01aef0ddeb9e91685555eab80ef8ed147b36d57f",
     "/trackify/icons/favicon.png": "e62fad51a74297b272b2823356318ef13ec83bba",
-    "/trackify/index.html": "cabff259c7ca6830abb8b085474972ddf99801df",
-    "/trackify/main-LIXWFBQM.js": "1b39ef9710c357a8970a07a0b0c1e071ca053c3e",
+    "/trackify/index.html": "0d95aaaaeb7e36c688518f9ee1f7296c74854936",
+    "/trackify/main-T4WBSFDZ.js": "0a71a6c0bbd8e87fb7648f80af32627b8f433e7f",
     "/trackify/manifest.webmanifest": "85f1862b470947866d708d54eb1e3e2dff9cfd62",
-    "/trackify/styles-S72RYLLA.css": "a64fc8ac1db79534337e3680a100f7b787974555"
+    "/trackify/styles-OVNI3GMV.css": "371ea9c08c5be0b42ff90f6a0496dc4626b043ca"
   },
   "navigationUrls": [
     {
