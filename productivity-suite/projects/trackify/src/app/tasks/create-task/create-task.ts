@@ -36,6 +36,7 @@ export class CreateTask implements OnInit {
   private taskService = inject(TaskService);
 
   isEditMode = computed(() => !!this.task());
+  minDate = new Date();
 
   priorityOptions = [
     { label: 'Low', value: TaskPriority.LOW },
@@ -49,7 +50,8 @@ export class CreateTask implements OnInit {
     title: ['', Validators.required],
     description: [''],
     priority: [TaskPriority.MEDIUM, Validators.required],
-    dueDate: [null as Date | null]
+    dueDate: [null as Date | null],
+    duration: [null as number | null]
   });
 
   async ngOnInit() {
@@ -60,7 +62,8 @@ export class CreateTask implements OnInit {
         title: t.title,
         description: t.description,
         priority: t.priority,
-        dueDate: t.dueDate ? new Date(t.dueDate) : null
+        dueDate: t.dueDate ? new Date(t.dueDate) : null,
+        duration: t.duration || null
       });
     }
   }
@@ -76,7 +79,8 @@ export class CreateTask implements OnInit {
       title: val.title!,
       description: val.description || '',
       priority: val.priority || TaskPriority.MEDIUM,
-      dueDate: val.dueDate ? val.dueDate.toISOString() : undefined,
+      dueDate: val.dueDate ? (val.dueDate as any).toISOString() : undefined,
+      duration: val.duration || undefined,
       completed: this.task()?.completed || false,
       createdAt: this.task()?.createdAt || Date.now()
     };

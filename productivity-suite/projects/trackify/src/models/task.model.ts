@@ -7,5 +7,6 @@ export type Task = {
   completed: boolean;
   dueDate?: string;
   priority: TaskPriority;
+  duration?: number; // in minutes
   createdAt: number;
 };

@@ -44,7 +44,7 @@ export class AppDB extends Dexie {
     });
 
     this.version(7).stores({
-      tasks: '++id, title, completed, priority, dueDate'
+      tasks: '++id, title, completed, priority, dueDate, duration'
     });
   }
 

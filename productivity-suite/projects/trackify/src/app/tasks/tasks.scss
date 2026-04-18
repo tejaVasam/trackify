@@ -5,13 +5,16 @@
 .summary-card {
   background: white;
   border: 1px solid rgba(var(--mat-sys-primary-main), 0.1);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
   
   .task-progress {
+      height: 6px;
       background-color: #f1f5f9;
       ::ng-deep .mdc-linear-progress__bar-inner {
           border-color: var(--mat-sys-primary-main) !important;
-          border-width: 8px !important;
+          border-width: 6px !important;
       }
   }
 }
@@ -21,9 +24,9 @@
     align-items: center;
     gap: 8px;
     font-size: 13px;
-    font-weight: 600;
-    padding: 6px 12px;
-    border-radius: 20px;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 12px;
     
     .indicator {
         width: 8px;
@@ -33,27 +36,36 @@
     
     &.pending {
         background-color: #fff7ed;
-        color: #9a3412;
+        color: #c2410c;
         .indicator { background-color: #f97316; }
     }
     
     &.completed {
         background-color: #f0fdf4;
-        color: #166534;
+        color: #15803d;
         .indicator { background-color: #22c55e; }
     }
 }
 
 .sort-btn {
-    border-color: #e2e8f0;
-    color: var(--mat-sys-on-surface-variant);
-    font-weight: 600;
+    height: 40px !important;
+    border-radius: 20px !important;
+    border-color: #e2e8f0 !important;
+    color: var(--mat-sys-on-surface-variant) !important;
+    background: white !important;
+    font-weight: 700 !important;
+    font-size: 13px !important;
     
     mat-icon {
         font-size: 18px;
         width: 18px;
         height: 18px;
+        margin-right: 4px;
     }
+}
+
+.task-group {
+    margin-bottom: 32px;
 }
 
 .task-card {
@@ -63,11 +75,11 @@
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   
   &:hover {
-    transform: translateX(4px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.06);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
     border-color: var(--mat-sys-primary-main);
     
-    .edit-btn, .delete-btn {
+    .action-btn {
       opacity: 0.8;
       transform: scale(1);
     }
@@ -76,52 +88,109 @@
 
 .task-title {
   color: var(--mat-sys-on-surface);
+  position: relative;
+  display: inline-block;
+  line-height: 1.2;
+  
+  &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 55%;
+      width: 0;
+      height: 2px;
+      background: currentColor;
+      transition: width 0.3s ease;
+      opacity: 0.5;
+  }
 }
 
 .completed {
   opacity: 0.6;
-
+  
   .task-title {
-    text-decoration: line-through;
-    color: var(--mat-sys-on-surface-variant);
+      color: var(--mat-sys-on-surface-variant);
+      &::after {
+          width: 100%;
+      }
   }
-
+  
   .task-card {
-    background-color: #f8fafc;
+      background-color: #f8fafc;
+      box-shadow: none;
   }
 }
 
 .task-checkbox {
-  ::ng-deep .mdc-checkbox__background {
-    border-radius: 6px !important;
-  }
+    ::ng-deep .mdc-checkbox__background {
+        border-radius: 8px !important;
+        width: 24px !important;
+        height: 24px !important;
+        border-width: 2px !important;
+    }
 }
 
-.edit-btn,
-.delete-btn {
-  opacity: 0.6;
+.priority-badge {
+    border-radius: 6px;
+    letter-spacing: 0.5px;
+}
+
+.date-badge {
+    color: var(--mat-sys-on-surface-variant);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+    
+    &.overdue {
+        color: #ef4444;
+    }
+}
+
+.action-btn {
+  opacity: 0;
   transform: scale(0.9);
   transition: all 0.2s ease;
-
+  width: 40px !important;
+  height: 40px !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  
+  mat-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+  }
+  
+  &.delete {
+      color: var(--mat-sys-error);
+  }
+  &.edit {
+      color: var(--mat-sys-primary-main);
+  }
+  
   &:hover {
-    opacity: 1 !important;
-    transform: scale(1.1) !important;
+      opacity: 1 !important;
+      transform: scale(1.1) !important;
+      background-color: rgba(0,0,0,0.04);
   }
 }
 
-.edit-btn {
-  color: var(--mat-sys-primary-main);
-}
-
-.delete-btn {
-  color: var(--mat-sys-error);
+.empty-state {
+    border: 2px dashed #e2e8f0;
 }
 
 /* Dark mode support */
 :host-context(.dark-theme) {
   .task-card, .empty-state, .summary-card {
     background: var(--mat-sys-surface-container-low);
-    border-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .sort-btn {
+      background: var(--mat-sys-surface-container-high) !important;
+      border-color: rgba(255, 255, 255, 0.1) !important;
   }
 
   .stat-badge {
@@ -136,23 +205,6 @@
   }
   
   .task-card:hover {
-    background-color: rgba(var(--mat-sys-primary-main), 0.1);
+    background-color: var(--mat-sys-surface-container-high);
   }
-}
-
-.empty-state {
-  background: white;
-  border-color: #e2e8f0;
-
-  .icon-circle {
-    background-color: rgba(var(--mat-sys-primary-main), 0.1);
-  }
-}
-
-.max-w-280 {
-  max-width: 280px;
-}
-
-.text-success {
-  color: #10b981;
 }

@@ -1,5 +1,12 @@
 <div class="habit-card p-16 b-1-solid br-8 df fd-r ai-c jc-s cursor-pointer"
   style="transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.03); background-color: #fff;" (click)="onView()">
+  
+  @if (canReorder()) {
+    <button mat-icon-button cdkDragHandle (click)="$event.stopPropagation()" style="margin-left: -8px; cursor: grab;">
+      <mat-icon style="color: #94a3b8;">drag_indicator</mat-icon>
+    </button>
+  }
+
   <div class="df fd-c gap-2" style="flex: 1;">
     <div class="df ai-c gap-2">
       <div class="fw-600 fs-16">{{ habit().name }}</div>

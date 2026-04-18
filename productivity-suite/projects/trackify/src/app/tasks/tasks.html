@@ -7,7 +7,7 @@
   </mat-drawer>
 
   <mat-drawer-content>
-    <div class="p-24 df fd-c gap-8">
+    <div class="p-24 df fd-c gap-4">
       <!-- Header -->
       <div class="df fd-r ai-c jc-s">
         <h2 class="m-0 fs-28 fw-800 text-primary">Task Manager</h2>
@@ -18,7 +18,7 @@
       </div>
 
       <!-- Summary Section -->
-      <div class="summary-card p-20 br-24 mt-8">
+      <div class="summary-card p-20 br-24 df gap-2 fd-c">
         <div class="df fd-r ai-c jc-s mb-12">
           <div class="df fd-c">
             <span class="fs-12 text-secondary fw-600 uppercase ls-1">Tasks Overview</span>
@@ -27,7 +27,7 @@
           </div>
           <button mat-stroked-button [matMenuTriggerFor]="sortMenu" class="br-12 sort-btn">
             <mat-icon>sort</mat-icon>
-            {{ sortBy() | titlecase }}
+            {{ getSortLabel() }}
           </button>
           <mat-menu #sortMenu="matMenu" class="custom-sort-menu">
             <button mat-menu-item (click)="sortBy.set('priority')">
@@ -40,7 +40,7 @@
             </button>
             <button mat-menu-item (click)="sortBy.set('createdAt')">
               <mat-icon>update</mat-icon>
-              <span>Newest</span>
+              <span>Date Created</span>
             </button>
           </mat-menu>
         </div>
@@ -48,65 +48,101 @@
           <mat-progress-bar mode="determinate" [value]="completionPercentage()"
             class="task-progress h-8 br-4"></mat-progress-bar>
         </div>
-        <div class="df fd-r ai-c gap-12 mt-12">
-          <div class="stat-badge pending">
-            <span class="indicator"></span>
-            {{ pendingCount() }} Remaining
+        <div class="df fd-r ai-c jc-s mt-12">
+          <div class="df fd-r ai-c gap-12">
+            <div class="stat-badge pending">
+              <span class="indicator"></span>
+              {{ pendingCount() }} Remaining
+            </div>
+            <div class="stat-badge completed">
+              <span class="indicator"></span>
+              {{ completedCount() }} Done
+            </div>
           </div>
-          <div class="stat-badge completed">
-            <span class="indicator"></span>
-            {{ completedCount() }} Done
+          @if (scheduledTime()) {
+          <div class="fs-13 fw-700 text-secondary">
+            <mat-icon style="font-size: 16px; width: 16px; height: 16px; vertical-align: middle; margin-right: 4px;">schedule</mat-icon>
+            {{ scheduledTime() }} scheduled today
           </div>
+          }
         </div>
       </div>
 
-      <!-- Task List -->
-      <div class="df fd-c gap-4 mt-8">
-        @for(task of sortedTasks(); track task.id) {
-        <div class="task-card df fd-r ai-c gap-4 p-16 br-16 transition-all" [class.completed]="task.completed">
-          <mat-checkbox [checked]="task.completed" (change)="toggleTask(task)" color="primary"
-            class="task-checkbox"></mat-checkbox>
-
-          <div class="df fd-c gap-1 flex-1 cursor-pointer">
-            <span class="task-title fs-16 fw-600 transition-all">{{ task.title }}</span>
-            @if (task.description) {
-            <span class="task-desc fs-13 text-secondary line-clamp-1">{{ task.description }}</span>
-            }
-            <div class="df fd-r ai-c gap-3 mt-4">
-              <span class="priority-tag fs-11 fw-700 uppercase ls-1 px-8 py-2 br-4"
-                [style.background-color]="getPriorityColor(task.priority) + '20'"
-                [style.color]="getPriorityColor(task.priority)">
-                {{ task.priority }}
-              </span>
-              @if (task.dueDate) {
-              <div class="df fd-r ai-c gap-1 fs-12 text-secondary">
-                <mat-icon style="font-size: 14px; width: 14px; height: 14px;">event</mat-icon>
-                <span>{{ task.dueDate | date:'MMM d' }}</span>
-              </div>
-              }
-            </div>
+      <!-- Task List Grouped -->
+      <div class="df fd-c gap-4 mt-16 pb-48">
+        @for(group of groupedTasks(); track group.title) {
+        <div class="task-group">
+          <div class="df fd-r ai-c gap-3 mb-6 px-4">
+            <h3 class="m-0 fs-13 fw-800 uppercase ls-1 text-secondary opacity-70 ">{{ group.title }}</h3>
+            <span class="group-count fs-11 fw-700 px-8 py-2 br-12 bg-surface-variant text-secondary">{{
+              group.tasks.length }}</span>
           </div>
-          <div class="task-actions df fd-r ai-c gap-1">
-            <button mat-icon-button (click)="editTask(task)" class="edit-btn">
-              <mat-icon>edit_calendar</mat-icon>
-            </button>
-            <button mat-icon-button (click)="deleteTask(task)" class="delete-btn">
-              <mat-icon>delete_outline</mat-icon>
-            </button>
+
+          <div class="df fd-c gap-4">
+            @for(task of group.tasks; track task.id) {
+            <div class="task-card-wrapper">
+              <div class="task-card df fd-r ai-c gap-2 p-16 br-24 transition-all" [class.completed]="task.completed">
+
+                <!-- Checkbox -->
+                <mat-checkbox [checked]="task.completed" (change)="toggleTask(task)" color="primary"
+                  class="task-checkbox"></mat-checkbox>
+
+                <!-- Task Info -->
+                <div class="df fd-c gap-1 flex-1 cursor-pointer pr-12" (click)="editTask(task)">
+                  <span class="task-title fs-18 fw-700 transition-all">{{ task.title }}</span>
+                  @if (task.description) {
+                  <span class="task-desc fs-13 text-secondary line-clamp-1">{{ task.description }}</span>
+                  }
+
+                  <div class="df fd-r ai-c gap-4 mt-8">
+                    @let pStyles = getPriorityStyles(task.priority);
+                    <span class="priority-badge fs-11 fw-800 uppercase ls-1 px-10 py-4 br-8"
+                      [style.background-color]="pStyles.bg" [style.color]="pStyles.color">
+                      {{ task.priority }}
+                    </span>
+
+                    @if (task.duration) {
+                    <div class="duration-badge fs-11 fw-700 bg-surface-variant text-secondary px-8 py-4 br-8">
+                       {{ task.duration }}m
+                    </div>
+                    }
+
+                    @if (task.dueDate) {
+                    @let dateInfo = getRelativeDate(task.dueDate);
+                    <div class="date-badge df fd-r ai-c gap-1 fs-12 fw-700" [class.overdue]="dateInfo.isOverdue">
+                      <mat-icon style="font-size: 16px; width: 16px; height: 16px;">event</mat-icon>
+                      <span>{{ dateInfo.label }}</span>
+                    </div>
+                    }
+                  </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="task-actions df fd-r ai-c gap-2">
+                  <button mat-icon-button (click)="editTask(task)" title="Edit">
+                    <mat-icon>edit_calendar</mat-icon>
+                  </button>
+                  <button mat-icon-button (click)="deleteTask(task)" title="Delete">
+                    <mat-icon>delete_outline</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+            }
           </div>
         </div>
         } @empty {
-        <div class="empty-state p-48 df fd-c ai-c gap-6 b-1-dashed br-24">
-          <div class="icon-circle bg-surface-variant p-24 br-50">
+        <div class="empty-state p-48 df fd-c ai-c gap-6 b-1-dashed br-24 bg-white mt-16">
+          <div class="icon-circle p-24 br-50" style="background-color: #f1f5f9">
             <mat-icon color="primary" style="font-size: 48px; width: 48px; height: 48px;">assignment</mat-icon>
           </div>
           <div class="df fd-c ai-c gap-2 text-center">
-            <h3 class="m-0 fs-20 fw-700">No tasks yet</h3>
+            <h3 class="m-0 fs-22 fw-800">No tasks found</h3>
             <p class="m-0 text-secondary max-w-280">Keep your focus sharp. Add your first task and start crushing your
               goals!</p>
           </div>
-          <button mat-stroked-button color="primary" (click)="openCreateDrawer()" class="br-12 px-24 h-44">
-            Quick Add Task
+          <button mat-flat-button color="primary" (click)="openCreateDrawer()" class="br-16 px-32 h-48 fw-700">
+            Create First Task
           </button>
         </div>
         }

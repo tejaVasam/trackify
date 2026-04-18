@@ -28,7 +28,7 @@
         </mat-form-field>
         <div class="df fd-c gap-4" cdkDropList (cdkDropListDropped)="drop($event)">
         @for(habit of filteredHabits(); track habit.id) {
-        <t-habit-card cdkDrag [habit]="habit" [allDays]="allDays" (edit)="editHabit(habit)" (delete)="deleteHabit(habit)"
+        <t-habit-card cdkDrag [habit]="habit" [allDays]="allDays" [canReorder]="true" (edit)="editHabit(habit)" (delete)="deleteHabit(habit)"
           (view)="viewDetails(habit.id!)" />
         } @empty {
         <div class="empty-state p-32 df fd-c ai-c gap-4 b-1-dashed br-8">
