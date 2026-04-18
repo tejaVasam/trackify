@@ -1,0 +1,10 @@
+<div class="day-picker-container">
+  @for (day of days; track day.value) {
+    <div 
+      class="day-box" 
+      [class.selected]="isSelected(day.value)"
+      (click)="toggleDay(day.value)">
+      <span class="day-name">{{ day.label.substring(0, 1) }}</span>
+    </div>
+  }
+</div>

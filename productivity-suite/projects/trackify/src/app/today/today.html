@@ -1,25 +1,22 @@
 <div class="df fd-c w-100">
     <!-- Header -->
-    <div class="df fd-r jc-sb ai-c gap-2 w-100 p-24 pb-16">
+    <div class="df fd-r jc-sb ai-c gap-2 p-24 pb-16">
         <div class="df fd-c gap-2">
-            <h1 class="m-0 fs-28 fw-700" style="color: var(--text-primary); letter-spacing: -0.5px;">{{ greeting() }},
-                {{ userName() }}</h1>
-            <span class="fs-13 fw-500 text-secondary" style="color: #6b7280;">{{ activeDateDisplay() }}</span>
+            <h1 class="m-0 fs-28 fw-700" style="color: var(--text-primary); letter-spacing: -0.5px;">
+                {{ greeting() }}, {{ userName() }}
+            </h1>
+            <span class="fs-13 fw-500 text-secondary" style="color: #6b7280;">
+                {{ activeDateDisplay() }}
+            </span>
         </div>
-
     </div>
 
     <!-- Horizontal scrolling date strip via Shared Component -->
-    <t-date-strip [activeDate]="activeDateStr()" (dateSelected)="selectDate($event)">
-    </t-date-strip>
+    <t-date-strip [activeDate]="activeDateStr()" (dateSelected)="selectDate($event)" />
 
-    <div class="p-24 ">
-        <t-time-availability [dedicatedMinutes]="totalDedicatedMinutes()"
-            [completedMinutes]="completedMinutes()"></t-time-availability>
+    <div class="p-24">
+        <t-time-availability [dedicatedMinutes]="totalDedicatedMinutes()" [completedMinutes]="completedMinutes()" />
     </div>
-
-
-
 
     <!-- Daily Routine Section -->
     <div class="df fd-r jc-sb ai-c gap-2 w-100 px-24 mb-16" style="box-sizing: border-box;">
@@ -27,9 +24,9 @@
     </div>
 
     <div class="df fd-c gap-4 position-relative w-100 px-24 pb-80" style="box-sizing: border-box;">
-
         <div class="position-absolute"
-            style="left: 36px; top: 20px; bottom: 20px; width: 0px; border-left: 2px dotted #e5e7eb; z-index: 0;"></div>
+            style="left: 36px; top: 20px; bottom: 20px; width: 0px; border-left: 2px dotted #e5e7eb; z-index: 0;">
+        </div>
 
         @for(item of habitsView(); track item.habit.id; let i = $index) {
         <div class="df fd-r gap-4 ai-c w-100 position-relative z-1" style="box-sizing: border-box;"
@@ -61,12 +58,16 @@
                             [style.text-decoration]="item.completed ? 'line-through' : 'none'">
                             {{ item.habit.name }}
                         </h3>
+
                         @if (item.habit.duration) {
                         <div class="df ai-c gap-1 px-6 py-1 br-8"
                             style="background-color: #f1f5f9; border: 1px solid #e2e8f0;">
-                            <mat-icon
-                                style="font-size: 11px; width: 11px; height: 11px; color: #64748b;">schedule</mat-icon>
-                            <span class="fs-10 fw-700" style="color: #64748b;">{{ item.habit.duration }}m</span>
+                            <mat-icon style="font-size: 11px; width: 11px; height: 11px; color: #64748b;">
+                                schedule
+                            </mat-icon>
+                            <span class="fs-10 fw-700" style="color: #64748b;">
+                                {{ item.habit.duration | duration }}
+                            </span>
                         </div>
                         }
                         @if (item.streak > 0) {
@@ -77,12 +78,24 @@
                         </div>
                         }
                     </div>
-                    <p class="m-0 fs-12 fw-500 truncate" style="color: #a1a1aa;">{{ item.habit.description || 'No
-                        description' }}</p>
+                    <p class="m-0 fs-12 fw-500 truncate" style="color: #a1a1aa;">
+                        {{ item.habit.description || 'No description' }}
+                    </p>
                 </div>
 
-
-
+                <!-- Note Button -->
+                <button (click)="$event.stopPropagation(); openNoteEditor(item)" class="df ai-c"
+                    style=" background:transparent; width: 32px; height: 32px; border: 1px solid #e2e8f0; border-radius: 8px;">
+                    @if (item.hasNote) {
+                    <mat-icon style="font-size: 18px; width: 18px; height: 18px; color: #f97316;">
+                        sticky_note_2
+                    </mat-icon>
+                    } @else {
+                    <mat-icon style="font-size: 18px; width: 18px; height: 18px;">
+                        add_comment
+                    </mat-icon>
+                    }
+                </button>
             </div>
         </div>
         } @empty {

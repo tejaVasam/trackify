@@ -2,11 +2,12 @@ import { Component, input, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration, ChartOptions } from 'chart.js';
+import { DurationPipe } from '../../pipes/duration.pipe';
 
 @Component({
   selector: 't-time-availability',
   standalone: true,
-  imports: [CommonModule, BaseChartDirective],
+  imports: [CommonModule, BaseChartDirective, DurationPipe],
   templateUrl: './time-availability.html',
   styles: [`
     :host {
@@ -92,8 +93,6 @@ export class TimeAvailabilityComponent {
   formatTime(mins: number): string {
     const h = Math.floor(mins / 60);
     const m = Math.round(mins % 60);
-    if (h === 0) return `${m}m`;
-    if (m === 0) return `${h}h`;
-    return `${h}h ${m}m`;
+    return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
   }
 }

@@ -1,4 +1,19 @@
 /* Global reusable margin utilities */
-.m-0 { margin: 0; }
-.mt-4 { margin-top: 4px; }
-.pt-8 { padding-top: 8px; }
+@import 'utility';
+
+.m-0 {
+    margin: 0;
+}
+
+.mt-4 {
+    margin-top: toRem(4);
+
+}
+
+.mt-8 {
+    margin-top: toRem(8);
+}
+
+.mt-2 {
+    margin-top: toRem(2);
+}

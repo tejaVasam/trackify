@@ -6,12 +6,12 @@ import { HabitService } from '../../../services/habit.service';
 import { HabitLogService } from '../../../services/habit-log.service';
 import { Category } from '../../../models/category.model';
 import { Habit } from '../../../models/habit.model';
-import { HabitLog } from '../../../db/app.db';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
+import { HabitLog } from '../../../models/habit-log.model';
 
 @Component({
   selector: 't-category-details',

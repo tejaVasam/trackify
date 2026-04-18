@@ -30,6 +30,10 @@
   color: var(--text-inverse, #ffffff);
 }
 
+.text-error {
+  color: var(--error-500);
+}
+
 .fw-400 {
   font-weight: 400;
 }

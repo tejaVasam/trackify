@@ -1,11 +1,13 @@
-:root, .light-theme {
+:root,
+.light-theme {
   // Background and Surfaces
   --background-default: var(--neutral-50);
   --background-alt: var(--neutral-100);
+  --background-secondary: var(--neutral-200);
   --surface-default: var(--neutral-50);
   --surface-alt: var(--neutral-100);
   --surface-elevated: var(--neutral-50);
-  
+
   // Borders
   --border-subtle: var(--neutral-200);
   --border-default: var(--neutral-300);
@@ -28,7 +30,7 @@
   --action-primary-hover: var(--primary-600);
   --action-primary-active: var(--primary-700);
   --action-primary-disabled: var(--primary-200);
-  
+
   --action-secondary-default: var(--secondary-500);
   --action-secondary-hover: var(--secondary-600);
   --action-secondary-active: var(--secondary-700);

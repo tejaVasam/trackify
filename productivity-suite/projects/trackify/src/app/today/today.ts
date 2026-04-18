@@ -13,26 +13,28 @@ import { Days } from '../../enums/days.enum';
 import { DateStripComponent } from '../shared/components/date-strip/date-strip';
 import { db } from '../../db/app.db';
 import { TimeAvailabilityComponent } from '../shared/components/time-availability/time-availability';
+import { DurationPipe } from '../shared/pipes/duration.pipe';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { HabitLogNoteDialog } from '../shared/components/habit-log-note-dialog/habit-log-note-dialog';
 
 interface TodayHabitView {
   habit: Habit;
   completed: boolean;
   streak: number;
+  hasNote: boolean;
 }
-
-
-
 
 @Component({
   selector: 't-today',
   standalone: true,
-  imports: [MatListModule, MatIconModule, MatCheckboxModule, MatButtonModule, RouterModule, DateStripComponent, TimeAvailabilityComponent],
+  imports: [MatListModule, MatIconModule, MatCheckboxModule, MatButtonModule, RouterModule, DateStripComponent, TimeAvailabilityComponent, MatDialogModule, DurationPipe],
   templateUrl: './today.html',
   styleUrl: './today.scss',
 })
 export class Today implements OnInit {
   private habitService = inject(HabitService);
   private habitLogService = inject(HabitLogService);
+  private dialog = inject(MatDialog);
 
   activeDateStr = signal<string>('');
   habitsView = signal<TodayHabitView[]>([]);
@@ -125,10 +127,12 @@ export class Today implements OnInit {
 
     const viewData = await Promise.all(targetActiveHabits.map(async (habit) => {
       const stats = await this.habitLogService.getStreakStatus(habit.id!);
+      const log = currentLogs.find(l => l.habitId === habit.id);
       return {
         habit,
         completed: completedIds.has(habit.id!),
-        streak: stats.current
+        streak: stats.current,
+        hasNote: !!(log?.reflectionNote || log?.planNote || log?.mood || (log?.tags && log.tags.length > 0))
       };
     }));
 
@@ -146,5 +150,41 @@ export class Today implements OnInit {
         item.habit.id === habitId ? { ...item, completed: newState, streak: updatedStats.current } : item
       )
     );
+  }
+
+  async openNoteEditor(item: TodayHabitView) {
+    const activeDateStr = this.activeDateStr();
+    const [y, m, d] = activeDateStr.split('-');
+    const activeDate = new Date(Number(y), Number(m) - 1, Number(d));
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
+    const isInFuture = activeDate.getTime() > now.getTime();
+
+    const logs = await this.habitLogService.getLogsForDate(activeDateStr);
+    const log = logs.find(l => l.habitId === item.habit.id) || { 
+      habitId: item.habit.id, 
+      dateStr: activeDateStr, 
+      completedAt: Date.now() 
+    };
+
+    const dialogRef = this.dialog.open(HabitLogNoteDialog, {
+      width: '450px',
+      autoFocus: false,
+      restoreFocus: false,
+      data: {
+        dateStr: activeDateStr,
+        habitName: item.habit.name,
+        isCompleted: item.completed,
+        isInFuture: isInFuture,
+        log: log
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(async (result) => {
+      if (result) {
+        await this.habitLogService.saveLogData(item.habit.id!, activeDateStr, result);
+        this.loadHabitsForActiveDate(); // Refresh to show note indicator if implemented
+      }
+    });
   }
 }

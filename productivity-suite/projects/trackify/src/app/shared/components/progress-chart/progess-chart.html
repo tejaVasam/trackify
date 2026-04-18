@@ -1,0 +1,10 @@
+<div class="progress-container">
+    <div class="chart-wrapper">
+        <canvas baseChart [data]="chartData()" [options]="chartOptions" [type]="'doughnut'">
+        </canvas>
+    </div>
+    <div class="df fd-c ai-c position-absolute chart-labels">
+        <span class="fs-22 fw-800 label-value">{{ percentage() }}%</span>
+        <span class="fs-10 fw-600 uppercase ls-1 label-text">Today</span>
+    </div>
+</div>

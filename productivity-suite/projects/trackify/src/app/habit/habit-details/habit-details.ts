@@ -8,15 +8,13 @@ import { HabitFrequency } from '../../../enums/habit-frequency.enum';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
-import { MatDialog, MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatChipsModule } from '@angular/material/chips';
-import { HabitLog } from '../../../db/app.db';
-import { TitleCasePipe } from '@angular/common';
 import { BaseChartDirective } from 'ng2-charts';
-import { ChartConfiguration, ChartOptions, ChartType } from 'chart.js';
+import { ChartConfiguration, ChartOptions } from 'chart.js';
 
 
 interface GridDay {
@@ -35,12 +33,14 @@ interface GridDay {
 }
 
 
+import { HabitLogNoteDialog } from '../../shared/components/habit-log-note-dialog/habit-log-note-dialog';
+import { DurationPipe } from '../../shared/pipes/duration.pipe';
+import { HabitLog } from '../../../models/habit-log.model';
+
 @Component({
   selector: 't-habit-details',
   standalone: true,
-  imports: [MatIconModule, MatButtonModule, RouterModule, BaseChartDirective, MatTabsModule, MatDialogModule, MatFormFieldModule, MatInputModule, FormsModule, MatChipsModule],
-
-
+  imports: [MatIconModule, MatButtonModule, RouterModule, BaseChartDirective, MatTabsModule, MatDialogModule, MatFormFieldModule, MatInputModule, FormsModule, MatChipsModule, DurationPipe],
   templateUrl: './habit-details.html',
 })
 export class HabitDetails implements OnInit {
@@ -159,7 +159,10 @@ export class HabitDetails implements OnInit {
         tooltip: {
           enabled: true,
           mode: 'index',
-          intersect: false
+          intersect: false,
+          footer: () => {
+            return `Duration: ${this.habit()?.duration || 0}m`;
+          }
         }
       },
       scales: {
@@ -224,9 +227,10 @@ export class HabitDetails implements OnInit {
     const habitLogs = allLogs.filter(l => l.habitId === id);
 
     // Seed Analytics
-    this.totalCompletions.set(habitLogs.length);
+    const completedLogs = habitLogs.filter(l => l.isCompleted);
+    this.totalCompletions.set(completedLogs.length);
 
-    const setDates = new Set(habitLogs.map(l => l.dateStr));
+    const setDates = new Set(completedLogs.map(l => l.dateStr));
     this.completedDateStrings.set(setDates);
 
     const logsMap = new Map<string, HabitLog>();
@@ -291,7 +295,7 @@ export class HabitDetails implements OnInit {
 
     // Find logs in current month up to today
     const monthLogs = habitLogs.filter(l => {
-      return l.dateStr.startsWith(todayStr.substring(0, 7)); // 'YYYY-MM'
+      return l.isCompleted && l.dateStr.startsWith(todayStr.substring(0, 7)); // 'YYYY-MM'
     });
 
     const daysPassed = now.getDate();
@@ -399,37 +403,7 @@ export class HabitDetails implements OnInit {
     return '#10b981'; // Vivid green text highlighting it's a target
   }
 
-  // Long Press Handling
-  private longPressTimer: any;
-  private isLongPress = false;
 
-  onDatePointerDown(cell: GridDay) {
-    if (cell.isInFuture && !cell.isConfiguredDay) return; // Allow notes on future days even if not configured? 
-    // The prompt says: "Future Days (Locked): Focus on 'What’s the plan?' (Scheduling)."
-    // So let's allow it.
-
-    this.isLongPress = false;
-    this.longPressTimer = setTimeout(() => {
-      this.isLongPress = true;
-      this.openNoteEditor(cell);
-    }, 500); // 500ms for long press
-  }
-
-  onDatePointerUp(cell: GridDay) {
-    clearTimeout(this.longPressTimer);
-    if (!this.isLongPress) {
-      this.onDateClick(cell);
-    }
-  }
-
-  async onDateClick(cell: GridDay) {
-    if (cell.isInFuture || !cell.isConfiguredDay) return;
-    const id = this.habitId();
-    if (!id) return;
-
-    await this.habitLogService.toggleCompletion(id, cell.dateStr);
-    await this.loadData();
-  }
 
   openNoteEditor(cell: GridDay) {
     const id = this.habitId();
@@ -449,7 +423,6 @@ export class HabitDetails implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(async (result) => {
-      this.isLongPress = false; // Reset state
       if (result) {
         await this.habitLogService.saveLogData(id, cell.dateStr, result);
         await this.loadData();
@@ -470,109 +443,6 @@ export class HabitDetails implements OnInit {
   }
 }
 
-// Internal Note Dialog Component
-@Component({
-  selector: 't-habit-log-note-dialog',
-  standalone: true,
-  imports: [MatIconModule, MatButtonModule, MatDialogModule, MatFormFieldModule, MatInputModule, FormsModule, MatChipsModule, TitleCasePipe],
-  template: `
-    <div class="p-24 df fd-c gap-4">
-        <div class="df fd-r jc-sb ai-c mb-8">
-            <h2 class="m-0 fs-18 fw-800 text-primary">{{ data.habitName }}</h2>
-            <span class="fs-13 fw-600 px-8 py-4 br-8" style="background: var(--surface-alt); color: var(--text-secondary)">{{ data.dateStr }}</span>
-        </div>
-
-        <!-- Mood Selector -->
-        <div class="df fd-c gap-2 mb-8">
-            <span class="fs-12 fw-700 text-secondary uppercase ls-1">How do you feel?</span>
-            <div class="df fd-r gap-3 fs-24 py-8">
-                @for (m of moods; track m) {
-                    <span class="cursor-pointer transition-all hover-scale" 
-                          [style.opacity]="mood === m ? '1' : '0.4'"
-                          [style.filter]="mood === m ? 'grayscale(0)' : 'grayscale(1)'"
-                          (click)="mood = m">{{ m }}</span>
-                }
-            </div>
-        </div>
-
-        <!-- Tags -->
-        <div class="df fd-c gap-2 mb-12">
-            <span class="fs-12 fw-700 text-secondary uppercase ls-1">Quick Tags</span>
-            <div class="df fd-r flex-wrap gap-2 pt-4">
-                @for (t of availableTags; track t) {
-                    <div class="px-10 py-4 br-12 fs-12 fw-600 transition-all cursor-pointer"
-                         [style.background-color]="selectedTags.has(t) ? 'var(--primary-light)' : 'var(--surface-alt)'"
-                         [style.color]="selectedTags.has(t) ? 'var(--primary-default)' : 'var(--text-secondary)'"
-                         [style.border]="selectedTags.has(t) ? '1px solid var(--primary-default)' : '1px solid var(--border-subtle)'"
-                         (click)="toggleTag(t)">
-                        {{ t }}
-                    </div>
-                }
-            </div>
-        </div>
-
-        <!-- Notes (Plan / Reflection) -->
-        <div class="df fd-c gap-2">
-            <span class="fs-12 fw-700 text-secondary uppercase ls-1">
-                {{ data.isInFuture ? 'Planning' : 'Reflection' }}
-            </span>
-            <mat-form-field appearance="outline" class="w-100 hide-subscript">
-                <textarea matInput 
-                          [(ngModel)]="tempNote" 
-                          [placeholder]="data.isInFuture ? 'What is the plan for this day?' : 'How did it go today?'" 
-                          maxlength="300" 
-                          rows="4"></textarea>
-            </mat-form-field>
-        </div>
-
-        <div class="df fd-r jc-e gap-2 mt-20">
-            <button mat-button (click)="close()">Cancel</button>
-            <button mat-flat-button color="primary" class="br-12 px-20 text-bg" (click)="save()">Save Entry</button>
-        </div>
-    </div>
-  `,
-  styles: [`
-    .hover-scale { transition: transform 0.2s; }
-    .hover-scale:hover { transform: scale(1.2); }
-    .ls-1 { letter-spacing: 0.5px; }
-  `]
-})
-export class HabitLogNoteDialog {
-  private dialogRef = inject(MatDialogRef<HabitLogNoteDialog>);
-  data = inject(MAT_DIALOG_DATA);
-  
-  moods = ['🔥', '⚡', '😇', '😴', '🤒', '🚀', '🌈'];
-  availableTags = ['#Sick', '#Travel', '#HighEnergy', '#WorkStress', '#Weekend', '#Social'];
-  
-  mood = this.data.log.mood || '';
-  selectedTags = new Set<string>(this.data.log.tags || []);
-  tempNote = this.data.isInFuture ? (this.data.log.planNote || '') : (this.data.log.reflectionNote || '');
-
-  toggleTag(tag: string) {
-    if (this.selectedTags.has(tag)) {
-      this.selectedTags.delete(tag);
-    } else {
-      this.selectedTags.add(tag);
-    }
-  }
-
-  save() {
-    const result: Partial<HabitLog> = {
-      mood: this.mood,
-      tags: Array.from(this.selectedTags)
-    };
-    if (this.data.isInFuture) {
-      result.planNote = this.tempNote;
-    } else {
-      result.reflectionNote = this.tempNote;
-    }
-    this.dialogRef.close(result);
-  }
-
-  close() {
-    this.dialogRef.close();
-  }
-}
 
 
 

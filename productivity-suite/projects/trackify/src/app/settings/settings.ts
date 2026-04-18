@@ -1,6 +1,6 @@
 import { ConfirmDialog } from '../shared/confirm-dialog';
-import { db, User } from '../../db/app.db';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { db } from '../../db/app.db';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -11,6 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { AvatarComponent } from '../shared/components/avatar/avatar';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 't-settings',
@@ -35,21 +36,20 @@ export class Settings implements OnInit {
   private snackBar = inject(MatSnackBar);
 
   activeUser = signal<User | null>(null);
-  profileForm: FormGroup;
-  previewAvatar: string | null = null;
+  profileForm = new FormGroup(
+    {
+      name: new FormControl<string>('', { nonNullable: true, validators: [Validators.required, Validators.minLength(2)] }),
+      gender: new FormControl<User['gender'] | ''>('', { nonNullable: true, validators: Validators.required })
+    }
+  )
 
-  constructor() {
-    this.profileForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(2)]],
-      gender: ['', Validators.required]
-    });
-  }
+  previewAvatar = signal<string | null>(null);
 
   async ngOnInit() {
     const user = await db.users.orderBy('id').first();
     if (user) {
       this.activeUser.set(user);
-      this.previewAvatar = user.avatar || null;
+      this.previewAvatar.set(user.avatar || null);
       this.profileForm.patchValue({
         name: user.name,
         gender: user.gender
@@ -62,7 +62,7 @@ export class Settings implements OnInit {
     if (file) {
       const reader = new FileReader();
       reader.onload = (e: any) => {
-        this.previewAvatar = e.target.result;
+        this.previewAvatar.set(e.target.result);
       };
       reader.readAsDataURL(file);
     }
@@ -70,10 +70,11 @@ export class Settings implements OnInit {
 
   async saveProfile() {
     if (this.profileForm.valid && this.activeUser()?.id) {
+      const formValue = this.profileForm.getRawValue();
       const updatedUser: Partial<User> = {
-        name: this.profileForm.value.name,
-        gender: this.profileForm.value.gender,
-        avatar: this.previewAvatar || undefined
+        name: formValue.name,
+        gender: formValue.gender as User['gender'],
+        avatar: this.previewAvatar() || undefined
       };
 
       await db.users.update(this.activeUser()!.id!, updatedUser);

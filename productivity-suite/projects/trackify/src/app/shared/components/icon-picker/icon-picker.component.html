@@ -1,0 +1,7 @@
+<div class="picker-trigger" (click)="openPicker()" [class.disabled]="isDisabled()">
+  <div class="icon-container">
+    <mat-icon>{{ selectedIcon() || 'star' }}</mat-icon>
+  </div>
+  <span class="picker-label">Choose Icon</span>
+  <mat-icon class="arrow">keyboard_arrow_right</mat-icon>
+</div>

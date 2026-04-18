@@ -6,9 +6,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
-import { db, User } from '../../../db/app.db';
+import { db } from '../../../db/app.db';
 import { ThemeService } from '../../../services/theme.service';
 import { AvatarComponent } from '../components/avatar/avatar';
+import { User } from '../../../models/user.model';
 
 @Component({
   selector: 't-sidenav',
@@ -29,7 +30,7 @@ export class SidenavComponent implements OnInit {
   public isSidenavOpened = signal(true);
   public isMobile = signal(false);
   public activeUser = signal<User | null>(null);
-  
+
   themeService = inject(ThemeService);
 
   async ngOnInit() {

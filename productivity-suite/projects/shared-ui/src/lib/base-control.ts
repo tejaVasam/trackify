@@ -1,4 +1,4 @@
-import { Directive, inject, input, signal, OnInit } from '@angular/core';
+import { Directive, inject, input, signal, OnInit, computed } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 
 @Directive()
@@ -64,7 +64,7 @@ export abstract class BaseControl<T> implements ControlValueAccessor, OnInit {
     this.isDisabled.set(isDisabled);
   }
 
-  get hasError(): boolean {
+  hasError = computed(() => {
     return !!(this.ngControl?.invalid && (this.ngControl?.touched || this.ngControl?.dirty));
-  }
+  });
 }

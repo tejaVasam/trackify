@@ -43,63 +43,104 @@ export class NotificationService {
     return true;
   }
 
-  async sendNotification(habitId: number, name: string, icon: string) {
-    if (Notification.permission !== 'granted') return;
+  async updateAllSchedules() {
+    if (!('Notification' in window) || Notification.permission !== 'granted') return;
+    
+    const habits = await this.habitService.loadHabits();
+    const registration = await navigator.serviceWorker.ready;
 
-    try {
-      const registration = await navigator.serviceWorker.ready;
-      
-      const options: any = {
-        body: `Time for your habit: ${name}!`,
-        icon: `/assets/icons/icon-128x128.png`,
-        badge: `/assets/icons/icon-72x72.png`,
-        data: { habitId },
-        vibrate: [200, 100, 200],
-        tag: `habit-${habitId}`,
-        actions: [
-          { action: 'mark-done', title: 'Mark as Done' },
-          { action: 'close', title: 'Close' }
-        ]
-      };
+    // Clear existing notifications that might be scheduled (or just overwrite them by tag)
+    // The Triggers API will handle overwriting if we use the same tag: habit-{id}
 
-
-      await registration.showNotification(`Trackify: ${name}`, options);
-    } catch (err) {
-      console.error('Error showing notification', err);
-      // Fallback if SW not ready
-      new Notification(`Trackify: ${name}`, { body: `Time to ${name}!` });
+    for (const habit of habits) {
+      if (habit.reminderEnabled && habit.startTime) {
+        await this.scheduleNotification(habit);
+      }
     }
   }
 
-  async checkReminders() {
-    const habits = await this.habitService.loadHabits();
-    const now = new Date();
-    const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-    const dateStr = now.toISOString().split('T')[0];
+  private async scheduleNotification(habit: any) {
+    const registration = await navigator.serviceWorker.ready;
     
-    // Cleanup old notified set if date changed
-    const todayPrefix = `${dateStr}-`;
-    // (In a real app, I'd clear old ones, but for simplicity here we just check if it's already in the set)
+    // Calculate next occurrence
+    const nextTriggerTime = this.calculateNextTrigger(habit.startTime, habit.reminderOffset || 0, habit.frequency, habit.days);
+    
+    if (!nextTriggerTime) return;
 
-    const sub = habits.filter(h => 
-        h.reminderEnabled && 
-        h.reminderTime === currentTime && 
-        !this.notifiedToday.has(`${dateStr}-${h.id}`)
-    );
-    
-    for (const habit of sub) {
-        const isAlreadyDone = await this.habitLogService.isCompleted(habit.id, dateStr);
-        if (!isAlreadyDone) {
-            this.sendNotification(habit.id, habit.name, habit.icon);
-            this.notifiedToday.add(`${dateStr}-${habit.id}`);
-        }
+    const options: any = {
+      body: `Time for your habit: ${habit.name}!`,
+      icon: `/assets/icons/icon-128x128.png`,
+      badge: `/assets/icons/icon-72x72.png`,
+      data: { habitId: habit.id },
+      vibrate: [200, 100, 200],
+      tag: `habit-${habit.id}`,
+      actions: [
+        { action: 'mark-done', title: 'Mark as Done' },
+        { action: 'close', title: 'Close' }
+      ]
+    };
+
+    // Check for Trigger Support
+    if (('showTrigger' in Notification.prototype) && ('TimestampTrigger' in window)) {
+      (options as any).showTrigger = new (window as any).TimestampTrigger(nextTriggerTime);
     }
+
+    try {
+      await registration.showNotification(`Trackify: ${habit.name}`, options);
+      console.log(`Scheduled notification for ${habit.name} at ${new Date(nextTriggerTime).toLocaleString()}`);
+    } catch (err) {
+      console.error('Error scheduling notification', err);
+    }
+  }
+
+  private calculateNextTrigger(startTimeStr: string, offsetMins: number, frequency: number, days?: number[]): number | null {
+    const [hours, minutes] = startTimeStr.split(':').map(Number);
+    const now = new Date();
+    let triggerDate = new Date();
+    triggerDate.setHours(hours, minutes, 0, 0);
+
+    // Apply offset
+    if (offsetMins > 0) {
+      triggerDate.setMinutes(triggerDate.getMinutes() - offsetMins);
+    }
+
+    // If time has already passed today, move to tomorrow as a baseline
+    if (triggerDate <= now) {
+      triggerDate.setDate(triggerDate.getDate() + 1);
+    }
+
+    // Specific Days logic (Weekly)
+    if (frequency === 1 && days && days.length > 0) {
+      // HabitFrequency.Weekly is 1
+      // Find the next day in the list
+      // 0=Sunday, 1=Monday, ..., 6=Saturday (Check your enum mapping)
+      // Assuming 0 is Sunday based on getDay()
+      
+      let found = false;
+      for (let i = 0; i < 7; i++) {
+        const currentDay = triggerDate.getDay();
+        if (days.includes(currentDay)) {
+          found = true;
+          break;
+        }
+        triggerDate.setDate(triggerDate.getDate() + 1);
+      }
+      if (!found) return null;
+    }
+
+    return triggerDate.getTime();
   }
 
   async markHabitAsDone(habitId: number) {
     const dateStr = new Date().toISOString().split('T')[0];
     await this.habitLogService.markHabitAsCompleted(habitId, dateStr);
     this.snackBar.open('Habit marked as done!', 'OK', { duration: 2000 });
+    
+    // Reschedule the next one after marking as done
+    const habit = await this.habitService.getHabit(habitId);
+    if (habit) {
+      this.scheduleNotification(habit);
+    }
   }
 }
 

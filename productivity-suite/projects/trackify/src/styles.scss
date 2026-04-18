@@ -12,6 +12,9 @@
 @use './styles/borders.scss';
 @use './styles/margins.scss';
 @use './styles/modifiers.scss';
+@use './styles/heights.scss';
+@use './styles/widths.scss';
+
 
 @import '@angular/material/prebuilt-themes/rose-red.css';
 
@@ -25,9 +28,7 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-* {
-    color: var(--text-primary);
-}
+
 
 .border-none {
     border: none;
@@ -37,4 +38,8 @@ body {
     * {
         color: var(--background-default);
     }
+}
+
+.bg-grey {
+    background-color: var(--background-secondary);
 }

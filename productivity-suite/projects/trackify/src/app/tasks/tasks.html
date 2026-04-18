@@ -1,0 +1,116 @@
+<mat-drawer-container [hasBackdrop]="true" class="tasks-module-container w-100 h-100">
+  <mat-drawer #drawer mode="over" position="end" [opened]="drawerOpened()" (closedStart)="onDrawerClose(false)"
+    class="create-task-drawer" style="width: 80%; max-width: 500px;">
+    @if (drawerOpened()) {
+    <t-create-task [task]="selectedTask()" (close)="onDrawerClose($event)" />
+    }
+  </mat-drawer>
+
+  <mat-drawer-content>
+    <div class="p-24 df fd-c gap-8">
+      <!-- Header -->
+      <div class="df fd-r ai-c jc-s">
+        <h2 class="m-0 fs-28 fw-800 text-primary">Task Manager</h2>
+        <button mat-flat-button color="primary" (click)="openCreateDrawer()" class="br-12 h-48 px-24 fw-600">
+          <mat-icon iconPositionEnd>add</mat-icon>
+          New Task
+        </button>
+      </div>
+
+      <!-- Summary Section -->
+      <div class="summary-card p-20 br-24 mt-8">
+        <div class="df fd-r ai-c jc-s mb-12">
+          <div class="df fd-c">
+            <span class="fs-12 text-secondary fw-600 uppercase ls-1">Tasks Overview</span>
+            <span class="fs-22 fw-800 text-primary">{{ completedCount() }}/{{ totalCount() }} <span
+                class="fs-14 fw-500 text-secondary">Tasks Done</span></span>
+          </div>
+          <button mat-stroked-button [matMenuTriggerFor]="sortMenu" class="br-12 sort-btn">
+            <mat-icon>sort</mat-icon>
+            {{ sortBy() | titlecase }}
+          </button>
+          <mat-menu #sortMenu="matMenu" class="custom-sort-menu">
+            <button mat-menu-item (click)="sortBy.set('priority')">
+              <mat-icon>priority_high</mat-icon>
+              <span>Priority</span>
+            </button>
+            <button mat-menu-item (click)="sortBy.set('dueDate')">
+              <mat-icon>calendar_today</mat-icon>
+              <span>Due Date</span>
+            </button>
+            <button mat-menu-item (click)="sortBy.set('createdAt')">
+              <mat-icon>update</mat-icon>
+              <span>Newest</span>
+            </button>
+          </mat-menu>
+        </div>
+        <div class="progress-wrap">
+          <mat-progress-bar mode="determinate" [value]="completionPercentage()"
+            class="task-progress h-8 br-4"></mat-progress-bar>
+        </div>
+        <div class="df fd-r ai-c gap-12 mt-12">
+          <div class="stat-badge pending">
+            <span class="indicator"></span>
+            {{ pendingCount() }} Remaining
+          </div>
+          <div class="stat-badge completed">
+            <span class="indicator"></span>
+            {{ completedCount() }} Done
+          </div>
+        </div>
+      </div>
+
+      <!-- Task List -->
+      <div class="df fd-c gap-4 mt-8">
+        @for(task of sortedTasks(); track task.id) {
+        <div class="task-card df fd-r ai-c gap-4 p-16 br-16 transition-all" [class.completed]="task.completed">
+          <mat-checkbox [checked]="task.completed" (change)="toggleTask(task)" color="primary"
+            class="task-checkbox"></mat-checkbox>
+
+          <div class="df fd-c gap-1 flex-1 cursor-pointer">
+            <span class="task-title fs-16 fw-600 transition-all">{{ task.title }}</span>
+            @if (task.description) {
+            <span class="task-desc fs-13 text-secondary line-clamp-1">{{ task.description }}</span>
+            }
+            <div class="df fd-r ai-c gap-3 mt-4">
+              <span class="priority-tag fs-11 fw-700 uppercase ls-1 px-8 py-2 br-4"
+                [style.background-color]="getPriorityColor(task.priority) + '20'"
+                [style.color]="getPriorityColor(task.priority)">
+                {{ task.priority }}
+              </span>
+              @if (task.dueDate) {
+              <div class="df fd-r ai-c gap-1 fs-12 text-secondary">
+                <mat-icon style="font-size: 14px; width: 14px; height: 14px;">event</mat-icon>
+                <span>{{ task.dueDate | date:'MMM d' }}</span>
+              </div>
+              }
+            </div>
+          </div>
+          <div class="task-actions df fd-r ai-c gap-1">
+            <button mat-icon-button (click)="editTask(task)" class="edit-btn">
+              <mat-icon>edit_calendar</mat-icon>
+            </button>
+            <button mat-icon-button (click)="deleteTask(task)" class="delete-btn">
+              <mat-icon>delete_outline</mat-icon>
+            </button>
+          </div>
+        </div>
+        } @empty {
+        <div class="empty-state p-48 df fd-c ai-c gap-6 b-1-dashed br-24">
+          <div class="icon-circle bg-surface-variant p-24 br-50">
+            <mat-icon color="primary" style="font-size: 48px; width: 48px; height: 48px;">assignment</mat-icon>
+          </div>
+          <div class="df fd-c ai-c gap-2 text-center">
+            <h3 class="m-0 fs-20 fw-700">No tasks yet</h3>
+            <p class="m-0 text-secondary max-w-280">Keep your focus sharp. Add your first task and start crushing your
+              goals!</p>
+          </div>
+          <button mat-stroked-button color="primary" (click)="openCreateDrawer()" class="br-12 px-24 h-44">
+            Quick Add Task
+          </button>
+        </div>
+        }
+      </div>
+    </div>
+  </mat-drawer-content>
+</mat-drawer-container>

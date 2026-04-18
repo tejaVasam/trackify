@@ -1,0 +1,22 @@
+<div 
+  class="avatar-container" 
+  [style.width.px]="size()" 
+  [style.height.px]="size()" 
+  [style.min-width.px]="size()"
+  [style.min-height.px]="size()"
+  [style.background-color]="avatar() ? 'transparent' : bgColor()"
+  [style.border-radius]="circular() ? '50%' : '12px'">
+  
+  @if (avatar()) {
+    <img 
+      [src]="avatar()!" 
+      [style.width.px]="size()" 
+      [style.height.px]="size()" 
+      style="object-fit: cover; border-radius: inherit;" 
+      alt="avatar" />
+  } @else {
+    <span class="initials" [style.font-size.px]="size() * 0.4">
+      {{ initials() }}
+    </span>
+  }
+</div>

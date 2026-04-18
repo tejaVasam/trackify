@@ -1,7 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { NotificationService } from '../services/notification.service';
-import { inject } from '@angular/core';
 
 import { SidenavComponent } from './shared/sidenav/sidenav';
 import { HeaderComponent } from './shared/components/header/header';
@@ -17,16 +15,6 @@ import { HeaderComponent } from './shared/components/header/header';
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
-export class App implements OnInit {
-  private notificationService = inject(NotificationService);
+export class App {
 
-  async ngOnInit() {
-    // Start checking for reminders every minute
-    setInterval(() => {
-      this.notificationService.checkReminders();
-    }, 60000); // Check every 60 seconds
-
-    // Immediate check on load
-    this.notificationService.checkReminders();
-  }
 }

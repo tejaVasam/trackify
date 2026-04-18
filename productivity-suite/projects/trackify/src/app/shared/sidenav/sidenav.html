@@ -25,14 +25,12 @@
           <mat-icon matListItemIcon>category</mat-icon>
           <span matListItemTitle>Categories</span>
         </a>
-      </mat-nav-list>
-
-      <mat-nav-list>
-        <a mat-list-item routerLink="/settings" routerLinkActive="active" (click)="closeOnMobile()">
-          <mat-icon matListItemIcon>settings</mat-icon>
-          <span matListItemTitle>Settings</span>
+        <a mat-list-item routerLink="/tasks" routerLinkActive="active" (click)="closeOnMobile()">
+          <mat-icon matListItemIcon>assignment</mat-icon>
+          <span matListItemTitle>Tasks</span>
         </a>
       </mat-nav-list>
+
     </div>
   </mat-sidenav>
 
@@ -43,7 +41,7 @@
 
     <div class="app-router-wrapper" [style.height]="isMobile() ? 'calc(100vh - 64px - 80px)' : 'calc(100vh - 64px)'"
       style="overflow-y: auto;">
-      <div style="max-width: 1200px; margin: 0 auto; padding-bottom: 16px;">
+      <div class="h-100">
         <ng-content></ng-content>
       </div>
     </div>
@@ -67,8 +65,8 @@
       <div class="nav-item" routerLink="/categories" routerLinkActive="active-tab">
         <mat-icon>category</mat-icon>
       </div>
-      <div class="nav-item" routerLink="/settings" routerLinkActive="active-tab">
-        <mat-icon>person</mat-icon>
+      <div class="nav-item" routerLink="/tasks" routerLinkActive="active-tab">
+        <mat-icon>assignment</mat-icon>
       </div>
     </div>
     }

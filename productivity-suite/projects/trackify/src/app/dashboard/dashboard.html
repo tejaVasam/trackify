@@ -43,83 +43,47 @@
         </div>
     </div>
 
-    <!-- 1. Smart Progress Card (Hero) -->
-    <div class="w-100 br-24 p-24 position-relative overflow-hidden"
-        style="background: linear-gradient(135deg, #1e293b, #0f172a); color: #fff; box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.3); box-sizing: border-box;">
 
 
-        <div class="df fd-r gap-8 ai-c position-relative z-1 flex-wrap">
-            <!-- Circular Progress -->
-            <div class="df ai-c jc-c position-relative" style="width: 100px; height: 100px; min-width: 100px;">
-                <svg viewBox="0 0 36 36" style="width: 100%; height: 100%;">
-                    <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none"
-                        stroke="rgba(255,255,255,0.1)" stroke-width="3" />
-                    <path [attr.stroke-dasharray]="stats().todayPercentage + ', 100'"
-                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none"
-                        stroke="#10b981" stroke-width="3" stroke-linecap="round"
-                        style="transition: stroke-dasharray 0.8s ease-out;" />
-                </svg>
-                <div class="df fd-c ai-c position-absolute text-bg">
-                    <span class="fs-22 fw-800 text-bg">{{ stats().todayPercentage }}%</span>
-                    <span class="fs-10 fw-600 uppercase ls-1 text-bg" style="opacity: 0.6;">Today</span>
-                </div>
-            </div>
 
-            <!-- Insight Content -->
-            <div class="df fd-c gap-3 flex-1" style="min-width: 200px;">
-                <div class="df ai-c gap-2">
-                    <mat-icon class="fs-18" style="color: #f59e0b;">auto_awesome</mat-icon>
-                    <span class="fs-12 fw-700 uppercase ls-1" style="color: #f59e0b;">Smart Insight</span>
-                </div>
-                <p class="m-0 fs-16 fw-600" style="line-height: 1.4; color: #f8fafc;">
-                    {{ stats().insightMessage }}
-                </p>
-                @if (stats().insightHabitId) {
-                <button (click)="quickLog(stats().insightHabitId!)"
-                    class="df ai-c jc-c gap-2 mt-2 px-16 py-8 br-12 border-none cursor-pointer hover-lift"
-                    style="background-color: #f97316; color: #fff; width: fit-content; transition: transform 0.2s;">
-                    <mat-icon style="font-size: 18px; width: 18px; height: 18px;">check_circle</mat-icon>
-                    <span class="fs-13 fw-700">Quick Log</span>
-                </button>
-                }
-            </div>
-        </div>
-    </div>
 
-    <div class="df fd-r gap-4 w-100">
+    <div class="df fd-r jc-s w-100">
+        <app-progress-chart [percentage]="stats().todayPercentage"></app-progress-chart>
         <!-- Streak Card -->
-        <div class="df fd-c gap-4 p-20 br-16 bg-white flex-1"
-            style="box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05); box-sizing: border-box;">
-            <div class="df jc-sb ai-c gap-2">
-                <span class="fs-14 fw-700 uppercase ls-1" style="color: #94a3b8;">Streak</span>
-                <div class="br-pill px-8 py-4 df ai-c gap-1" style="background-color: #fff7ed; color: #ea580c;">
-                    <mat-icon style="font-size: 14px; width:14px; height:14px;">local_fire_department</mat-icon>
-                    <span class="fs-11 fw-700">{{ stats().platformStreak }}d</span>
+        <div class="df fd-c gap-2">
+            <div class="df fd-c gap-4 p-20 br-16 bg-white flex-1"
+                style="box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05); box-sizing: border-box;">
+                <div class="df jc-sb ai-c gap-2">
+                    <span class="fs-14 fw-700 uppercase ls-1" style="color: #94a3b8;">Streak</span>
+                    <div class="br-pill px-8 py-4 df ai-c gap-1" style="background-color: #fff7ed; color: #ea580c;">
+                        <mat-icon style="font-size: 14px; width:14px; height:14px;">local_fire_department</mat-icon>
+                        <span class="fs-11 fw-700">{{ stats().platformStreak }}d</span>
+                    </div>
+                </div>
+                <div class="df fd-r gap-2 ai-fe">
+                    <span class="fs-28 fw-800" style="line-height: 1;">{{ stats().platformStreak }}</span>
+                    <span class="fs-13 fw-500 mb-1">days total</span>
                 </div>
             </div>
-            <div class="df fd-r gap-2 ai-fe">
-                <span class="fs-28 fw-800" style="line-height: 1;">{{ stats().platformStreak }}</span>
-                <span class="fs-13 fw-500 mb-1">days total</span>
-            </div>
-        </div>
 
-        <!-- Completion Card -->
-        <div class="df fd-c gap-4 p-20 br-16 bg-white flex-1"
-            style=" box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05); box-sizing: border-box;">
-            <div class="df jc-sb ai-c gap-2">
-                <span class="fs-14 fw-700 uppercase ls-1">Consistency</span>
-                <mat-icon style="color: #10b981; font-size: 18px;">insights</mat-icon>
-            </div>
-            <div class="df fd-r gap-2 ai-fe">
-                <span class="fs-28 fw-800" style="line-height: 1;">{{ stats().completionRate7Days
-                    }}%</span>
-                <span class="fs-13 fw-500 mb-1">7 day avg</span>
+            <!-- Completion Card -->
+            <div class="df fd-c gap-4 p-20 br-16 bg-white flex-1"
+                style=" box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05); box-sizing: border-box;">
+                <div class="df jc-sb ai-c gap-2">
+                    <span class="fs-14 fw-700 uppercase ls-1">Consistency</span>
+                    <mat-icon style="color: #10b981; font-size: 18px;">insights</mat-icon>
+                </div>
+                <div class="df fd-r gap-2 ai-fe">
+                    <span class="fs-28 fw-800" style="line-height: 1;">{{ stats().completionRate7Days
+                        }}%</span>
+                    <span class="fs-13 fw-500 mb-1">7 day avg</span>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- Activity Heat Chart -->
-    <div class="bg-white p-24 br-16 w-100"
+    <div class="bg-white  br-16 w-100 p-8"
         style="box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05); box-sizing: border-box; margin-bottom: 8px;">
         <div class="df fd-r ai-c jc-sb flex-wrap gap-4 mb-16">
             <h2 class="m-0 fs-18 fw-700" style="color: var(--text-primary);">Activity Volume</h2>
@@ -134,7 +98,7 @@
     <div class="bg-white p-24 br-16 w-100"
         style="box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05); box-sizing: border-box;">
         <div class="df fd-r ai-c jc-sb flex-wrap gap-4 mb-20">
-            <h2 class="m-0 fs-18 fw-700" style="color: #1e293b;">Weekly Tracker</h2>
+            <h2 class="m-0 fs-18 fw-700">Weekly Tracker</h2>
             <span class="fs-12 fw-600 text-secondary ls-1 ml-auto">PAST 7 DAYS</span>
         </div>
 
@@ -200,7 +164,7 @@
             </div>
             <div class="df fd-c overflow-hidden">
                 <span class="fs-11 fw-700 text-secondary uppercase ls-1">Record Habit</span>
-                <span class="fs-15 fw-700 truncate" style="color: #1e293b;">{{ stats().topHabitName }}</span>
+                <span class="fs-15 fw-700 truncate">{{ stats().topHabitName }}</span>
             </div>
             <span class="ml-auto fs-16 fw-800" style="color: #f59e0b;">{{ stats().topHabitScore }}x</span>
         </div>
@@ -215,11 +179,11 @@
             <div class="df fd-c overflow-hidden">
                 <span class="fs-11 fw-700 text-secondary uppercase ls-1">Pending Today</span>
                 @if (stats().missedHabits.length > 0) {
-                <span class="fs-14 fw-600 truncate" style="color: #1e293b;">
+                <span class="fs-14 fw-600 truncate">
                     {{ stats().missedHabits.join(', ') }}
                 </span>
                 } @else {
-                <span class="fs-14 fw-600" style="color: #10b981;">Perfect Day in progress!</span>
+                <span class="fs-14 fw-600">Perfect Day in progress!</span>
                 }
             </div>
         </div>

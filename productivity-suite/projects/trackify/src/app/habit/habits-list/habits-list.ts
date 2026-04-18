@@ -7,6 +7,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CreateHabit } from '../create-habit/create-habit';
 import { ConfirmDialog } from '../../shared/confirm-dialog';
 import { Router } from '@angular/router';
+import { HabitCard } from '../components/habit-card/habit-card';
 import { HabitLogService } from '../../../services/habit-log.service';
 import { CategoryService } from '../../../services/category.service';
 import { Category } from '../../../models/category.model';
@@ -16,6 +17,7 @@ import { computed } from '@angular/core';
 import { Days } from '../../../enums/days.enum';
 import { HabitFrequency } from '../../../enums/habit-frequency.enum';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { DragDropModule, CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 
 
@@ -25,9 +27,11 @@ interface HabitWithStreak extends Habit {
 }
 
 
+import { MatSidenavModule } from '@angular/material/sidenav';
+
 @Component({
   selector: 't-habits-list',
-  imports: [MatDialogModule, MatButtonModule, MatIconModule, MatSelectModule, MatFormFieldModule, MatSnackBarModule],
+  imports: [MatDialogModule, MatButtonModule, MatIconModule, MatSelectModule, MatFormFieldModule, MatSnackBarModule, MatSidenavModule, CreateHabit, HabitCard, DragDropModule],
   templateUrl: './habits-list.html',
   styleUrl: './habits-list.scss',
 })
@@ -55,6 +59,8 @@ export class HabitsList implements OnInit {
 
   categories = signal<Category[]>([]);
   selectedCategoryId = signal<number | 'all'>('all');
+
+  selectedHabit = signal<Habit | null>(null);
 
   filteredHabits = computed(() => {
     const filter = this.selectedCategoryId();
@@ -85,39 +91,22 @@ export class HabitsList implements OnInit {
   }
 
   openCreateHabitDialog() {
-    if (this.categories().length === 0) {
-      this.snackBar.open('Please create a category first before adding habits.', 'Go to Categories', {
-        duration: 5000,
-        panelClass: ['warning-snackbar']
-      }).onAction().subscribe(() => {
-        this.router.navigate(['/categories']);
-      });
-      return;
+    this.selectedHabit.set(null);
+    this.drawerOpened.set(true);
+  }
+
+  drawerOpened = signal<boolean>(false);
+
+  onDrawerClose(refresh: boolean) {
+    this.drawerOpened.set(false);
+    if (refresh) {
+      this.loadHabits();
     }
-
-    const dialogRef = this.dialog.open(CreateHabit, {
-      width: '500px',
-      maxWidth: '90vw'
-    });
-
-
-    dialogRef.afterClosed().subscribe((result: any) => {
-      if (result) {
-        this.loadHabits();
-      }
-    });
   }
 
   editHabit(habit: Habit) {
-    const dialogRef = this.dialog.open(CreateHabit, {
-      width: '500px',
-      maxWidth: '90vw',
-      data: { habit } // Send target habit as MAT_DIALOG_DATA injection
-    });
-
-    dialogRef.afterClosed().subscribe((result: any) => {
-      if (result) this.loadHabits();
-    });
+    this.selectedHabit.set(habit);
+    this.drawerOpened.set(true);
   }
 
   viewDetails(habitId: number) {
@@ -139,5 +128,37 @@ export class HabitsList implements OnInit {
         await this.loadHabits();
       }
     });
+  }
+
+  async drop(event: CdkDragDrop<HabitWithStreak[]>) {
+    const currentHabits = [...this.habits()];
+    
+    // Calculate global indices if filtered
+    const filtered = this.filteredHabits();
+    const itemMoved = filtered[event.previousIndex];
+    const itemTarget = filtered[event.currentIndex];
+    
+    const globalPrevIndex = currentHabits.findIndex(h => h.id === itemMoved.id);
+    const globalCurrIndex = currentHabits.findIndex(h => h.id === itemTarget.id);
+
+    moveItemInArray(currentHabits, globalPrevIndex, globalCurrIndex);
+
+    // Update positions
+    const updatedHabits = currentHabits.map((h, index) => ({
+      ...h,
+      position: index
+    }));
+
+    // Optimistic update
+    this.habits.set(updatedHabits);
+
+    // Persist to DB
+    try {
+      await this.habitService.updateHabitPositions(updatedHabits);
+    } catch (error) {
+      console.error('Failed to save habit order:', error);
+      this.snackBar.open('Failed to save order', 'Close', { duration: 3000 });
+      await this.loadHabits(); // Revert on failure
+    }
   }
 }

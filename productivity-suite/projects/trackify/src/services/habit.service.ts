@@ -14,7 +14,7 @@ export class HabitService {
 
   // Reload habits from Dexie and update signal
   async loadHabits(): Promise<Habit[]> {
-   return  db.habits.toArray();
+   return db.habits.orderBy('position').toArray();
   }
 
   // Get a single habit by ID
@@ -23,8 +23,10 @@ export class HabitService {
   }
 
   // Create a new habit
-  async addHabit(habit: Omit<Habit, 'id'>): Promise<number> {
-    const id = await db.habits.add(habit as Habit);
+  async addHabit(habit: Omit<Habit, 'id' | 'position'>): Promise<number> {
+    const allHabits = await this.loadHabits();
+    const maxPosition = allHabits.length > 0 ? Math.max(...allHabits.map(h => h.position ?? 0)) : -1;
+    const id = await db.habits.add({ ...habit, position: maxPosition + 1 } as Habit);
     await this.loadHabits();
     return id;
   }
@@ -36,6 +38,13 @@ export class HabitService {
       await this.loadHabits();
     }
     return updatedCount;
+  }
+
+  // Update multiple habits (used for reordering)
+  async updateHabitPositions(habits: Habit[]): Promise<void> {
+    const cleanHabits = habits.map(({ currentStreak, longestStreak, ...h }: any) => h);
+    await db.habits.bulkPut(cleanHabits);
+    await this.loadHabits();
   }
 
   // Delete a habit

@@ -1,35 +1,15 @@
 import Dexie, { Table } from 'dexie';
 import { Habit } from '../models/habit.model';
-import { HabitFrequency } from '../enums/habit-frequency.enum';
-import { Days } from '../enums/days.enum';
 import { Category } from '../models/category.model';
-
-export interface HabitLog {
-  id?: number;
-  habitId: number;
-  dateStr: string; // e.g., 'YYYY-MM-DD'
-  completedAt: number; // Unix timestamp
-  note?: string; // Keep for backward compatibility or simple notes
-  mood?: string;
-  tags?: string[];
-  reflectionNote?: string;
-  planNote?: string;
-}
-
-
-export interface User {
-  id?: number;
-  name: string;
-  gender?: 'male' | 'female' | 'other';
-  avatar?: string;
-  createdAt: number;
-}
-
+import { HabitLog } from '../models/habit-log.model';
+import { User } from '../models/user.model';
+import { Task } from '../models/task.model';
 export class AppDB extends Dexie {
   habits!: Table<Habit, number>;
   habitLogs!: Table<HabitLog, number>;
   categories!: Table<Category, number>;
   users!: Table<User, number>;
+  tasks!: Table<Task, number>;
 
   constructor() {
     super('TrackifyDB');
@@ -52,6 +32,19 @@ export class AppDB extends Dexie {
 
     this.version(5).stores({
       habitLogs: '++id, habitId, dateStr, [habitId+dateStr]'
+    });
+
+    this.version(6).stores({
+      habits: '++id, name, frequency, position'
+    }).upgrade(async tx => {
+      const habits = await tx.table('habits').toArray();
+      await Promise.all(habits.map((habit, index) => {
+        return tx.table('habits').update(habit.id, { position: habit.position ?? index });
+      }));
+    });
+
+    this.version(7).stores({
+      tasks: '++id, title, completed, priority, dueDate'
     });
   }
 

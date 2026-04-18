@@ -1,24 +1,27 @@
-<mat-toolbar style="box-shadow: 0 2px 6px rgb(0 0 0 / 15%); z-index: 10; position: relative;"
-    class="df fx jc-s toolbar">
+<mat-toolbar class="df fx jc-s toolbar"
+    style="box-shadow: 0 2px 6px rgb(0 0 0 / 15%); z-index: 10; position: relative;">
     <div class="df ai-c gap-2">
-        @if(!isMobile) {
+        @if(!isMobile()) {
         <button mat-icon-button (click)="toggle.emit()" aria-label="Toggle sidenav">
             <mat-icon>menu</mat-icon>
         </button>
         }
-        <mat-icon color="primary"
-            style="font-size: 28px; width: 28px; height: 28px; margin-right: 8px;">track_changes</mat-icon>
+        <mat-icon color="primary" style="font-size: 28px; width: 28px; height: 28px; margin-right: 8px;">
+            track_changes
+        </mat-icon>
 
-        <span class="fs-20" style="font-weight: 400;">{{ title }}</span>
+        <span class="fs-20" style="font-weight: 400;">{{ title() }}</span>
     </div>
 
-    @if (activeUser) {
+    @if (activeUser()) {
     <div class="df fd-r ai-c gap-2 px-8">
         <button mat-icon-button (click)="themeService.toggleTheme()" aria-label="Toggle theme">
             <mat-icon>{{ themeService.isDarkMode() ? 'light_mode' : 'dark_mode' }}</mat-icon>
         </button>
-        <span class="fs-14 fw-600 hide-on-mobile">{{ activeUser.name }}</span>
-        <t-avatar [name]="activeUser.name || ''" [avatar]="activeUser.avatar" [size]="36"></t-avatar>
+        <span class="fs-14 fw-600 hide-on-mobile">{{ activeUser()?.name }}</span>
+        <div routerLink="/settings" class="cursor-pointer">
+            <t-avatar [name]="activeUser()?.name || ''" [avatar]="activeUser()?.avatar" [size]="36" />
+        </div>
     </div>
     }
 </mat-toolbar>

@@ -1,4 +1,6 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { ProgressChartComponent } from '../shared/components/progress-chart/progress-chart.component';
+
 import { HabitService } from '../../services/habit.service';
 import { HabitLogService } from '../../services/habit-log.service';
 import { CategoryService } from '../../services/category.service';
@@ -7,9 +9,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { HabitFrequency } from '../../enums/habit-frequency.enum';
 import { Days } from '../../enums/days.enum';
-import { db, User } from '../../db/app.db';
+import { db } from '../../db/app.db';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration } from 'chart.js';
+import { WeeklyTrackerComponent } from '../shared/components/weekly-tracker/weekly-tracker.component';
+import { User } from '../../models/user.model';
 
 interface DashboardStats {
   todayCompletedCount: number;
@@ -22,8 +26,6 @@ interface DashboardStats {
   topHabitName: string;
   topHabitScore: number;
   missedHabits: string[];
-  insightMessage: string;
-  insightHabitId?: number;
   showWelcome: boolean;
   noCategories: boolean;
 }
@@ -40,7 +42,7 @@ interface WeeklyMatrixItem {
 @Component({
   selector: 't-dashboard',
   standalone: true,
-  imports: [MatIconModule, RouterModule, BaseChartDirective],
+  imports: [MatIconModule, RouterModule, BaseChartDirective, ProgressChartComponent, WeeklyTrackerComponent],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss'
 })
@@ -62,7 +64,6 @@ export class Dashboard implements OnInit {
     topHabitName: 'No Data',
     topHabitScore: 0,
     missedHabits: [],
-    insightMessage: 'Loading insights...',
     showWelcome: false,
     noCategories: false
   });
@@ -299,31 +300,7 @@ export class Dashboard implements OnInit {
       }
     }
 
-    // ============================================
-    // 5. SMART INSIGHTS
-    // ============================================
-    let insightMessage = "You're doing great! Keep up the consistency.";
-    let insightHabitId: number | undefined;
 
-    // Check for streak at risk (yesterday done, today not)
-    for (const h of habits) {
-      const hLogs = allLogs.filter(l => l.habitId === h.id);
-      const yesterdayStr = this.getLocalFormattedDate(new Date(todayMillis - msInDay));
-      const doneYesterday = hLogs.some(l => l.dateStr === yesterdayStr);
-      const doneToday = hLogs.some(l => l.dateStr === todayStr);
-
-      if (doneYesterday && !doneToday) {
-        insightMessage = `Your streak for "${h.name}" is at risk! Log it now to keep it alive.`;
-        insightHabitId = h.id;
-        break;
-      }
-    }
-
-    // If no streak at risk, check if almost all habits done today
-    if (!insightHabitId && todayPercentage > 0 && todayPercentage < 100) {
-      insightMessage = `You're just ${todayTotalCount - todayCompletedCount} habit away from a perfect day!`;
-      insightHabitId = habits.find(h => !todayCompletedIds.has(h.id!))?.id;
-    }
 
     // Set Signals to render UI!
     this.weeklyGraph.set(graphPoints);
@@ -338,8 +315,6 @@ export class Dashboard implements OnInit {
       topHabitName,
       topHabitScore,
       missedHabits,
-      insightMessage,
-      insightHabitId,
       showWelcome: habits.length === 0,
       noCategories: categories.length === 0
     });
@@ -351,10 +326,6 @@ export class Dashboard implements OnInit {
     await this.calculateMetrics();
   }
 
-  async quickLog(habitId: number) {
-    const todayStr = this.getLocalFormattedDate(new Date());
-    await this.habitLogService.markHabitAsCompleted(habitId, todayStr);
-    await this.calculateMetrics();
-  }
+
 }
 

@@ -1,27 +1,34 @@
 import { Injectable } from '@angular/core';
-import { db, HabitLog } from '../db/app.db';
+import { db } from '../db/app.db';
+import { HabitLog } from '../models/habit-log.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HabitLogService {
-  
-  async markHabitAsCompleted(habitId: number, dateStr: string, note?: string): Promise<number> {
-    const log: HabitLog = {
-      habitId,
-      dateStr,
-      completedAt: Date.now(),
-      note
-    };
-    return db.habitLogs.add(log);
+
+  async markHabitAsCompleted(habitId: number, dateStr: string, note?: string): Promise<number | void> {
+    const existing = await db.habitLogs.where({ habitId, dateStr }).first();
+    if (existing && existing.id) {
+      return db.habitLogs.update(existing.id, { isCompleted: true, completedAt: Date.now(), note: note || existing.note });
+    } else {
+      const log: HabitLog = {
+        habitId,
+        dateStr,
+        isCompleted: true,
+        completedAt: Date.now(),
+        note
+      };
+      return db.habitLogs.add(log);
+    }
   }
 
   async saveNote(habitId: number, dateStr: string, note: string): Promise<void> {
     const existing = await db.habitLogs.where({ habitId, dateStr }).first();
     if (existing && existing.id) {
-       await db.habitLogs.update(existing.id, { note });
+      await db.habitLogs.update(existing.id, { note });
     } else {
-       await this.markHabitAsCompleted(habitId, dateStr, note);
+      await this.markHabitAsCompleted(habitId, dateStr, note);
     }
   }
 
@@ -33,7 +40,7 @@ export class HabitLogService {
       const log: HabitLog = {
         habitId,
         dateStr,
-        completedAt: Date.now(),
+        isCompleted: false, // Default to false when just adding note/mood
         ...data
       };
       await db.habitLogs.add(log);
@@ -48,7 +55,7 @@ export class HabitLogService {
   async removeCompletion(habitId: number, dateStr: string): Promise<void> {
     const existing = await db.habitLogs.where({ habitId, dateStr }).first();
     if (existing && existing.id) {
-      await db.habitLogs.delete(existing.id);
+      await db.habitLogs.update(existing.id, { isCompleted: false, completedAt: undefined });
     }
   }
 
@@ -64,8 +71,8 @@ export class HabitLogService {
   }
 
   async isCompleted(habitId: number, dateStr: string): Promise<boolean> {
-    const count = await db.habitLogs.where({ habitId, dateStr }).count();
-    return count > 0;
+    const log = await db.habitLogs.where({ habitId, dateStr }).first();
+    return !!log?.isCompleted;
   }
 
   async getLogsForDate(dateStr: string): Promise<HabitLog[]> {
@@ -81,7 +88,8 @@ export class HabitLogService {
   }
 
   async getStreakStatus(habitId: number): Promise<{ current: number; longest: number }> {
-    const logs = await db.habitLogs.where('habitId').equals(habitId).toArray();
+    const allLogs = await db.habitLogs.where('habitId').equals(habitId).toArray();
+    const logs = allLogs.filter(l => l.isCompleted);
     if (logs.length === 0) return { current: 0, longest: 0 };
 
     // Sort logs by date ascending

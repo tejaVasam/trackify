@@ -1,0 +1,64 @@
+.tracker-card {
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
+    box-sizing: border-box;
+}
+
+.scroll-container {
+    &::-webkit-scrollbar {
+        height: 6px;
+    }
+    &::-webkit-scrollbar-track {
+        background: #f1f5f9;
+        border-radius: 10px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 10px;
+        &:hover {
+            background: #94a3b8;
+        }
+    }
+}
+
+.sticky-col {
+    position: sticky;
+    left: 0;
+    z-index: 10;
+    background-color: #fff;
+    transition: background-color 0.2s;
+}
+
+.header-spacer {
+    flex: 2;
+    padding-right: 12px;
+    min-width: 140px;
+}
+
+.habit-name-col {
+    flex: 2;
+    padding-right: 12px;
+    min-width: 140px;
+}
+
+.habit-row {
+    background-color: #fff;
+    &:hover {
+        background-color: #f8fafc;
+        .sticky-col {
+            background-color: #f8fafc;
+        }
+    }
+}
+
+.truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.progress-item {
+    &:hover {
+        transform: scale(1.1);
+        background-color: #f1f5f9;
+    }
+}

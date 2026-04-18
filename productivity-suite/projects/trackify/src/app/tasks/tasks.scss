@@ -1,0 +1,158 @@
+.tasks-module-container {
+  background-color: var(--background-alt);
+}
+
+.summary-card {
+  background: white;
+  border: 1px solid rgba(var(--mat-sys-primary-main), 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+  
+  .task-progress {
+      background-color: #f1f5f9;
+      ::ng-deep .mdc-linear-progress__bar-inner {
+          border-color: var(--mat-sys-primary-main) !important;
+          border-width: 8px !important;
+      }
+  }
+}
+
+.stat-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 20px;
+    
+    .indicator {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+    }
+    
+    &.pending {
+        background-color: #fff7ed;
+        color: #9a3412;
+        .indicator { background-color: #f97316; }
+    }
+    
+    &.completed {
+        background-color: #f0fdf4;
+        color: #166534;
+        .indicator { background-color: #22c55e; }
+    }
+}
+
+.sort-btn {
+    border-color: #e2e8f0;
+    color: var(--mat-sys-on-surface-variant);
+    font-weight: 600;
+    
+    mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+    }
+}
+
+.task-card {
+  background: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  &:hover {
+    transform: translateX(4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.06);
+    border-color: var(--mat-sys-primary-main);
+    
+    .edit-btn, .delete-btn {
+      opacity: 0.8;
+      transform: scale(1);
+    }
+  }
+}
+
+.task-title {
+  color: var(--mat-sys-on-surface);
+}
+
+.completed {
+  opacity: 0.6;
+
+  .task-title {
+    text-decoration: line-through;
+    color: var(--mat-sys-on-surface-variant);
+  }
+
+  .task-card {
+    background-color: #f8fafc;
+  }
+}
+
+.task-checkbox {
+  ::ng-deep .mdc-checkbox__background {
+    border-radius: 6px !important;
+  }
+}
+
+.edit-btn,
+.delete-btn {
+  opacity: 0.6;
+  transform: scale(0.9);
+  transition: all 0.2s ease;
+
+  &:hover {
+    opacity: 1 !important;
+    transform: scale(1.1) !important;
+  }
+}
+
+.edit-btn {
+  color: var(--mat-sys-primary-main);
+}
+
+.delete-btn {
+  color: var(--mat-sys-error);
+}
+
+/* Dark mode support */
+:host-context(.dark-theme) {
+  .task-card, .empty-state, .summary-card {
+    background: var(--mat-sys-surface-container-low);
+    border-color: rgba(255, 255, 255, 0.05);
+  }
+
+  .stat-badge {
+      &.pending {
+          background-color: rgba(249, 115, 22, 0.1);
+          color: #fb923c;
+      }
+      &.completed {
+          background-color: rgba(34, 197, 94, 0.1);
+          color: #4ade80;
+      }
+  }
+  
+  .task-card:hover {
+    background-color: rgba(var(--mat-sys-primary-main), 0.1);
+  }
+}
+
+.empty-state {
+  background: white;
+  border-color: #e2e8f0;
+
+  .icon-circle {
+    background-color: rgba(var(--mat-sys-primary-main), 0.1);
+  }
+}
+
+.max-w-280 {
+  max-width: 280px;
+}
+
+.text-success {
+  color: #10b981;
+}

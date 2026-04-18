@@ -1,25 +1,24 @@
-import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
+import { Component, input, output, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { User } from '../../../../db/app.db';
 import { ThemeService } from '../../../../services/theme.service';
 import { AvatarComponent } from '../avatar/avatar';
+import { User } from '../../../../models/user.model';
 
 @Component({
   selector: 't-header',
   standalone: true,
-  imports: [CommonModule, MatToolbarModule, MatButtonModule, MatIconModule, AvatarComponent],
-  templateUrl: './header.html',
-  styleUrls: ['./header.scss']
-
+  imports: [CommonModule, RouterModule, MatToolbarModule, MatButtonModule, MatIconModule, AvatarComponent],
+  templateUrl: './header.html'
 })
 export class HeaderComponent {
-  @Input() isMobile: boolean = false;
-  @Input() title: string = 'Trackify';
-  @Input() activeUser: User | null = null;
-  @Output() toggle = new EventEmitter<void>();
+  isMobile = input<boolean>(false);
+  title = input<string>('Trackify');
+  activeUser = input<User | null>(null);
+  toggle = output<void>();
 
   themeService = inject(ThemeService);
 }

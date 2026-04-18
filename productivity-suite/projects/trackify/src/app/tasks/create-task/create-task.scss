@@ -1,0 +1,21 @@
+.create-task-container {
+  overflow-x: hidden;
+}
+
+textarea {
+  resize: none;
+}
+
+.text-bg {
+    color: white !important;
+}
+
+.close-btn {
+  color: var(--mat-sys-on-surface-variant);
+}
+
+:host-context(.dark-theme) {
+  .create-task-container {
+    background-color: var(--mat-sys-surface-container-high) !important;
+  }
+}

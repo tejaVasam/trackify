@@ -50,6 +50,10 @@ export const routes: Routes = [
             {
                 path: 'settings',
                 component: Settings
+            },
+            {
+                path: 'tasks',
+                loadComponent: () => import('./tasks/tasks').then(m => m.Tasks)
             }
         ]
     },

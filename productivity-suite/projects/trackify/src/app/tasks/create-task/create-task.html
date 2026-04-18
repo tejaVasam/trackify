@@ -1,0 +1,50 @@
+<div class="create-task-container bg-white h-100 df fd-c">
+  <div class="df fd-r ai-c jc-s pt-24 px-24 pb-8" style="border-bottom: 1px solid var(--border-subtle)">
+    <div class="df fd-c gap-2">
+      <span class="m-0 fw-800 fs-22 text-primary">{{ isEditMode() ? 'Update Task' : 'New Task' }}</span>
+      <span class="fs-12 text-secondary fw-500">Plan your next big thing</span>
+    </div>
+    <button mat-icon-button type="button" class="close-btn" (click)="onCancel()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <form [formGroup]="taskForm" (ngSubmit)="onSubmit()" class="df fd-c gap-5 p-24" style="overflow-y: auto;">
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Task Title</mat-label>
+      <input matInput formControlName="title" placeholder="e.g. Weekly Report" />
+      @if (taskForm.get('title')?.touched && taskForm.get('title')?.hasError('required')) {
+      <mat-error>Title is required</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Description (Optional)</mat-label>
+      <textarea matInput formControlName="description" placeholder="Add more details..." rows="3"></textarea>
+    </mat-form-field>
+
+    <div class="df fd-r gap-4">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Priority</mat-label>
+        <mat-select formControlName="priority">
+          @for (p of priorityOptions; track p.value) {
+          <mat-option [value]="p.value">{{ p.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Due Date</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="dueDate" />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <div class="mt-auto pt-24">
+      <button mat-flat-button color="primary" type="submit" class="w-100 p-24 text-bg" style="height: 56px; font-weight: 600;">
+        {{ isEditMode() ? 'Update Task' : 'Create Task' }}
+      </button>
+    </div>
+  </form>
+</div>
