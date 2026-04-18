@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1776543284510,
+  "timestamp": 1776546249988,
   "index": "/trackify/index.html",
   "assetGroups": [
     {
@@ -11,15 +11,15 @@
         "ignoreVary": true
       },
       "urls": [
-        "/trackify/chunk-J722Z5XG.js",
-        "/trackify/chunk-LXKM6Q5E.js",
-        "/trackify/chunk-TEBGLUXL.js",
-        "/trackify/chunk-TP4LXQNC.js",
-        "/trackify/chunk-XQXBSEGC.js",
+        "/trackify/chunk-4OX5CQ56.js",
+        "/trackify/chunk-A6ZW7ZTA.js",
+        "/trackify/chunk-DQP5KJFV.js",
+        "/trackify/chunk-FYEFV225.js",
+        "/trackify/chunk-QV5BYO6U.js",
         "/trackify/index.html",
-        "/trackify/main-YAS2JRMC.js",
+        "/trackify/main-HWETRH4N.js",
         "/trackify/manifest.webmanifest",
-        "/trackify/styles-4KUCR44F.css"
+        "/trackify/styles-AGHKR4I4.css"
       ],
       "patterns": []
     },
@@ -38,16 +38,16 @@
   ],
   "dataGroups": [],
   "hashTable": {
-    "/trackify/chunk-J722Z5XG.js": "44de29a00b65e80e17b706fc7f24320f120ed423",
-    "/trackify/chunk-LXKM6Q5E.js": "70d95dad32f4fd2cd98b2d913eeb990f3199cc39",
-    "/trackify/chunk-TEBGLUXL.js": "9ccf8ca04f4e4251d905a8494173e176422db8d2",
-    "/trackify/chunk-TP4LXQNC.js": "8b9c729d323ddb428fc7fffc7eb2fb1984876a9a",
-    "/trackify/chunk-XQXBSEGC.js": "66e57d681bbe674852be1dc124c8b95974d64807",
+    "/trackify/chunk-4OX5CQ56.js": "8f5dbeef0beb8135586a1202cb5b69314f3faab7",
+    "/trackify/chunk-A6ZW7ZTA.js": "f336f6352cfeb9b3bb35c20c50dc0075a3c8fe1a",
+    "/trackify/chunk-DQP5KJFV.js": "b3202107151c5ed9145f40fd43cb0f12404146bb",
+    "/trackify/chunk-FYEFV225.js": "54a8940521608078c3fe91a6af9f86576b0e6137",
+    "/trackify/chunk-QV5BYO6U.js": "da76ba8a1d26bb9a5e9dba8432b4b6acd43a4a89",
     "/trackify/icons/favicon.png": "e62fad51a74297b272b2823356318ef13ec83bba",
-    "/trackify/index.html": "2dd6d32a6fcce52bc55abbe0fda753d04cff1e4a",
-    "/trackify/main-YAS2JRMC.js": "10e9f22d42e64e8e67f85cf03e8cf8d45f8609a6",
+    "/trackify/index.html": "43b3992b64fd3ad793826c94e895acc60db0f0c0",
+    "/trackify/main-HWETRH4N.js": "eea26076155b3a8eb0ac97f5e64dee869876ab79",
     "/trackify/manifest.webmanifest": "85f1862b470947866d708d54eb1e3e2dff9cfd62",
-    "/trackify/styles-4KUCR44F.css": "db18d301cdc75222868142d3db130211076add92"
+    "/trackify/styles-AGHKR4I4.css": "e6b1377de0c79912ad2af68de19fd68f0c2993fe"
   },
   "navigationUrls": [
     {
