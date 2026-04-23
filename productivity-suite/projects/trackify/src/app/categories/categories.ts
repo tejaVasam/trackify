@@ -14,11 +14,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Category } from '../../models/category.model';
 import { CategoryService } from '../../services/category.service';
 import { Habit } from '../../models/habit.model';
+import { CreateHabit } from '../habit/create-habit/create-habit';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 @Component({
   selector: 't-categories',
   standalone: true,
-  imports: [FormsModule, MatListModule, MatButtonModule, MatIconModule, MatInputModule, MatFormFieldModule, MatExpansionModule, MatTooltipModule],
+  imports: [FormsModule, MatListModule, MatButtonModule, MatIconModule, MatInputModule, MatFormFieldModule, MatExpansionModule, MatTooltipModule, CreateHabit, MatSidenavModule],
   templateUrl: './categories.html',
   styleUrl: './categories.scss'
 })
@@ -30,6 +32,8 @@ export class Categories implements OnInit {
   habitCounts = signal<Record<number, number>>({});
   habitsByCategory = signal<Record<number, Habit[]>>({});
   newCategoryName = '';
+  editingCategoryId = signal<number | null>(null);
+  editCategoryName = '';
   private snackBar = inject(MatSnackBar);
 
   ngOnInit() {
@@ -97,5 +101,49 @@ export class Categories implements OnInit {
 
   navigateToDetails(id: number) {
     this.router.navigate(['/categories', id]);
+  }
+
+  startEdit(category: Category, event: Event) {
+    event.stopPropagation();
+    this.editingCategoryId.set(category.id!);
+    this.editCategoryName = category.name;
+  }
+
+  cancelEdit(event: Event) {
+    event.stopPropagation();
+    this.editingCategoryId.set(null);
+    this.editCategoryName = '';
+  }
+
+  async saveCategory(category: Category, event: Event) {
+    event.stopPropagation();
+    const newName = this.editCategoryName.trim();
+    if (newName && newName !== category.name) {
+      if (this.categories().some(cat => cat.id !== category.id && cat.name.toLowerCase() === newName.toLowerCase())) {
+        this.snackBar.open('Category already exists', 'Close', { duration: 2000 });
+        return;
+      }
+      await this.categoryService.updateCategory(category.id!, newName);
+      await this.loadCategories();
+    }
+    this.editingCategoryId.set(null);
+    this.editCategoryName = '';
+  }
+
+  drawerOpened = signal<boolean>(false);
+  selectedCategoryIdForHabit = signal<number | null>(null);
+
+  openCreateHabitDrawer(categoryId: number, event: Event) {
+    event.stopPropagation();
+    this.selectedCategoryIdForHabit.set(categoryId);
+    this.drawerOpened.set(true);
+  }
+
+  onDrawerClose(refresh: boolean) {
+    this.drawerOpened.set(false);
+    this.selectedCategoryIdForHabit.set(null);
+    if (refresh) {
+      this.loadCategories();
+    }
   }
 }

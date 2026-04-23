@@ -1,6 +1,7 @@
 import { Component, inject, OnInit, signal, computed } from '@angular/core';
 import { HabitService } from '../../services/habit.service';
 import { HabitLogService } from '../../services/habit-log.service';
+import { CelebrationService } from '../../services/celebration.service';
 import { Habit } from '../../models/habit.model';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
@@ -15,6 +16,7 @@ import { db } from '../../db/app.db';
 import { TimeAvailabilityComponent } from '../shared/components/time-availability/time-availability';
 import { DurationPipe } from '../shared/pipes/duration.pipe';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { HabitLogNoteDialog } from '../shared/components/habit-log-note-dialog/habit-log-note-dialog';
 
 interface TodayHabitView {
@@ -27,14 +29,16 @@ interface TodayHabitView {
 @Component({
   selector: 't-today',
   standalone: true,
-  imports: [MatListModule, MatIconModule, MatCheckboxModule, MatButtonModule, RouterModule, DateStripComponent, TimeAvailabilityComponent, MatDialogModule, DurationPipe],
+  imports: [MatListModule, MatIconModule, MatCheckboxModule, MatButtonModule, RouterModule, DateStripComponent, TimeAvailabilityComponent, MatDialogModule, DurationPipe, MatSnackBarModule],
   templateUrl: './today.html',
   styleUrl: './today.scss',
 })
 export class Today implements OnInit {
   private habitService = inject(HabitService);
   private habitLogService = inject(HabitLogService);
+  private celebrationService = inject(CelebrationService);
   private dialog = inject(MatDialog);
+  private snackBar = inject(MatSnackBar);
 
   activeDateStr = signal<string>('');
   habitsView = signal<TodayHabitView[]>([]);
@@ -91,7 +95,7 @@ export class Today implements OnInit {
     const allHabits = await this.habitService.loadHabits();
     const currentLogs = await this.habitLogService.getLogsForDate(this.activeDateStr());
 
-    const completedIds = new Set(currentLogs.map(l => l.habitId));
+    const completedIds = new Set(currentLogs.filter(l => l.isCompleted).map(l => l.habitId));
 
     // Construct local explicit Date parsing mitigating timezone displacement risks
     const [y, m, d] = this.activeDateStr().split('-');
@@ -141,7 +145,28 @@ export class Today implements OnInit {
 
   async toggleHabit(habitId: number) {
     const newState = await this.habitLogService.toggleCompletion(habitId, this.activeDateStr());
-    
+
+    // Get habit name for the message
+    const habitItem = this.habitsView().find(h => h.habit.id === habitId);
+    const habitName = habitItem?.habit.name || 'Habit';
+
+    const message = newState
+      ? `${habitName} marked as completed! 🎉`
+      : `${habitName} uncompleted.`;
+
+    if (newState) {
+      this.celebrationService.celebrate();
+    } else {
+      this.celebrationService.uncelebrate();
+    }
+
+    this.snackBar.open(message, 'Dismiss', {
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+      panelClass: newState ? ['success-snackbar'] : ['error-snackbar']
+    });
+
     // Refresh stats for this specific habit to update streak immediately
     const updatedStats = await this.habitLogService.getStreakStatus(habitId);
     

@@ -87,7 +87,7 @@ export class Tasks implements OnInit {
         const diff = priorityWeight[b.priority] - priorityWeight[a.priority];
         if (diff !== 0) return diff;
       }
-      
+
       if (sort === 'dueDate') {
         if (!a.dueDate && !b.dueDate) return 0;
         if (!a.dueDate) return 1;
@@ -105,7 +105,6 @@ export class Tasks implements OnInit {
     const groups: { title: string; tasks: Task[] }[] = [
       { title: 'Overdue & Today', tasks: [] },
       { title: 'Upcoming', tasks: [] },
-      { title: 'No Due Date', tasks: [] },
       { title: 'Completed', tasks: [] }
     ];
 
@@ -114,12 +113,12 @@ export class Tasks implements OnInit {
 
     tasks.forEach(t => {
       if (t.completed) {
-        groups[3].tasks.push(t);
+        groups[2].tasks.push(t);
         return;
       }
 
       if (!t.dueDate) {
-        groups[2].tasks.push(t);
+        groups[1].tasks.push(t);
         return;
       }
 
@@ -162,7 +161,7 @@ export class Tasks implements OnInit {
 
   async deleteTask(task: Task) {
     const snack = this.snackBar.open('Task deleted', 'Undo', { duration: 4000 });
-    
+
     const deletedTask = { ...task };
     await this.taskService.deleteTask(task.id!);
     await this.loadTasks();
@@ -183,13 +182,13 @@ export class Tasks implements OnInit {
 
   getPriorityStyles(priority: TaskPriority) {
     switch (priority) {
-      case TaskPriority.HIGH: 
+      case TaskPriority.HIGH:
         return { color: '#ef4444', bg: '#fee2e2' };
-      case TaskPriority.MEDIUM: 
+      case TaskPriority.MEDIUM:
         return { color: '#f59e0b', bg: '#fef3c7' };
-      case TaskPriority.LOW: 
+      case TaskPriority.LOW:
         return { color: '#10b981', bg: '#d1fae5' };
-      default: 
+      default:
         return { color: '#94a3b8', bg: '#f1f5f9' };
     }
   }
@@ -210,10 +209,10 @@ export class Tasks implements OnInit {
     if (diffDays === -1) return { label: 'Yesterday', isOverdue: true };
     if (diffDays < 0) return { label: `${Math.abs(diffDays)} days ago`, isOverdue: true };
     if (diffDays < 7) return { label: `In ${diffDays} days`, isOverdue: false };
-    
-    return { 
-      label: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }), 
-      isOverdue: diffDays < 0 
+
+    return {
+      label: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+      isOverdue: diffDays < 0
     };
   }
 

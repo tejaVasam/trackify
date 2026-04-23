@@ -4,8 +4,10 @@ import { ProgressChartComponent } from '../shared/components/progress-chart/prog
 import { HabitService } from '../../services/habit.service';
 import { HabitLogService } from '../../services/habit-log.service';
 import { CategoryService } from '../../services/category.service';
+import { CelebrationService } from '../../services/celebration.service';
 
 import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterModule } from '@angular/router';
 import { HabitFrequency } from '../../enums/habit-frequency.enum';
 import { Days } from '../../enums/days.enum';
@@ -42,7 +44,7 @@ interface WeeklyMatrixItem {
 @Component({
   selector: 't-dashboard',
   standalone: true,
-  imports: [MatIconModule, RouterModule, BaseChartDirective, ProgressChartComponent, WeeklyTrackerComponent],
+  imports: [MatIconModule, RouterModule, BaseChartDirective, ProgressChartComponent, WeeklyTrackerComponent, MatSnackBarModule],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss'
 })
@@ -51,6 +53,8 @@ export class Dashboard implements OnInit {
   private habitService = inject(HabitService);
   private habitLogService = inject(HabitLogService);
   private categoryService = inject(CategoryService);
+  private snackBar = inject(MatSnackBar);
+  private celebrationService = inject(CelebrationService);
 
 
   stats = signal<DashboardStats>({
@@ -152,7 +156,7 @@ export class Dashboard implements OnInit {
     });
 
     const todayLogs = allLogs.filter(l => l.dateStr === todayStr);
-    const todayCompletedIds = new Set(todayLogs.map(l => l.habitId));
+    const todayCompletedIds = new Set(todayLogs.filter(l => l.isCompleted).map(l => l.habitId));
 
     let todayCompletedCount = 0;
     const missedHabits: string[] = [];
@@ -237,7 +241,7 @@ export class Dashboard implements OnInit {
         name: h.name,
         days: last7DaysStr.map(dateStr => {
           const log = allLogs.find(l => l.habitId === h.id && l.dateStr === dateStr);
-          const isCompleted = !!log;
+          const isCompleted = !!log?.isCompleted;
 
           // Determine if it was missed (past date, not completed, and was an active day for this habit)
           let status: 'completed' | 'pending' | 'missed' = isCompleted ? 'completed' : 'pending';
@@ -261,6 +265,7 @@ export class Dashboard implements OnInit {
     const habitCounts: Record<number, number> = {};
 
     for (const log of allLogs) {
+      if (!log.isCompleted) continue;
       // Tally for Top Habit
       habitCounts[log.habitId] = (habitCounts[log.habitId] || 0) + 1;
 
@@ -322,7 +327,30 @@ export class Dashboard implements OnInit {
 
 
   async toggleGridHabit(habitId: number, dateStr: string) {
-    await this.habitLogService.toggleCompletion(habitId, dateStr);
+    const isCompleted = await this.habitLogService.toggleCompletion(habitId, dateStr);
+    
+    // Find habit name for the snackbar
+    const habits = await this.habitService.loadHabits();
+    const habit = habits.find(h => h.id === habitId);
+    const habitName = habit?.name || 'Habit';
+
+    const message = isCompleted 
+      ? `${habitName} marked as completed! 🎉` 
+      : `${habitName} uncompleted.`;
+
+    if (isCompleted) {
+      this.celebrationService.celebrate();
+    } else {
+      this.celebrationService.uncelebrate();
+    }
+
+    this.snackBar.open(message, 'Dismiss', {
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+      panelClass: isCompleted ? ['success-snackbar'] : ['error-snackbar']
+    });
+
     await this.calculateMetrics();
   }
 

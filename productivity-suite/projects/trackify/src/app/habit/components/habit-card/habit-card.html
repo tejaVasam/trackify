@@ -1,74 +1,83 @@
-<div class="habit-card p-16 b-1-solid br-8 df fd-r ai-c jc-s cursor-pointer"
+<div class="habit-card p-16 b-1-solid br-8 df fd-c ai-c jc-s cursor-pointer"
   style="transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.03); background-color: #fff;" (click)="onView()">
-  
-  @if (canReorder()) {
+  <div class="df ai-c gap-2 w-100">
+    <div class="fw-600 fs-16">{{ habit().name }}</div>
+
+    <!-- Category Tag -->
+    @if (habit().category) {
+    <div class="df ai-c gap-1 px-8 py-2 br-4" style="background-color: #f1f5f9; border: 1px solid #e2e8f0;">
+      <span class="fs-10 fw-700 uppercase ls-1" style="color: #64748b;">{{ habit().category.name }}</span>
+    </div>
+    }
+
+    @if (habit().currentStreak > 0) {
+    <div class="df ai-c gap-1 px-8 py-2 br-12" style="background-color: #fff7ed; border: 1px solid #ffedd5;">
+      <span style="font-size: 14px;">🔥</span>
+      <span class="fs-12 fw-700" style="color: #ea580c;">{{ habit().currentStreak }}</span>
+    </div>
+    }
+
+    @if(habit().duration) {
+    <div class="df ai-c gap-1 px-8 py-2 br-4" style="background-color: #f1f5f9; border: 1px solid #e2e8f0;">
+      <mat-icon style="font-size: 11px; width: 11px; height: 11px; color: #64748b;">schedule</mat-icon>
+      <span class="fs-10 fw-700" style="color: #64748b;">{{ habit().duration | duration }}</span>
+    </div>
+    }
+
+    @if(habit().startTime && habit().endTime) {
+    <div class="df ai-c gap-1 px-8 py-2 br-4" style="background-color: #f0f9ff; border: 1px solid #e0f2fe;">
+      <mat-icon style="font-size: 11px; width: 11px; height: 11px; color: #0369a1;">timer</mat-icon>
+      <span class="fs-10 fw-700" style="color: #0369a1;">{{ habit().startTime }} - {{ habit().endTime }}</span>
+    </div>
+    }
+  </div>
+  <div class="df fd-r ai-c jc-s w-100">
+    @if (canReorder()) {
     <button mat-icon-button cdkDragHandle (click)="$event.stopPropagation()" style="margin-left: -8px; cursor: grab;">
       <mat-icon style="color: #94a3b8;">drag_indicator</mat-icon>
     </button>
-  }
-
-  <div class="df fd-c gap-2" style="flex: 1;">
-    <div class="df ai-c gap-2">
-      <div class="fw-600 fs-16">{{ habit().name }}</div>
-
-      <!-- Category Tag -->
-      @if (habit().category) {
-      <div class="df ai-c gap-1 px-8 py-2 br-4" style="background-color: #f1f5f9; border: 1px solid #e2e8f0;">
-        <span class="fs-10 fw-700 uppercase ls-1" style="color: #64748b;">{{ habit().category.name }}</span>
-      </div>
-      }
-
-      @if (habit().currentStreak > 0) {
-      <div class="df ai-c gap-1 px-8 py-2 br-12" style="background-color: #fff7ed; border: 1px solid #ffedd5;">
-        <span style="font-size: 14px;">🔥</span>
-        <span class="fs-12 fw-700" style="color: #ea580c;">{{ habit().currentStreak }}</span>
-      </div>
-      }
-
-      @if(habit().duration) {
-      <div class="df ai-c gap-1 px-8 py-2 br-4" style="background-color: #f1f5f9; border: 1px solid #e2e8f0;">
-        <mat-icon style="font-size: 11px; width: 11px; height: 11px; color: #64748b;">schedule</mat-icon>
-        <span class="fs-10 fw-700" style="color: #64748b;">{{ habit().duration | duration }}</span>
-      </div>
-      }
-    </div>
-
-    @if(habit().description) {
-    <p class="m-0 mt-4 text-secondary fs-13 truncate-1">{{ habit().description }}</p>
     }
 
-    <!-- Frequency Display -->
-    <div class="df fd-r ai-c gap-2 mt-8">
-      @if (habit().frequency === HabitFrequency.Daily) {
-      <div class="px-8 py-2 br-4" style="background-color: #f0fdf4; border: 1px solid #dcfce7;">
-        <span class="fs-10 fw-700 uppercase ls-1" style="color: #166534;">Daily</span>
-      </div>
-      } @else {
-      <div class="df fd-r gap-1">
-        @for (day of allDays(); track day.value) {
-        <div class="df ai-c jc-c"
-          style="width: 18px; height: 18px; border-radius: 4px; font-size: 9px; font-weight: 700;"
-          [style.background-color]="habit().days?.includes(day.value) ? '#10b981' : '#f1f5f9'"
-          [style.color]="habit().days?.includes(day.value) ? '#fff' : '#94a3b8'">
-          {{ day.label }}
+    <div class="df fd-c gap-2" style="flex: 1;">
+
+
+      @if(habit().description) {
+      <p class="m-0 mt-4 text-secondary fs-13 truncate-1">{{ habit().description }}</p>
+      }
+
+      <!-- Frequency Display -->
+      <div class="df fd-r ai-c gap-2 mt-8">
+        @if (habit().frequency === HabitFrequency.Daily) {
+        <div class="px-8 py-2 br-4" style="background-color: #f0fdf4; border: 1px solid #dcfce7;">
+          <span class="fs-10 fw-700 uppercase ls-1" style="color: #166534;">Daily</span>
+        </div>
+        } @else {
+        <div class="df fd-r gap-1">
+          @for (day of allDays(); track day.value) {
+          <div class="df ai-c jc-c"
+            style="width: 18px; height: 18px; border-radius: 4px; font-size: 9px; font-weight: 700;"
+            [style.background-color]="habit().days?.includes(day.value) ? '#10b981' : '#f1f5f9'"
+            [style.color]="habit().days?.includes(day.value) ? '#fff' : '#94a3b8'">
+            {{ day.label }}
+          </div>
+          }
         </div>
         }
       </div>
-      }
+
+      <div class="df fd-r ai-c gap-2 mt-8">
+        <mat-icon class="fs-14 fw-400" style="width: 14px; height: 14px; color: #94a3b8;">emoji_events</mat-icon>
+        <span class="fs-11 fw-500 text-secondary ls-1 uppercase">Best: {{ habit().longestStreak }} days</span>
+      </div>
     </div>
 
-    <div class="df fd-r ai-c gap-2 mt-8">
-      <mat-icon class="fs-14 fw-400" style="width: 14px; height: 14px; color: #94a3b8;">emoji_events</mat-icon>
-      <span class="fs-11 fw-500 text-secondary ls-1 uppercase">Best: {{ habit().longestStreak }} days</span>
+    <div class="df fd-r">
+      <button mat-icon-button color="primary" (click)="onEdit($event)">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button color="warn" (click)="onDelete($event)">
+        <mat-icon>delete</mat-icon>
+      </button>
     </div>
-  </div>
-
-  <div class="df fd-r">
-    <button mat-icon-button color="primary" (click)="onEdit($event)">
-      <mat-icon>edit</mat-icon>
-    </button>
-    <button mat-icon-button color="warn" (click)="onDelete($event)">
-      <mat-icon>delete</mat-icon>
-    </button>
   </div>
 </div>

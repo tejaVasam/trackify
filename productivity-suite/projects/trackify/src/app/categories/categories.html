@@ -1,4 +1,6 @@
-<div class="p-16 df fd-c gap-4">
+<mat-drawer-container class="h-100 bg-transparent">
+    <mat-drawer-content>
+        <div class="p-16 df fd-c gap-4">
     <div class="df fd-c gap-4">
         <h2 class="m-0">Categories</h2>
         <p class="m-0 text-secondary">Manage your habit categories</p>
@@ -16,11 +18,43 @@
         @for(cat of categories(); track cat.id) {
         <mat-expansion-panel class="br-12 b-1-solid mb-8" hideToggle="false" #panel>
             <mat-expansion-panel-header>
-                <mat-panel-title class="fw-600 df ai-c jc-s gap-4 text-secondary">
-                    {{ cat.name }}
-                    <span>{{ getHabitCount(cat.id!) }} {{ getHabitCount(cat.id!) === 1 ? 'habit' : 'habits' }}</span>
+                <mat-panel-title class="fw-600 df ai-c jc-s gap-2 text-secondary w-100">
+                    @if(editingCategoryId() === cat.id) {
+                    <div class="df ai-c w-100" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic" class="flex-1 m-0">
+                            <input matInput [(ngModel)]="editCategoryName" name="editName"
+                                (keydown.enter)="saveCategory(cat, $event)" autofocus>
+                        </mat-form-field>
+                        <button mat-icon-button color="primary" (click)="saveCategory(cat, $event)">
+                            <mat-icon>check</mat-icon>
+                        </button>
+                        <button mat-icon-button (click)="cancelEdit($event)">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </div>
+                    } @else {
+                    <div class="df ai-c jc-sb w-100">
+                        <div class="df ai-c gap-4">
+                            <span>{{ cat.name }}</span>
+                            <span class="fs-12 fw-400">({{ getHabitCount(cat.id!) }} {{ getHabitCount(cat.id!) === 1 ?
+                                'habit' : 'habits' }})</span>
+                        </div>
+                        <div class="df ai-c" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
+                            <button mat-icon-button (click)="openCreateHabitDrawer(cat.id!, $event)" color="primary" matTooltip="Add habit">
+                                <mat-icon>add</mat-icon>
+                            </button>
+                            <button mat-icon-button (click)="startEdit(cat, $event)" matTooltip="Edit category">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            <button mat-icon-button color="warn" (click)="deleteCategory(cat.id!)"
+                                [disabled]="getHabitCount(cat.id!) > 0"
+                                [matTooltip]="getHabitCount(cat.id!) > 0 ? 'Cannot delete category with habits' : 'Delete category'">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                    }
                 </mat-panel-title>
-
             </mat-expansion-panel-header>
 
             <div>
@@ -41,20 +75,22 @@
                 }
             </div>
 
-            <div class="df ai-c jc-sb pt-8 bt-1-solid mt-4">
-                <div class="df ai-c gap-8">
-                    <button mat-stroked-button color="primary" (click)="navigateToDetails(cat.id!)">
-                        <mat-icon>insights</mat-icon>
-                        View Details
-                    </button>
-                </div>
-                <button mat-icon-button color="warn" (click)="deleteCategory(cat.id!)"
-                    [disabled]="getHabitCount(cat.id!) > 0"
-                    [matTooltip]="getHabitCount(cat.id!) > 0 ? 'Cannot delete category with habits' : 'Delete category'">
-                    <mat-icon>delete</mat-icon>
+            <div class="df ai-c pt-8 bt-1-solid mt-4">
+                <button mat-stroked-button color="primary" (click)="navigateToDetails(cat.id!)">
+                    <mat-icon>insights</mat-icon>
+                    View Details
                 </button>
             </div>
         </mat-expansion-panel>
         }
     </mat-accordion>
-</div>
+        </div>
+    </mat-drawer-content>
+
+    <mat-drawer #drawer mode="over" position="end" [opened]="drawerOpened()" (closed)="onDrawerClose(false)"
+        class="w-400">
+        @if(drawerOpened()) {
+        <t-create-habit [categoryId]="selectedCategoryIdForHabit()" (close)="onDrawerClose($event)"></t-create-habit>
+        }
+    </mat-drawer>
+</mat-drawer-container>

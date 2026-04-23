@@ -318,6 +318,13 @@ export class HabitDetails implements OnInit {
     this.generateCalendar();
   }
 
+  goToToday() {
+    const today = new Date();
+    today.setDate(1);
+    this.activeMonthDate.set(today);
+    this.generateCalendar();
+  }
+
   generateCalendar() {
     const d = new Date(this.activeMonthDate());
     const year = d.getFullYear();
@@ -398,7 +405,7 @@ export class HabitDetails implements OnInit {
 
   getCellColor(cell: GridDay): string {
     if (cell.isCompleted) return '#ffffff'; // White text on completely green backgrounds
-    if (!cell.isConfiguredDay) return '#d1d5db'; // Faded out text (gray-300) identifying locked inactive zones
+    if (!cell.isConfiguredDay) return '#0f0f0fff'; // Faded out text (gray-300) identifying locked inactive zones
     if (cell.isToday) return '#111827'; // Dark text indicating focus
     return '#10b981'; // Vivid green text highlighting it's a target
   }

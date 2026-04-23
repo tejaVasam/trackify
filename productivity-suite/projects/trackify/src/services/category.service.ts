@@ -14,6 +14,10 @@ export class CategoryService {
     return db.categories.add({ name });
   }
 
+  async updateCategory(id: number, name: string): Promise<number> {
+    return db.categories.update(id, { name });
+  }
+
   async deleteCategory(id: number): Promise<void> {
     await db.categories.delete(id);
   }

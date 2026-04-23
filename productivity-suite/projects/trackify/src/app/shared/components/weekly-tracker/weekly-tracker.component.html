@@ -20,7 +20,7 @@
             <!-- Habit Rows -->
             @for (entry of weeklyMatrix(); track entry.habitId) {
             <div class="df fd-r ai-c py-12 habit-row" style="border-bottom: 1px solid #f8fafc;">
-                <div class="df fd-r ai-c gap-3 overflow-hidden sticky-col habit-name-col">
+                <div class="df fd-r ai-c gap-3 overflow-hidden sticky-col habit-name-col" style="height: 21px;">
                     <span class="fs-13 fw-600 truncate text-primary">{{ entry.name }}</span>
                 </div>
                 @for (day of entry.days; track day.dateStr) {
@@ -32,12 +32,10 @@
                         @if (day.status === 'completed') {
                         <div class="df ai-c jc-c br-pill bg-success"
                             style="width: 20px; height: 20px; background-color: #10b981;">
-                            <mat-icon
-                                style="font-size: 14px; width: 14px; height: 14px; color: #fff;">check</mat-icon>
+                            <mat-icon style="font-size: 14px; width: 14px; height: 14px; color: #fff;">check</mat-icon>
                         </div>
                         } @else if (day.status === 'missed') {
-                        <div class="df ai-c jc-c br-pill"
-                            style="width: 20px; height: 20px; background-color: #fee2e2;">
+                        <div class="df ai-c jc-c br-pill" style="width: 20px; height: 20px; background-color: #fee2e2;">
                             <mat-icon
                                 style="font-size: 14px; width: 14px; height: 14px; color: #ef4444;">close</mat-icon>
                         </div>

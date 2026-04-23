@@ -50,7 +50,7 @@ export class CreateTask implements OnInit {
     title: ['', Validators.required],
     description: [''],
     priority: [TaskPriority.MEDIUM, Validators.required],
-    dueDate: [null as Date | null],
+    dueDate: [null as Date | null, Validators.required],
     duration: [null as number | null]
   });
 

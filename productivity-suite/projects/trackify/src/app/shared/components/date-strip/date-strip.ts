@@ -1,4 +1,4 @@
-import { Component, output, input, OnInit, signal } from '@angular/core';
+import { Component, output, input, OnInit, signal, inject } from '@angular/core';
 import { TitleCasePipe } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -10,10 +10,13 @@ interface DateObj {
   dateStr: string;
 }
 
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { FullCalendarDialogComponent } from '../full-calendar-dialog/full-calendar-dialog';
+
 @Component({
   selector: 't-date-strip',
   standalone: true,
-  imports: [TitleCasePipe, MatIconModule, MatButtonModule],
+  imports: [TitleCasePipe, MatIconModule, MatButtonModule, MatDialogModule],
   templateUrl: './date-strip.html'
 })
 export class DateStripComponent implements OnInit {
@@ -21,7 +24,9 @@ export class DateStripComponent implements OnInit {
   dateSelected = output<string>();       // Emit when a user clicks a day
 
   dateStrip = signal<DateObj[]>([]);
+  currentMonth = signal<string>('');
   private centerDate = new Date(); // Center of our sliding window
+  private dialog = inject(MatDialog);
 
   ngOnInit() {
     // try to center around the activeDate if passed
@@ -57,11 +62,37 @@ export class DateStripComponent implements OnInit {
       });
     }
     this.dateStrip.set(dates);
+    this.currentMonth.set(this.centerDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }));
   }
 
   shiftDays(amount: number) {
     this.centerDate.setDate(this.centerDate.getDate() + amount);
     this.generateDateStrip();
+  }
+
+  goToToday() {
+    this.centerDate = new Date();
+    this.centerDate.setHours(0, 0, 0, 0);
+    this.generateDateStrip();
+    this.onSelectDate(this.getLocalFormattedDate(this.centerDate));
+  }
+
+  async openFullCalendar() {
+    const dialogRef = this.dialog.open(FullCalendarDialogComponent, {
+      width: '350px',
+      data: { selectedDate: this.activeDate() },
+      panelClass: 'custom-dialog-container'
+    });
+
+    dialogRef.afterClosed().subscribe((result: string) => {
+      if (result) {
+        // Shift center date to the selected date
+        const [y, m, d] = result.split('-').map(Number);
+        this.centerDate = new Date(y, m - 1, d);
+        this.generateDateStrip();
+        this.onSelectDate(result);
+      }
+    });
   }
 
   onSelectDate(dateStr: string) {

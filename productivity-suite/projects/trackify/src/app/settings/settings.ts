@@ -85,26 +85,5 @@ export class Settings implements OnInit {
     }
   }
 
-  clearAllData() {
-    const dialogRef = this.dialog.open(ConfirmDialog, {
-      width: '450px',
-      data: {
-        title: 'Factory Reset Trackify',
-        message: 'Are you absolutely sure you want to permanently erase ALL data? This will instantly wipe out your Profile, active Habits, and entire historical Logs array forever. This cannot be undone!'
-      }
-    });
 
-    dialogRef.afterClosed().subscribe(async (confirmed: any) => {
-      if (confirmed) {
-        // Sequentially purge table memory avoiding strict db connection termination drop crashes
-        await db.users.clear();
-        await db.habits.clear();
-        await db.habitLogs.clear();
-        await db.categories.clear();
-
-        // Force refresh natively stripping all local RAM state signals dropping directly into Auth Guard
-        window.location.reload();
-      }
-    });
-  }
 }

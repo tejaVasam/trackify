@@ -49,7 +49,7 @@
             class="task-progress h-8 br-4"></mat-progress-bar>
         </div>
         <div class="df fd-r ai-c jc-s mt-12">
-          <div class="df fd-r ai-c gap-12">
+          <div class="df fd-r ai-c gap-2">
             <div class="stat-badge pending">
               <span class="indicator"></span>
               {{ pendingCount() }} Remaining
@@ -58,13 +58,14 @@
               <span class="indicator"></span>
               {{ completedCount() }} Done
             </div>
+            @if (scheduledTime()) {
+            <div class="fs-10 fw-700 text-secondary ai-c df gap-1">
+              <mat-icon style="font-size: 16px; width: 16px; height: 16px;">schedule</mat-icon>
+              {{ scheduledTime() }} scheduled today
+            </div>
+            }
           </div>
-          @if (scheduledTime()) {
-          <div class="fs-13 fw-700 text-secondary">
-            <mat-icon style="font-size: 16px; width: 16px; height: 16px; vertical-align: middle; margin-right: 4px;">schedule</mat-icon>
-            {{ scheduledTime() }} scheduled today
-          </div>
-          }
+
         </div>
       </div>
 
@@ -103,7 +104,7 @@
 
                     @if (task.duration) {
                     <div class="duration-badge fs-11 fw-700 bg-surface-variant text-secondary px-8 py-4 br-8">
-                       {{ task.duration }}m
+                      {{ task.duration }}m
                     </div>
                     }
 

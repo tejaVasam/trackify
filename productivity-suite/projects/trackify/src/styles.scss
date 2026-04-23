@@ -43,3 +43,26 @@ body {
 .bg-grey {
     background-color: var(--background-secondary);
 }
+
+// Snackbar Customizations
+.success-snackbar {
+    .mdc-snackbar__surface {
+        background-color: #10b981 !important;
+    }
+    .mdc-snackbar__label,
+    .mat-mdc-snack-bar-action,
+    .mat-mdc-button-toggle-label-content {
+        color: white !important;
+    }
+}
+
+.error-snackbar {
+    .mdc-snackbar__surface {
+        background-color: #ef4444 !important;
+    }
+    .mdc-snackbar__label,
+    .mat-mdc-snack-bar-action,
+    .mat-mdc-button-toggle-label-content {
+        color: white !important;
+    }
+}

@@ -1,28 +1,44 @@
-<div class="df fd-r ai-c gap-1 w-100 px-24 pb-24" style="box-sizing: border-box;">
-    <button mat-icon-button (click)="shiftDays(-7)" style="color: #a1a1aa; flex-shrink: 0;" aria-label="Previous week">
-        <mat-icon>chevron_left</mat-icon>
-    </button>
-
-    <!-- Horizontal scrolling date strip -->
-    <div class="df fd-r jc-sb ai-c w-100 overflow-x-auto hide-scrollbar scroll-smooth">
-        @for(day of dateStrip(); track day.dateStr) {
-        <div class="df fd-c ai-c gap-2 cursor-pointer" (click)="onSelectDate(day.dateStr)" style="min-width: 48px;">
-            <span class="fs-12 fw-600 transition-all"
-                [style.color]="day.dateStr === activeDate() ? 'var(--text-primary)' : 'var(--text-secondary)'">
-                {{ day.dayName | titlecase }}
-            </span>
-            <div class="df ai-c jc-c br-pill fw-600 fs-16 transition-all"
-                style="width: 48px; height: 48px; box-sizing: border-box;"
-                [style.background-color]="day.dateStr === activeDate() ? 'var(--text-primary)' : 'transparent'"
-                [style.color]="day.dateStr === activeDate() ? 'var(--background-default)' : 'var(--text-primary)'"
-                [style.box-shadow]="day.dateStr === activeDate() ? '0 4px 8px var(--primary-light)' : 'none'">
-                {{ day.dayNumber }}
+<div class="px-24 df fd-c gap-4 ">
+    <div class="df fd-r ai-c gap-4 jc-s">
+        <button mat-stroked-button (click)="goToToday()">
+            Go to Today
+        </button>
+        <button (click)="openFullCalendar()" mat-stroked-button>
+            <div class="fs-15 fw-800 text-primary ">
+                {{ currentMonth() }}
             </div>
-        </div>
-        }
-    </div>
+            <mat-icon>calendar_month</mat-icon>
+        </button>
 
-    <button mat-icon-button (click)="shiftDays(7)" style="color: #a1a1aa; flex-shrink: 0;" aria-label="Next week">
-        <mat-icon>chevron_right</mat-icon>
-    </button>
+    </div>
+    <div class="df fd-r ai-c gap-1 w-100 " style="box-sizing: border-box;">
+        <button mat-icon-button (click)="shiftDays(-7)" style="color: #a1a1aa; flex-shrink: 0;"
+            aria-label="Previous week">
+            <mat-icon>chevron_left</mat-icon>
+        </button>
+
+
+        <!-- Horizontal scrolling date strip -->
+        <div class="df fd-r jc-sb ai-c w-100 overflow-x-auto hide-scrollbar scroll-smooth">
+            @for(day of dateStrip(); track day.dateStr) {
+            <div class="df fd-c ai-c gap-2 cursor-pointer" (click)="onSelectDate(day.dateStr)" style="min-width: 48px;">
+                <span class="fs-12 fw-600 transition-all"
+                    [style.color]="day.dateStr === activeDate() ? 'var(--text-primary)' : 'var(--text-secondary)'">
+                    {{ day.dayName | titlecase }}
+                </span>
+                <div class="df ai-c jc-c br-pill fw-600 fs-16 transition-all"
+                    style="width: 48px; height: 48px; box-sizing: border-box;"
+                    [style.background-color]="day.dateStr === activeDate() ? 'var(--text-primary)' : 'transparent'"
+                    [style.color]="day.dateStr === activeDate() ? 'var(--background-default)' : 'var(--text-primary)'"
+                    [style.box-shadow]="day.dateStr === activeDate() ? '0 4px 8px var(--primary-light)' : 'none'">
+                    {{ day.dayNumber }}
+                </div>
+            </div>
+            }
+        </div>
+
+        <button mat-icon-button (click)="shiftDays(7)" style="color: #a1a1aa; flex-shrink: 0;" aria-label="Next week">
+            <mat-icon>chevron_right</mat-icon>
+        </button>
+    </div>
 </div>

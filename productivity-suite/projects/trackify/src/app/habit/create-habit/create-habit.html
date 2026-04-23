@@ -9,8 +9,8 @@
     </button>
   </div>
 
-  <form [formGroup]="habitForm" (ngSubmit)="onSubmit()" class="df fd-c gap-5 " cdkScrollable>
-    <div class="df fd-c gap-5 p-24" style="overflow-y: auto;">
+  <form [formGroup]="habitForm" (ngSubmit)="onSubmit()" class="df fd-c fg-1" style="overflow: hidden;">
+    <div class="df fd-c gap-5 p-24 fg-1" style="overflow-y: auto;" cdkScrollable>
       <!-- Habit Name -->
       <div class="df fd-c gap-2">
         <mat-form-field appearance="outline" class="w-100 m-0 p-0">
@@ -30,17 +30,23 @@
         </mat-form-field>
       </div>
       <!-- Category -->
-      <mat-form-field appearance="outline" class="w-100 m-0 p-0">
-        <mat-label>Category</mat-label>
-        <mat-select formControlName="category">
-          @for (opt of categoryOptions(); track opt.id) {
-          <mat-option [value]="opt.id">{{ opt.name }}</mat-option>
+      <div class="df fd-r ai-c gap-2">
+        <mat-form-field appearance="outline" class="w-100 m-0 p-0">
+          <mat-label>Category</mat-label>
+          <mat-select formControlName="category">
+            @for (opt of categoryOptions(); track opt.id) {
+            <mat-option [value]="opt.id">{{ opt.name }}</mat-option>
+            }
+          </mat-select>
+          @if (habitForm.get('category')?.touched && habitForm.get('category')?.hasError('required')) {
+          <mat-error>Category is required</mat-error>
           }
-        </mat-select>
-        @if (habitForm.get('category')?.touched && habitForm.get('category')?.hasError('required')) {
-        <mat-error>Category is required</mat-error>
-        }
-      </mat-form-field>
+        </mat-form-field>
+        <button mat-icon-button type="button" (click)="addCategory()" color="primary" title="Add New Category"
+          style="margin-top: -16px;">
+          <mat-icon>add_circle_outline</mat-icon>
+        </button>
+      </div>
 
       <!-- Color Picker Matrix -->
       <div class="df fd-c gap-2 flex-1">
@@ -62,7 +68,7 @@
       </div>
 
       <!-- Frequency -->
-      <div>
+      <div class="df fd-c">
         <span class="fs-13 fw-600 text-primary uppercase ls-1">Frequency</span>
         <mat-button-toggle-group formControlName="frequency" class="mt-8">
           @for (opt of frequencyOptions; track opt.value) {
@@ -84,7 +90,7 @@
       }
 
       <!-- Scheduling Section -->
-      <div>
+      <div class="df fd-c">
         <span class="fs-13 fw-600 text-secondary uppercase ls-1">Habit Type</span>
         <mat-button-toggle-group formControlName="habitType" class="mt-8">
           @for (opt of habitTypeOptions; track opt.value) {
@@ -145,7 +151,7 @@
     </div>
 
     <!-- Submit Action Button -->
-    <div class="pl-24 pr-24 pb-24">
+    <div class="p-24" style="border-top: 1px solid var(--border-subtle)">
       <button mat-flat-button color="primary" type="submit" class="text-bg w-100 p-24">
         {{ isEditMode() ? 'Update Habit' : 'Create Habit' }}
       </button>

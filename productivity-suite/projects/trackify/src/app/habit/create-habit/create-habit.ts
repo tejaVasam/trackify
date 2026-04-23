@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, signal, input, output, computed } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { HabitService } from '../../../services/habit.service';
 import { HabitFrequency } from '../../../enums/habit-frequency.enum';
 import { Days } from '../../../enums/days.enum';
@@ -19,6 +19,7 @@ import { CommonModule } from '@angular/common';
 import { DayPickerComponent } from '../../shared/components/day-picker/day-picker.component';
 import { IconPickerComponent } from '../../shared/components/icon-picker/icon-picker.component';
 import { DurationPickerComponent } from 'shared-ui';
+import { AddCategoryDialog } from '../../shared/components/add-category-dialog/add-category-dialog';
 
 @Component({
   selector: 't-create-habit',
@@ -42,12 +43,14 @@ import { DurationPickerComponent } from 'shared-ui';
 })
 export class CreateHabit implements OnInit {
   habit = input<any>(null);
+  categoryId = input<number | null>(null);
   close = output<boolean>();
 
   private fb = inject(FormBuilder);
   private habitService = inject(HabitService);
   private categoryService = inject(CategoryService);
   private notificationService = inject(NotificationService);
+  private dialog = inject(MatDialog);
   public dialogData = inject<any>(MAT_DIALOG_DATA, { optional: true });
 
   isEditMode = computed(() => {
@@ -171,7 +174,10 @@ export class CreateHabit implements OnInit {
       });
     } else {
       const cats = this.categoryOptions();
-      if (cats.length > 0) {
+      const presetCatId = this.categoryId() || this.dialogData?.categoryId;
+      if (presetCatId) {
+        this.habitForm.patchValue({ category: presetCatId });
+      } else if (cats.length > 0) {
         this.habitForm.patchValue({ category: cats[0].id });
       }
     }
@@ -234,13 +240,27 @@ export class CreateHabit implements OnInit {
     }
 
     // Sync notification triggers (wrapped in try-catch to avoid breaking save if API not supported)
-    try {
-      this.notificationService.updateAllSchedules();
-    } catch (e) {
-      console.warn('Notification sync failed', e);
-    }
+    // try {
+    //   this.notificationService.updateAllSchedules();
+    // } catch (e) {
+    //   console.warn('Notification sync failed', e);
+    // }
 
     this.close.emit(true);
+  }
+
+  async addCategory() {
+    const dialogRef = this.dialog.open(AddCategoryDialog, {
+      width: '400px'
+    });
+
+    dialogRef.afterClosed().subscribe(async (name) => {
+      if (name) {
+        const newId = await this.categoryService.addCategory(name);
+        this.categoryOptions.set(await this.categoryService.getCategories());
+        this.habitForm.patchValue({ category: newId });
+      }
+    });
   }
 
   onCancel() {

@@ -1,15 +1,11 @@
-<div 
-    class="df fd-c w-100 font-inter"
+<div class="df fd-c w-100 font-inter"
     style="background-color: var(--background-default); min-height: 100vh; position: relative;">
 
     <!-- 1. Header Navigation -->
-    <div 
-        class="df fd-r jc-sb ai-c p-20 w-100 sticky top-0 bg-white"
+    <div class="df fd-r jc-sb ai-c p-20 w-100 sticky top-0 bg-white"
         style="z-index: 10; box-shadow: 0 2px 10px rgba(0,0,0,0.02); box-sizing: border-box;">
         <div class="df fd-r gap-3 ai-c">
-            <button 
-                mat-icon-button 
-                (click)="goBack()"
+            <button mat-icon-button (click)="goBack()"
                 style="background-color: var(--surface-alt); border: 1px solid var(--border-subtle);">
                 <mat-icon style="color: var(--text-secondary);">arrow_back</mat-icon>
             </button>
@@ -22,71 +18,65 @@
         </div>
     </div>
 
-    <div class="p-38 df fd-c gap-6">
+    <div class="p-24 df fd-c gap-6">
         <!-- 2. Habit Summary Card -->
         @if (habit()) {
-            <div 
-                class="bg-white br-24 df fd-c gap-4 w-100 position-relative"
-                style="box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); box-sizing: border-box; overflow: hidden;">
+        <div class="bg-white br-24 df fd-c gap-4 w-100 position-relative p-24"
+            style="box-shadow: 0 10px 25px -5px rgb(9, 9, 9); box-sizing: border-box; overflow: hidden;">
 
-                <div class="df fd-r ai-fs jc-sb position-relative z-1" style="z-index: 1;">
-                    <div class="df fd-r ai-c gap-4">
-                        <div 
-                            class="df ai-c jc-c br-16 text-white" 
-                            [style.background-color]="habit()?.color"
-                            [style.box-shadow]="'0 8px 16px -4px ' + habit()?.color + '60'"
-                            style="width: 56px; height: 56px; min-width: 56px;">
-                            <mat-icon style="font-size: 28px; width: 28px; height: 28px;">
-                                {{ habit()?.icon }}
-                            </mat-icon>
-                        </div>
-                        <div class="df fd-c flex-1 overflow-hidden">
-                            <h1 class="m-0 fs-22 fw-800 text-primary truncate">{{ habit()?.name }}</h1>
-                            <span class="fs-14 fw-500 text-secondary">
-                                {{ habit()?.description || 'Build consistency every day.' }}
-                            </span>
-                        </div>
+            <div class="df fd-r ai-fs jc-sb position-relative z-1" style="z-index: 1;">
+                <div class="df fd-r ai-c gap-4">
+                    <div class="df ai-c jc-c br-16 text-white" [style.background-color]="habit()?.color"
+                        [style.box-shadow]="'0 8px 16px -4px ' + habit()?.color + '60'"
+                        style="width: 56px; height: 56px; min-width: 56px;">
+                        <mat-icon style="font-size: 28px; width: 28px; height: 28px;">
+                            {{ habit()?.icon }}
+                        </mat-icon>
                     </div>
-                </div>
-
-                <div 
-                    class="mt-12 pt-20 df fd-r jc-sb ai-c gap-4 flex-wrap"
-                    style="border-top: 1px solid var(--border-subtle);">
-                    <div class="df fd-r ai-c gap-2 flex-wrap">
-                        <div 
-                            class="px-10 py-4 br-8 fs-11 fw-700 uppercase ls-1"
-                            [style.background-color]="habit()?.color + '15'" 
-                            [style.color]="habit()?.color">
-                            {{ habit()?.frequency === 0 ? 'Daily' : 'Weekly' }}
-                        </div>
-                        @if (habit()?.duration) {
-                            <div 
-                                class="df ai-c gap-1 px-10 py-4 br-8 fs-11 fw-700 text-secondary"
-                                style="background-color: var(--surface-alt);">
-                                <mat-icon style="font-size: 14px; width: 14px; height: 14px;">schedule</mat-icon>
-                                <span>{{ habit()?.duration | duration }}</span>
-                            </div>
-                        }
+                    <div class="df fd-c flex-1 overflow-hidden">
+                        <h1 class="m-0 fs-22 fw-800 text-primary truncate">{{ habit()?.name }}</h1>
+                        <span class="fs-14 fw-500 text-secondary">
+                            {{ habit()?.description || 'Build consistency every day.' }}
+                        </span>
                     </div>
                 </div>
             </div>
+
+            <div class="mt-12 pt-20 df fd-r jc-sb ai-c gap-4 flex-wrap"
+                style="border-top: 1px solid var(--border-subtle);">
+                <div class="df fd-r ai-c gap-2 flex-wrap">
+                    <div class="px-10 py-4 br-8 fs-11 fw-700 uppercase ls-1"
+                        [style.background-color]="habit()?.color + '15'" [style.color]="habit()?.color">
+                        {{ habit()?.frequency === 0 ? 'Daily' : 'Weekly' }}
+                    </div>
+                    @if (habit()?.duration) {
+                    <div class="df ai-c gap-1 px-10 py-4 br-8 fs-11 fw-700 text-secondary"
+                        style="background-color: var(--surface-alt);">
+                        <mat-icon style="font-size: 14px; width: 14px; height: 14px;">schedule</mat-icon>
+                        <span>{{ habit()?.duration | duration }}</span>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
         }
 
-        <div 
-            class="bg-white br-24 w-100 df fd-c gap-6 mt-12"
-            style="box-shadow: 0 10px 25px -5px rgba(0,0,0,0.03); box-sizing: border-box;">
+        <div class="bg-white br-24 w-100 df fd-c gap-6 mt-12 p-24"
+            style="box-shadow: 0 10px 25px -5px rgb(14, 14, 14); box-sizing: border-box;">
             <div class="df fd-r jc-sb ai-c mb-20">
                 <div class="df fd-c">
                     <span class="fs-13 fw-700 text-secondary uppercase ls-1">Consistency Map</span>
                     <span class="fs-20 fw-800 text-primary">{{ activeMonthDisplay() }}</span>
                 </div>
-                <div 
-                    class="df fd-r gap-2"
+                <div class="df fd-r gap-2"
                     style="background-color: #f8fafc; padding: 4px; border-radius: 12px; border: 1px solid #f1f5f9;">
-                    <button mat-icon-button (click)="shiftMonth(-1)" style="color: #64748b; width: 36px; height: 36px;">
+                    <button mat-icon-button (click)="shiftMonth(-1)" style="color: #64748b; width: 36px; height: 36px;" title="Previous Month">
                         <mat-icon style="font-size: 20px;">chevron_left</mat-icon>
                     </button>
-                    <button mat-icon-button (click)="shiftMonth(1)" style="color: #64748b; width: 36px; height: 36px;">
+                    <button mat-button (click)="goToToday()" style="color: #64748b; font-weight: 700; font-size: 13px; min-width: 60px;">
+                        Today
+                    </button>
+                    <button mat-icon-button (click)="shiftMonth(1)" style="color: #64748b; width: 36px; height: 36px;" title="Next Month">
                         <mat-icon style="font-size: 20px;">chevron_right</mat-icon>
                     </button>
                 </div>
@@ -95,44 +85,37 @@
             <!-- Weekday Headers -->
             <div class="df fd-r w-100 mb-8" style="background-color: transparent;">
                 @for (day of ['S', 'M', 'T', 'W', 'T', 'F', 'S']; track $index) {
-                    <div 
-                        class="text-center fs-11 fw-800" 
-                        style="flex: 0 0 14.28%; color: #94a3b8; letter-spacing: 0.5px;">
-                        {{ day }}
-                    </div>
+                <div class="text-center fs-11 fw-800" style="flex: 0 0 14.28%; letter-spacing: 0.5px;">
+                    {{ day }}
+                </div>
                 }
             </div>
 
             <!-- Calendar Grid -->
             <div class="df fd-r flex-wrap w-100 gap-y-1">
                 @for (blank of emptyDaysPrefix(); track $index) {
-                    <div style="flex: 0 0 14.28%;"></div>
+                <div style="flex: 0 0 14.28%;"></div>
                 }
                 @for (cell of calendarDays(); track cell.dateStr) {
-                    <div class="df ai-c jc-c position-relative" style="flex: 0 0 14.28%; height: 48px;">
-                        <button
-                            class="br-12 border-none df fd-c ai-c jc-c fw-700 fs-15 cursor-pointer transition-all position-relative"
-                            [style.width]="'40px'" 
-                            [style.height]="'40px'" 
-                            [style.background-color]="getCellBg(cell)"
-                            [style.color]="getCellColor(cell)" 
-                            [style.opacity]="cell.isInFuture ? '0.3' : '1'"
-                            [style.border]="cell.isToday ? '2px solid #1e293b' : 'none'" 
-                            (click)="openNoteEditor(cell)">
-                            {{ cell.dayNum }}
+                <div class="df ai-c jc-c position-relative" style="flex: 0 0 14.28%; height: 48px;">
+                    <button
+                        class="br-12 border-none df fd-c ai-c jc-c fw-700 fs-15 cursor-pointer transition-all position-relative"
+                        [style.width]="'40px'" [style.height]="'40px'" [style.background-color]="getCellBg(cell)"
+                        [style.color]="getCellColor(cell)" [style.opacity]="cell.isInFuture ? '0.3' : '1'"
+                        [style.border]="cell.isToday ? '2px solid #1e293b' : 'none'" (click)="openNoteEditor(cell)">
+                        {{ cell.dayNum }}
 
-                            @if (cell.mood) {
-                                <span class="position-absolute fs-10" style="top: -2px; right: -2px;">{{ cell.mood }}</span>
-                            }
+                        @if (cell.mood) {
+                        <span class="position-absolute fs-10" style="top: -2px; right: -2px;">{{ cell.mood }}</span>
+                        }
 
-                            @if (cell.hasNote) {
-                                <div 
-                                    class="position-absolute"
-                                    style="bottom: 4px; width: 4px; height: 4px; border-radius: 50%; background-color: currentColor; opacity: 0.8;">
-                                </div>
-                            }
-                        </button>
-                    </div>
+                        @if (cell.hasNote) {
+                        <div class="position-absolute"
+                            style="bottom: 4px; width: 4px; height: 4px; border-radius: 50%; background-color: currentColor; opacity: 0.8;">
+                        </div>
+                        }
+                    </button>
+                </div>
                 }
             </div>
 
@@ -143,15 +126,13 @@
                     <span class="fs-11 fw-600 text-secondary">Done</span>
                 </div>
                 <div class="df ai-c gap-1 ml-4">
-                    <div 
-                        class="br-4"
+                    <div class="br-4"
                         style="width: 12px; height: 12px; background-color: #f0fdf4; border: 1px solid #dcfce7;">
                     </div>
                     <span class="fs-11 fw-600 text-secondary">Missed</span>
                 </div>
                 <div class="df ai-c gap-1 ml-4">
-                    <div 
-                        class="br-4"
+                    <div class="br-4"
                         style="width: 12px; height: 12px; background-color: transparent; border: 1px solid #e2e8f0;">
                     </div>
                     <span class="fs-11 fw-600 text-secondary">Locked</span>
@@ -160,10 +141,9 @@
         </div>
 
         <!-- 3. Streak & Key Stats Grid -->
-        <div class="df fd-r flex-wrap gap-8 jc-s w-100">
+        <div class="df fd-r flex-wrap gap-8 jc-s  p-24 br-24" style="box-shadow: 0 10px 25px -5px rgb(5, 5, 5);">
             <div class="bg-white br-20 flex-1 df fd-c gap-2 min-w-140" style="box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
-                <div 
-                    class="df ai-c jc-c br-10 mb-8"
+                <div class="df ai-c jc-c br-10 mb-8"
                     style="width: 36px; height: 36px; background-color: #fff7ed; border: 1px solid #ffedd5;">
                     <mat-icon style="color: #ea580c; font-size: 20px; width: 20px; height: 20px;">
                         local_fire_department
@@ -174,8 +154,7 @@
             </div>
 
             <div class="bg-white br-20 flex-1 df fd-c gap-2 min-w-140" style="box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
-                <div 
-                    class="df ai-c jc-c br-10 mb-8"
+                <div class="df ai-c jc-c br-10 mb-8"
                     style="width: 36px; height: 36px; background-color: #f0f9ff; border: 1px solid #e0f2fe;">
                     <mat-icon style="color: #0284c7; font-size: 20px; width: 20px; height: 20px;">
                         emoji_events
@@ -186,8 +165,7 @@
             </div>
 
             <div class="bg-white br-20 flex-1 df fd-c gap-2 min-w-140" style="box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
-                <div 
-                    class="df ai-c jc-c br-10 mb-8"
+                <div class="df ai-c jc-c br-10 mb-8"
                     style="width: 36px; height: 36px; background-color: #f0fdf4; border: 1px solid #dcfce7;">
                     <mat-icon style="color: #166534; font-size: 20px; width: 20px; height: 20px;">task_alt</mat-icon>
                 </div>
@@ -196,8 +174,7 @@
             </div>
 
             <div class="bg-white br-20 flex-1 df fd-c gap-2 min-w-140" style="box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
-                <div 
-                    class="df ai-c jc-c br-10 mb-8"
+                <div class="df ai-c jc-c br-10 mb-8"
                     style="width: 36px; height: 36px; background-color: #f8fafc; border: 1px solid #f1f5f9;">
                     <mat-icon style="color: #64748b; font-size: 20px; width: 20px; height: 20px;">done_all</mat-icon>
                 </div>
@@ -207,18 +184,14 @@
         </div>
 
         <!-- 5. Trends & Reports Chart -->
-        <div 
-            class="bg-white br-24 w-100 df fd-c gap-6 mt-12"
-            style="box-shadow: 0 10px 25px -5px rgba(0,0,0,0.03); box-sizing: border-box;">
+        <div class="bg-white br-24 w-100 df fd-c gap-6 mt-12 p-24"
+            style="box-shadow: 0 10px 25px -5px rgb(5, 5, 5); box-sizing: border-box;">
             <div class="df fd-r jc-sb ai-c mb-8">
                 <span class="fs-18 fw-800 text-primary">Trends</span>
             </div>
 
             <!-- Switcher -->
-            <mat-tab-group 
-                [selectedIndex]="0" 
-                (selectedIndexChange)="onTabChange($event)" 
-                fitInkBarToContent
+            <mat-tab-group [selectedIndex]="0" (selectedIndexChange)="onTabChange($event)" fitInkBarToContent
                 style="width: 100%;">
                 <mat-tab label="Weekly" />
                 <mat-tab label="Monthly" />
@@ -235,23 +208,19 @@
 
     <!-- 6. Today Action Section (Sticky Bottom) -->
     @if(habit() && isTodayConfigured()) {
-        <div 
-            class="p-24 w-100 bg-white b-t-1-solid position-fixed"
-            style="bottom: 0; left: 0; z-index: 100; border-color: #f4f4f5; box-shadow: 0 -10px 25px -5px rgba(0,0,0,0.05); box-sizing: border-box;">
-            <button 
-                mat-flat-button 
-                class="w-100 py-32 fw-800 br-16 transition-all"
-                [style.background-color]="isDoneToday() ? '#f0fdf4' : habit()?.color"
-                [style.color]="isDoneToday() ? '#10b981' : 'white'"
-                [style.border]="isDoneToday() ? '2px solid #10b981' : 'none'" 
-                (click)="toggleToday()">
-                <div class="df ai-c jc-c gap-3">
-                    <mat-icon class="text-bg">
-                        {{ isDoneToday() ? 'task_alt' : 'check_circle' }}
-                    </mat-icon>
-                    <span class="fs-17">{{ isDoneToday() ? 'Marked as Done!' : 'Mark Today as Done' }}</span>
-                </div>
-            </button>
-        </div>
+    <div class="p-24 w-100 bg-white b-t-1-solid position-fixed"
+        style="bottom: 0; left: 0; z-index: 100; border-color: #f4f4f5; box-shadow: 0 -10px 25px -5px rgba(0,0,0,0.05); box-sizing: border-box;">
+        <button mat-flat-button class="w-100 py-32 fw-800 br-16 transition-all"
+            [style.background-color]="isDoneToday() ? '#f0fdf4' : habit()?.color"
+            [style.color]="isDoneToday() ? '#10b981' : 'white'"
+            [style.border]="isDoneToday() ? '2px solid #10b981' : 'none'" (click)="toggleToday()">
+            <div class="df ai-c jc-c gap-3">
+                <mat-icon class="text-bg">
+                    {{ isDoneToday() ? 'task_alt' : 'check_circle' }}
+                </mat-icon>
+                <span class="fs-17">{{ isDoneToday() ? 'Marked as Done!' : 'Mark Today as Done' }}</span>
+            </div>
+        </button>
+    </div>
     }
 </div>

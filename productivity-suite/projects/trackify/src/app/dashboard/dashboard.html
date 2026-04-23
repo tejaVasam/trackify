@@ -1,8 +1,8 @@
 <div class="p-24 df fd-c gap-6 font-inter" style="background-color: var(--background-default); min-height: 100vh;">
     <!-- Welcome Message / Onboarding Prompt -->
     @if (stats().showWelcome) {
-    <div class="w-100 br-24 p-24 mb-16 animate-fade-in"
-        style="background: linear-gradient(135deg, #10b981, #059669); color: #fff; box-shadow: 0 10px 20px rgba(16, 185, 129, 0.2);">
+    <div class=" br-24 p-24 mb-16 animate-fade-in"
+        style="background: linear-gradient(135deg, #ab07ec, #059669); color: #fff; box-shadow: 0 10px 20px rgba(16, 185, 129, 0.2);">
         <div class="df fd-r ai-c gap-4">
             <div class="df ai-c jc-c br-pill bg-white" style="width: 56px; height: 56px; min-width: 56px;">
                 <mat-icon style="color: #10b981; font-size: 32px; width: 32px; height: 32px;">celebration</mat-icon>
@@ -22,8 +22,7 @@
                     <span class="fs-13 fw-500" style="opacity: 0.8;">Categories like 'Health' or 'Work' help you stay
                         organized.</span>
                 </div>
-                <button routerLink="/categories" mat-flat-button class="br-12 fw-700 px-20"
-                    style="background-color: #fff; color: #059669;">
+                <button routerLink="/categories" mat-flat-button class="br-12 fw-700 px-20">
                     Setup Categories
                 </button>
             </div>
@@ -95,63 +94,11 @@
     </div>
 
     <!-- 4. Interactive Weekly Grid -->
-    <div class="bg-white p-24 br-16 w-100"
-        style="box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05); box-sizing: border-box;">
-        <div class="df fd-r ai-c jc-sb flex-wrap gap-4 mb-20">
-            <h2 class="m-0 fs-18 fw-700">Weekly Tracker</h2>
-            <span class="fs-12 fw-600 text-secondary ls-1 ml-auto">PAST 7 DAYS</span>
-        </div>
-
-        <div class="overflow-x-auto w-100 hide-scrollbar">
-            <div class="df fd-c gap-4" style="min-width: 450px;">
-                <!-- Header Row -->
-                <div class="df fd-r ai-c py-4" style="border-bottom: 2px solid #f1f5f9;">
-                    <div style="flex: 2; padding-right: 12px;"></div>
-                    @for (day of weeklyGraph(); track day.dateLabel) {
-                    <div class="df jc-c" style="flex: 1;">
-                        <span class="fs-11 fw-700 text-secondary uppercase ls-1" style="opacity: 0.6;">{{ day.dateLabel
-                            }}</span>
-                    </div>
-                    }
-                </div>
-
-                <!-- Habit Rows -->
-                @for (entry of weeklyMatrix(); track entry.habitId) {
-                <div class="df fd-r ai-c py-12" style="border-bottom: 1px solid #f8fafc;">
-                    <div class="df fd-r ai-c gap-3 overflow-hidden" style="flex: 2; padding-right: 12px;">
-                        <span class="fs-13 fw-600 truncate text-primary">{{ entry.name }}</span>
-                    </div>
-                    @for (day of entry.days; track day.dateStr) {
-                    <div class="df jc-c" style="flex: 1;">
-                        <div (click)="toggleGridHabit(entry.habitId, day.dateStr)"
-                            class="df ai-c jc-c cursor-pointer transition-all"
-                            style="width: 28px; height: 28px; border-radius: 50%; border: 2px solid transparent;">
-
-                            @if (day.status === 'completed') {
-                            <div class="df ai-c jc-c br-pill bg-success"
-                                style="width: 20px; height: 20px; background-color: #10b981;">
-                                <mat-icon
-                                    style="font-size: 14px; width: 14px; height: 14px; color: #fff;">check</mat-icon>
-                            </div>
-                            } @else if (day.status === 'missed') {
-                            <div class="df ai-c jc-c br-pill"
-                                style="width: 20px; height: 20px; background-color: #fee2e2;">
-                                <mat-icon
-                                    style="font-size: 14px; width: 14px; height: 14px; color: #ef4444;">close</mat-icon>
-                            </div>
-                            } @else {
-                            <div class="br-pill"
-                                style="width: 16px; height: 16px; border: 2px solid #e2e8f0; background-color: #fff;">
-                            </div>
-                            }
-                        </div>
-                    </div>
-                    }
-                </div>
-                }
-            </div>
-        </div>
-    </div>
+    <app-weekly-tracker 
+        [weeklyGraph]="weeklyGraph()" 
+        [weeklyMatrix]="weeklyMatrix()" 
+        (toggle)="toggleGridHabit($event.habitId, $event.dateStr)">
+    </app-weekly-tracker>
 
     <!-- 5. Secondary Insights -->
     <div class="df fd-r flex-wrap gap-4 w-100 pb-24">
